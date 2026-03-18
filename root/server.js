@@ -1,21 +1,54 @@
-
 const express = require('express');
+const dotenv = require('dotenv');
+const mongoose = require('mongoose');
+const fs = require('fs');
+
+const moviesRoutes = require('./routes/movies-routes');
+
 const server = express();
 
-const hostname = 'localhost';
-const port = 8000;
+// make sure u add this line when you are using Express to do form (POST)
+server.use(express.urlencoded({ extended: true }));
 
-// Specifies EJS as the template engine for rendering
-server.set("view engine", "ejs");
+// express.json() is a middleware
+server.use(express.json());
 
-// Serve static files from the 'public' folder
+// Set EJS as the view engine for rendering dynamic HTML pages
+server.set("view engine", "ejs"); 
+
+// root routes
+server.use('/', moviesRoutes);
+
+// if running locally, “http://localhost:8000/index.html” 
+// should load the home page of your application
 server.use('/', express.static('public'));
 
-// Parse URL-encoded data from POST requests
-server.use(express.urlencoded());
+// Specify the path to the environment variablef file 'config.env'
+dotenv.config({ path: './config.env' });
 
-// Server routes
+// async function to connect to DB
+async function connectDB() {
+  try {
+    // connecting to Database with our config.env file and DB is constant in config.env
+    await mongoose.connect(process.env.DB);
+    console.log("MongoDB connected successfully");
+  } catch (error) {
+    console.error("MongoDB connection failed:", error.message);
+    process.exit(1);
+  }
+};
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-});
+function startServer() {
+  const hostname = "localhost"; // Define server hostname
+  const port = 8000;// Define port number
+ 
+  // Start the server and listen on the specified hostname and port
+  server.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/`);
+  });
+}
+
+// call connectDB first and when connection is ready we start the web server
+connectDB().then(startServer);
+
+

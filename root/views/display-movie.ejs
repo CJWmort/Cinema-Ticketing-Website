@@ -1,0 +1,64 @@
+<html>
+<head>
+  <title>Movie List</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body{
+      background-color: black;
+      color: whitesmoke;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: auto auto auto auto auto;
+      justify-content: center;
+      padding: 20px;
+      row-gap: 20px;
+    }
+    .container div {
+      font-size: 14px;
+      text-align: left;
+      margin: 0px 30px;
+    }
+    img {
+      width: 200px;
+      cursor: pointer;
+    }
+    img:hover{
+      outline: 3px solid gold;
+      transition: 0.3s;
+      scale: 1.02;
+    }
+    p {
+      width: 200px;
+      height: 40px;
+      word-wrap: break-word;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+      <ul>
+          <li><a href="/index.html">Home</a></li>
+          <li><a class="active" href="/movie-list">Movies</a></li>
+      </ul>
+  </nav>
+  <!-- EJS conditional block: Check if there are any movie list -->
+  <% if (movieList.length === 0) { %>
+    <p>No movies yet.</p> <!-- Message when there is no movies -->
+  <% } else { %>
+    <!-- EJS loop to render each movie -->
+    <div class="container">
+    <% movieList.forEach(movie => { %>
+      <div>
+        <a href="search-movie?movieId=<%=movie.id%>">
+          <img src="images/<%=movie.img%>" alt="<%=movie.img%>">
+        </a>
+        <p><strong><%= movie.title %></strong></p>  
+        <%= movie.duration %> minutes<br><br>
+        Rating:
+      </div>
+    <% }); %>
+    </div>
+  <% } %>
+</body>
+</html>

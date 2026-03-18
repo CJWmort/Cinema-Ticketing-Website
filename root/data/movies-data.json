@@ -1,0 +1,57 @@
+[
+    {
+        "id": 1,
+        "img": "dhurandhar.png",
+        "title": "Dhurandhar: The Revenge",
+        "description": "Dhurandhar: The Revenge follows Hamza Ali Mazari's rise while operating deep undercover in enemy territory.",
+        "genre": "Action",
+        "release": "19-03-2026",
+        "cast": "Ranveer Singh, Sanjay Dutt, R. Madhavan, Arjun Rampal, Sara Arjun",
+        "duration": 235,
+        "language": "Hindi (Sub: English)"
+    },
+    {
+        "id": 2,
+        "img": "hailmary.png",
+        "title": "Project Hail Mary",
+        "description": "Science teacher Ryland Grace (Ryan Gosling) wakes up on a spaceship light years from home with no recollection of who he is or how he got there. As his memory returns, he begins to uncover his mission: solve the riddle of the mysterious substance causing the sun to die out. He must call on his scientific knowledge and unorthodox ideas to save everything on Earth from extinction… but an unexpected friendship means he may not have to do it alone.",
+        "genre": "Sci-Fi",
+        "release": "19-03-2026",
+        "cast": "Ryan Gosling, Sandra Hüller, Lionel Boyce, KenLeung, Milana Vayntrub",
+        "duration": 157,
+        "language": "English (Sub: English, Chinese)"
+    },
+    {
+        "id": 3,
+        "img": "hoppers.png",
+        "title": "Disney And Pixar's Hoppers",
+        "description": "What if you could talk to animals and understand what they're saying? In Disney and Pixar's all-new feature film “Hoppers,” scientists have discovered how to “hop” human consciousness into lifelike robotic animals, allowing people to communicate with animals as animals! The adventure introduces Mabel, an animal lover who seizes an opportunity to use the technology, uncovering mysteries within the animal world that are beyond anything she could have imagined.",
+        "genre": "Animation",
+        "release": "12-03-2026",
+        "cast": "Piper Curda, Bobby Moynihan, Jon Hamm",
+        "duration": 105,
+        "language": "English (Sub: English, Chinese)"
+    },
+    {
+        "id": 4,
+        "img": "kongtao.png",
+        "title": "Kong Tao 蛊降",
+        "description": "Years after a horrifying incident in which a group of students mysteriously died at a school, the case was officially ruled a poisoning and quickly buried. But Fon, a determined journalist, believes something far darker was responsible. Convinced that black magic lies behind the tragedy, she begins an investigation that leads her into a shadowy world of curses, occult rituals, and hidden conspiracies. Her search soon intersects with four online video creators who travel to Thailand to explore local temples and supernatural folklore. Shortly after returning home, they begin experiencing terrifying accidents and unexplained deaths, leading Fon to suspect that they have become victims of a powerful curse. As the mystery deepens, Fon uncovers a sinister scheme involving a ruthless property developer who secretly uses black magic to terrorize villagers and seize valuable land. With the help of a revered monk who once confronted the sorcerer responsible, Fon and her allies must confront the forces behind the curse before more lives are lost…",
+        "genre": "Horror",
+        "release": "19-03-2026",
+        "cast": "Kao Supassara, Philip Keung 姜皓文, Bront Palarae, Glenn Yong 容启航, Yumi Wong 黄诗棋",
+        "duration": 91,
+        "language": "Mandarin (Sub: English, Chinese, Malay)"
+    },
+    {
+        "id": 5,
+        "img": "lovedone.png",
+        "title": "The Loved One",
+        "description": "Reuniting them after 15 years to play former lovers whose paths cross again, forcing them to confront unresolved emotions, past heartbreak, and lingering feelings, with the story exploring themes of lost love, memory, and moving on as they navigate painful encounters years later.",
+        "genre": "Romance",
+        "release": "12-03-2026",
+        "cast": "Anne Curtis, Jericho Rosales, Catriona Gray",
+        "duration": 100,
+        "language": "Tagalog (Sub: English)"
+    }
+]

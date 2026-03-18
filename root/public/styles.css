@@ -1,0 +1,38 @@
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Style the navigation container */
+nav ul {
+    list-style-type: none; /* Removes bullet points */
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Clears floats */
+    background-color: #333; /* Dark background color */
+}
+
+/* Style the list items to be side-by-side */
+nav li {
+    float: left; /* Aligns list items horizontally */
+}
+
+/* Style the links inside the list items */
+nav li a {
+    display: block; /* Makes the whole area clickable */
+    font-weight: bold;
+    color: white; /* White text color */
+    text-align: center; /* Center-aligns the text */
+    padding: 14px 16px; /* Adds space around the text */
+    text-decoration: none; /* Removes underlines from links */
+}
+
+/* Change the color of links on hover */
+nav li a:hover {
+    background-color: #111;
+}
+
+/* Add a color to the active/current link */
+nav li a.active {
+    background-color: cornflowerblue;
+}
