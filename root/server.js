@@ -16,15 +16,16 @@ server.use(express.json());
 // Set EJS as the view engine for rendering dynamic HTML pages
 server.set("view engine", "ejs"); 
 
-// root routes
-server.use('/', moviesRoutes);
-
 // if running locally, “http://localhost:8000/index.html” 
 // should load the home page of your application
 server.use('/', express.static('public'));
 
 // Specify the path to the environment variablef file 'config.env'
 dotenv.config({ path: './config.env' });
+
+
+server.use('/account', require('./routes/accounts-routes'));
+server.use('/movie', require('./routes/movies-routes'));
 
 // async function to connect to DB
 async function connectDB() {

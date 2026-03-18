@@ -36,3 +36,9 @@ nav li a:hover {
 nav li a.active {
     background-color: cornflowerblue;
 }
+
+.navbar {
+    display: flex;
+    justify-content: space-between; /* Pushes content to the far ends */
+    background-color: #333;
+}

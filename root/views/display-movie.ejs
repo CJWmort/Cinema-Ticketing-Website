@@ -36,11 +36,19 @@
   </style>
 </head>
 <body>
-  <nav>
-      <ul>
-          <li><a href="/index.html">Home</a></li>
-          <li><a class="active" href="/movie-list">Movies</a></li>
-      </ul>
+  <nav class="navbar">
+      <div class="nav-left">
+          <ul>
+              <li><a href="/index.html">Home</a></li>
+              <li><a class="active" href="/movie">Movies</a></li>
+          </ul>
+      </div>
+      <div class="nav-right">
+          <ul>
+              <li><a href="/account/login">Login</a></li>
+              <li><a href="/account/register">Register</a></li>
+          </ul>
+      </div>
   </nav>
   <!-- EJS conditional block: Check if there are any movie list -->
   <% if (movieList.length === 0) { %>
@@ -50,7 +58,7 @@
     <div class="container">
     <% movieList.forEach(movie => { %>
       <div>
-        <a href="search-movie?movieId=<%=movie.id%>">
+        <a href="movie/search-movie?movieId=<%=movie.id%>">
           <img src="images/<%=movie.img%>" alt="<%=movie.img%>">
         </a>
         <p><strong><%= movie.title %></strong></p>  

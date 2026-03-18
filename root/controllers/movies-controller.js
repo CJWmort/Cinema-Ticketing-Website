@@ -1,5 +1,3 @@
-const fs = require('fs/promises');
-
 // Get Service model
 const Movie = require('./../models/movie-model');
 
@@ -19,7 +17,7 @@ exports.findMovie = async (req, res) => {
   try {
     const id = req.query.movieId;
     if (id == ""){
-      res.redirect("/movie-list");
+      res.redirect("/movie");
     } else{
       let result = await Movie.findByID(id); // Get the movie selected to display the selected movie's view
       res.render("search-movie", { result }); // Render the EJS form view and pass the posts

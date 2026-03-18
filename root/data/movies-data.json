@@ -53,5 +53,60 @@
         "cast": "Anne Curtis, Jericho Rosales, Catriona Gray",
         "duration": 100,
         "language": "Tagalog (Sub: English)"
+    },
+    {
+        "id": 6,
+        "img": "guardians.png",
+        "title": "Blades Of The Guardians 镖人: 风起大漠",
+        "description": "Four generations of martial arts stars unite! Directed by Yuen Woo Ping, icons like Wu Jing, Nicholas Tse, and Jet Li come together for an epic martial arts event. In the desert, many groups — including escorts, the government, and merchants — are fighting for power. Dao Ma, a famous biao ren, takes on the job of protecting a man on the long road to the city of Chang'an. However, he discovers the person he is protecting is the empire's most wanted man, Zhi Shi Lang. Every greedy faction is now hunting them and a deadly battle for the prize begins…",
+        "genre": "Action",
+        "release": "17-02-2026",
+        "cast": "Wu Jing 吴京, Nicholas Tse 谢霆锋, Jet Li 李连杰, Yosh Yu 于适, Chen Lijun 陈丽君, Ci Sha 此沙, Tony Leung Ka-fai 梁家辉, Max Zhang 张晋, JUN 文俊辉, WINWIN 董思成",
+        "duration": 127,
+        "language": "Mandarin (Sub: English, Chinese)"
+    },
+    {
+        "id": 7,
+        "img": "ironlung.png",
+        "title": "Iron Lung",
+        "description": "The stars are gone. The planets have disappeared. Only individuals aboard space stations or starships were left to give the end a name - The Quiet Rapture. After decades of decay and crumbling infrastructure, the Consolidation of Iron has made a discovery on a barren moon designated AT-5. An ocean of blood. Hoping to discover desperately needed resources they immediately launch an expedition. A submarine is crafted and a convict is welded inside. Due to the pressure and depth of the ocean the forward viewport has been encased in metal. If successful, they will earn their freedom. If not, another will follow. This will be the 13th expedition.",
+        "genre": "Horror",
+        "release": "05-03-2026",
+        "cast": "Mark Fischbach, Caroline Kaplan, Troy Baker",
+        "duration": 125,
+        "language": "English (Sub: English, Chinese)"
+    },
+    {
+        "id": 8,
+        "img": "youth.png",
+        "title": "Youth",
+        "description": "The story revolves around 15-year-old Praveen’s pursuit of finding true love before finishing school, leading to emotional growth and maturity.",
+        "genre": "Drama",
+        "release": "19-03-2026",
+        "cast": "Ken Karunaas, Anishma Anilkumar,Suraj Venjaramoodu",
+        "duration": 142,
+        "language": "Tamil (Sub: English)"
+    },
+    {
+        "id": 9,
+        "img": "scream.png",
+        "title": "Scream 7",
+        "description": "When a new Ghostface killer emerges in the quiet town where Sidney Prescott (Neve Campbell) has built a new life, her darkest fears are realized as her daughter (Isabel May) becomes the next target. Determined to protect her family, Sidney must face the horrors of her past to put an end to the bloodshed once and for all.",
+        "genre": "Horror",
+        "release": "05-03-2026",
+        "cast": "Neve Campbell, Courteney Cox, Mason Gooding, Jasmin Savoy Brown, Roger L. Jackson, David Arquette",
+        "duration": 114,
+        "language": "English (Sub: English, Chinese)"
+    },
+    {
+        "id": 10,
+        "img": "scarlet.png",
+        "title": "Scarlet",
+        "description": "Scarlet, a princess who failed to avenge her father's murder, wakes up in the “Land of the Dead.” In this world filled with madness, if she does not achieve her revenge against her nemesis and reach the “No End Place,” she will become “Void” and cease to exist. An adventure beyond imagination. An endless struggle. A fateful encounter that transcends time and space. Can Scarlet find a way to live at the end of her endless journey?",
+        "genre": "Animation",
+        "release": "12-03-2026",
+        "cast": "Mana Ashida, Masaki Okada",
+        "duration": 111,
+        "language": "Japanese (Sub: English, Chinese)"
     }
 ]

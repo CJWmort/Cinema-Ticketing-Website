@@ -1,7 +1,7 @@
 <html>
 <head>
   <title>Movie Info</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="/styles.css">
   <style>
     body{
       background-color: black;
@@ -30,11 +30,19 @@
   </style>
 </head>
 <body>
-  <nav>
-      <ul>
-          <li><a href="/index.html">Home</a></li>
-          <li><a href="/movie-list">Movies</a></li>
-      </ul>
+  <nav class="navbar">
+      <div class="nav-left">
+          <ul>
+              <li><a href="/index.html">Home</a></li>
+              <li><a href="/movie">Movies</a></li>
+          </ul>
+      </div>
+      <div class="nav-right">
+          <ul>
+              <li><a href="/account/login">Login</a></li>
+              <li><a href="/register">Register</a></li>
+          </ul>
+      </div>
   </nav>
   <%if(result){ %>
     <div id="details">
@@ -46,7 +54,7 @@
       <br>
       <div class="container">
         <div class="item">
-          <img src="images/<%=result.img%>" alt="<%=result.img%>">
+          <img src="/images/<%=result.img%>" alt="<%=result.img%>">
         </div>
         <div class="item">
           <p><strong>Details</strong></p>
