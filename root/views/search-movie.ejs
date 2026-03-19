@@ -1,75 +1,110 @@
 <html>
-<head>
-  <title>Movie Info</title>
-  <link rel="stylesheet" href="/styles.css">
-  <style>
-    body{
-      background-color: black;
-      color: whitesmoke;
-    }
-    #movieTitle{
-      color: gold;
-    }
-    p{
-      color: gold;
-      font-size: 20px;
-    }
-    #details{
-      padding: 0px 50px;
-      margin: 0px 200px;
-    }
-    .container {
-      display: flex; 
-      width: 90%;
-      gap: 0px; /* Adds space between the items */
-    }
-
-    .item {
-      flex: 1; /* Makes both items grow equally to fill the available space */
-    }
-  </style>
-</head>
-<body>
-  <nav class="navbar">
-      <div class="nav-left">
-          <ul>
-              <li><a href="/index.html">Home</a></li>
-              <li><a href="/movie">Movies</a></li>
-          </ul>
-      </div>
-      <div class="nav-right">
-          <ul>
-              <li><a href="/account/login">Login</a></li>
-              <li><a href="/register">Register</a></li>
-          </ul>
-      </div>
-  </nav>
-  <%if(result){ %>
-    <div id="details">
-      <div id="movieTitle">
-        <h2><%= result.title %></h2>
-        Rating: 
-      </div>
-      <hr>
-      <br>
-      <div class="container">
-        <div class="item">
-          <img src="/images/<%=result.img%>" alt="<%=result.img%>">
+  <head>
+    <title>Movie Info</title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+      body{
+        background-color: black;
+        color: whitesmoke;
+      }
+      #movieTitle{
+        color: gold;
+      }
+      p{
+        color: gold;
+        font-size: 20px;
+      }
+      #details{
+        padding: 0px 50px;
+        margin: 0px 200px;
+      }
+      .container {
+        display: flex; 
+        width: 90%;
+        gap: 0px; /* Adds space between the items */
+      }
+      button{
+        font-size: 14px;
+        background-color: cornflowerblue;
+        color: whitesmoke;
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: none;
+      }
+      button:hover{
+        transition: 0.3s;
+        cursor: pointer;
+        background-color: rgba(100, 148, 237, 0.689);
+      }
+      .item {
+        flex: 1; /* Makes both items grow equally to fill the available space */
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <ul>
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="/movie">Movies</a></li>
+            </ul>
         </div>
-        <div class="item">
-          <p><strong>Details</strong></p>
-          Cast: <%= result.cast %><br><br>
-          Genre: <%= result.genre %><br><br>
-          Release: <%= result.release %><br><br>
-          Duration: <%= result.duration %> minutes<br><br>
-          Language: <%= result.language %><br><br>
-          <p><strong>Synopsis</strong></p>
-          <%= result.description %><br><br>
+        <div class="nav-right">
+            <ul>
+                <li><a href="/account/login">Login</a></li>
+                <li><a href="/register">Register</a></li>
+            </ul>
         </div>
-      </div>
-    </div>      
-  <% }else if(result===null){%>
-    <p>Movie not found.</p>
-  <%} %>
-</body>
+    </nav>
+    <%if(result){ %>
+      <div id="details">
+        <div id="movieTitle">
+          <h2><%= result.title %></h2>
+          <form action="#" method="#">
+            <button type="submit">+ Add to My Watched List</button>
+          </form>
+        </div>
+        <hr>
+        <br>
+        <div class="container">
+          <div class="item">
+            <img src="/images/<%=result.img%>" alt="<%=result.img%>">
+          </div>
+          <div class="item">
+            <p><strong>Details</strong></p>
+            Cast: <%= result.cast %><br><br>
+            Genre: <%= result.genre %><br><br>
+            Release: <%= result.release %><br><br>
+            Duration: <%= result.duration %> minutes<br><br>
+            Language: <%= result.language %><br><br>
+            <p><strong>Synopsis</strong></p>
+            <%= result.description %><br><br>
+          </div>
+        </div>
+        <br>
+        <b style="color: gold;">Reviews</b>&nbsp;&nbsp;
+        <button onclick="toggleForm()">Write Review</button>
+        <hr>
+        <div id="myForm" style="display:none;">
+          <form action="#" method="#">
+            <h3>Movie Review Form</h2>
+            <textarea name="review" placeholder="Write a review" rows="8" cols="50"></textarea>
+            <br><br>
+            <button type="submit">Submit</button>
+          </form>
+          <br><br><br>
+        </div>
+      </div>      
+    <% }else if(result===null){%>
+      <p>Movie not found.</p>
+    <%} %>
+  </body>
+  <script>
+    let formOpen = false;
+    function toggleForm() {
+      // Get the form element by its ID and change its display style to 'block'
+      const form = document.getElementById('myForm');
+      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+  </script>
 </html>

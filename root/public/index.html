@@ -7,11 +7,33 @@
     <link rel="stylesheet" href="styles.css">
     <style>
         h1{
-            padding: 10px;
             color: gold;
+            font-size: 60px;
+        }
+        h2{
+            color: whitesmoke;
+            font-size: 24px;
         }
         body{
             background-color: black;
+        }
+        #content{
+            margin: 200px;
+        }
+        #content a{
+            text-decoration: none;
+            color: whitesmoke;
+            background-color: #333;
+            display: block;
+            font-weight: bold;
+            padding: 10px 20px;
+            float: left;
+            border-radius: 5px;
+            font-size: 20px;
+        }
+        #content a:hover{
+            background-color: cornflowerblue;
+            transition: 0.3s;
         }
     </style>
 </head>
@@ -30,6 +52,11 @@
             </ul>
         </div>
     </nav>
-    <h1>This is the Home Page</h1>
+    <div id="content">
+        <h1>Welcome To MyMovieList</h1>
+        <h2>track, score, and review series you have watched.</h2>
+        <br>
+        <a href="/movie">Browse Movies</a>
+    </div>
 </body>
 </html>
