@@ -3,7 +3,7 @@ a. How to set up your application based on the submitted file(s).
 
 Step 1: setup node project: 
 - npm init
-- npm i express ejs nodemon mongoose dotenv
+- npm i express ejs nodemon mongoose dotenv bcrypt
 
 b. How to run your application.
 - run "nodemon server.js" to start the server.
