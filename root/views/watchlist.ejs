@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Movie List</title>
+    <title>My Movie WatchList</title>
     <link rel="stylesheet" href="/styles.css">
     <style>
       body{
@@ -33,6 +33,26 @@
         height: 40px;
         word-wrap: break-word;
       }
+      h1{
+        color: gold;
+        padding: 40px;
+      }
+      #content{
+        margin-left: 40px;
+        text-decoration: none;
+        color: whitesmoke;
+        background-color: #333;
+        display: block;
+        font-weight: bold;
+        padding: 10px 20px;
+        float: left;
+        border-radius: 5px;
+        font-size: 20px;
+      }
+      #content:hover{
+        background-color: cornflowerblue;
+        transition: 0.3s;
+      }
     </style>
   </head>
   <body>
@@ -40,14 +60,14 @@
         <div class="nav-left">
           <ul>
               <li><a href="/index.html">Home</a></li>
-              <li><a class="active" href="/movie">Movies</a></li>
+              <li><a href="/movie">Movies</a></li>
           </ul>
         </div>
         <div class="nav-right">
           <!-- Check if user is currently logged in -->
           <%if (user){%>
             <ul>
-                <li><a href="/review/watchlist">My WatchList</a></li>
+                <li><a class="active" href="/review/watchlist">My WatchList</a></li>
                 <li><a href="/account/profile">Profile</a></li>
                 <li><a href="/account/register">New Account</a></li>
                 <li><a id="logout" href="/account/logout">Logout</a></li>
@@ -61,19 +81,18 @@
           <%}%> 
         </div>
     </nav>
-    <!-- EJS conditional block: Check if there are any movie list -->
-    <% if (movieList.length === 0) { %>
-      <p>No movies yet.</p> <!-- Message when there is no movies -->
+    <% if (watchList.length === 0) { %>
+      <h1>No movies in watchlist yet.</h1>
+      <a id="content" href="/movie">Browse Movies</a>
     <% } else { %>
       <!-- EJS loop to render each movie -->
       <div class="container">
-      <% movieList.forEach(movie => { %>
+      <% watchList.forEach(movie => { %>
         <div>
           <a href="/review?movieid=<%=movie._id%>">
             <img src="/images/<%=movie.img%>" alt="<%=movie.img%>">
           </a>
           <p><strong><%= movie.title %></strong></p>  
-          <%= movie.duration %> minutes<br><br>
         </div>
       <% }); %>
       </div>

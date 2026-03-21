@@ -26,11 +26,6 @@ const ReviewSchema = new mongoose.Schema({
     review: {
         type: String,
         required: false
-    },
-    favourite: {
-        type: Boolean,
-        required: false,
-        default: false
     }
 }, {
     timestamps: true // auto timestamp management (createdAt, updatedAt) will update automatically based on methods used
@@ -60,6 +55,11 @@ exports.findAllReview = function(movieid) {
 // Fetch the review that belongs to the user for a specified movie
 exports.findMyReview = function(movieid, userid) {
     return Review.findOne({movieid: movieid, userid: userid});
+};
+
+// Fetch all watched movies for user
+exports.findMyWatched = function(userid) {
+    return Review.find({userid: userid, watched: true});
 };
 
 // Delete a user's review from a movie

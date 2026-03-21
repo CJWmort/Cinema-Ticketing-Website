@@ -4,23 +4,8 @@ const Movie = require('../models/movie-model');
 // Controller function to get all the documents in the db and display it
 exports.showMovies = async (req, res) => {
   try {
-    let movieList = await Movie.retrieveAll();// fetch all the list    
+    let movieList = await Movie.retrieveAll();// fetch all the list of movies available from MongoDB   
     res.render("movie", { movieList, user: req.session.user }); // Render the EJS form view and pass the posts
-  } catch (error) {
-    console.error(error);
-    res.send("Error reading database"); // Send error message if fetching fails
-  }
-};
-
-exports.findMovie = async (req, res) => {
-  try {
-    const id = req.query.movieid;
-    if (id == ""){
-      res.redirect("/movie");
-    } else{
-      let result = await Movie.findByID(id); // Get the movie selected to display the selected movie's view
-      res.render("search-movie", { msg: undefined, result, user: req.session.user }); // Render the EJS form view and pass the posts
-    }
   } catch (error) {
     console.error(error);
     res.send("Error reading database"); // Send error message if fetching fails

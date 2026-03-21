@@ -16,7 +16,7 @@ exports.reviewGet = async (req, res) => {
         myReview = await Review.findMyReview(movieid, req.session.user.id); // Find single the review for movie that belongs to user
         if (!myReview){
           const emptyReview = { //initialize empty review values for users who have not reviewed
-            watched: true,
+            watched: undefined,
             rating: null,
             review: ''
           }
@@ -70,5 +70,20 @@ exports.reviewDelete = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.redirect('/review?msg=Unable to delete review&movieid=' + movieid + '#review-form');
+  }
+}
+
+exports.watchlistGet = async (req, res) => {
+  try {
+    const myWatched = await Review.findMyWatched(req.session.user.id);
+    const watchedMovieID = []; //Store all the movieids that the user have indicated 'watched'
+    myWatched.forEach(movie => {
+      watchedMovieID.push(movie.movieid);
+    });
+    const watchList = await Movie.getMyWatched(watchedMovieID);
+    res.render('watchlist', {watchList, user: req.session.user});
+  } catch (error) {
+    console.log(error);
+    res.redirect('/');
   }
 }

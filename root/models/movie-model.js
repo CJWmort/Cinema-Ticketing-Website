@@ -47,5 +47,11 @@ exports.findByID = function(id) {
     return Movie.findOne({_id: id});
 };
 
+// $in query comparison operator used to select documents where 
+// if the value matches any value within a provided array (movieList)
+exports.getMyWatched = function(movieList) {
+    return Movie.find({_id: { $in: movieList }});
+};
+
 
 
