@@ -1,32 +1,114 @@
 <html>
-<head>
-  <title>Register Page</title>
-  <link rel="stylesheet" href="/styles.css">
-  <style>
-    h1{
-        padding: 10px;
-        color: gold;
-    }
-    body{
-        background-color: black;
-    }
-  </style>
-</head>
-<body>
-    <nav class="navbar">
-        <div class="nav-left">
+    <head>
+    <title>Create Account</title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        h2{
+            color: gold;
+            text-align: center;
+        }
+        body{
+            background-color: black;
+        }
+        form{
+            background-color: #333;
+            color: whitesmoke;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px 40px;
+            border-radius: 10px;
+            width: 40%;
+        }
+        form div{
+            text-align: center;
+        }
+        form input{
+            display: flex;
+            padding: 10px;
+            background-color: white;
+            border: 3px solid cornflowerblue;
+            border-radius: 5px;
+            width: 100%;
+        }
+        button{
+            font-size: 14px;
+            background-color: cornflowerblue;
+            color: whitesmoke;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: none;
+        }
+        button:hover{
+            transition: 0.3s;
+            cursor: pointer;
+            background-color: rgba(100, 148, 237, 0.689);
+        }
+        #error{
+        color: rgb(255, 84, 84);
+        }
+        #success{
+            color: rgb(89, 225, 89)
+        }
+        a{
+            color: gold;
+            font-weight: bold;
+        }
+    </style>
+    </head>
+    <body>
+        <nav class="navbar">
+            <div class="nav-left">
             <ul>
                 <li><a href="/index.html">Home</a></li>
                 <li><a href="/movie">Movies</a></li>
             </ul>
-        </div>
-        <div class="nav-right">
-            <ul>
-                <li><a href="/account/login">Login</a></li>
-                <li><a class="active" href="/account/register">Register</a></li>
-            </ul>
-        </div>
-    </nav>
-    <h1>This is the register Page</h1>
-</body>
+            </div>
+            <div class="nav-right">
+            <!-- Check if user is currently logged in -->
+            <%if (user){%>
+                <ul>
+                    <li><a href="/account/profile">Profile</a></li>
+                    <li><a class="active" href="/account/register">New Account</a></li>
+                    <li><a id="logout" href="/account/logout">Logout</a></li>
+                </ul>
+                <span>Welcome, <%= user.username %></span>
+            <%} else {%>
+                <ul>
+                    <li><a href="/account/login">Login</a></li>
+                    <li><a class="active" href="/account/register">Register</a></li>
+                </ul>
+            <%}%> 
+            </div>
+        </nav>
+        <form action="/account/register" method="POST">
+            <h2>Create an Account</h2>
+            <label for="username">Username:</label>
+            <input type="text" name="username" placeholder="Username" value="<%= username ? username : '' %>" required><br>
+            
+            <label for="email">Email:</label>
+            <input type="email" name="email" placeholder="example@gmail.com" value="<%= email ? email : '' %>" required><br>
+
+            <label for="password">Password:</label>
+            <input type="password" name="password" placeholder="Password" required><br>
+
+            <label for="cfmpassword">Confirm Password:</label>
+            <input type="password" name="cfmpassword" placeholder="Confirm Password" required>
+            <div>
+                <br>
+                <% if (msg != "success") {%>
+                    <span id="error"><%= msg %></span>
+                <% } else { %>
+                    <span id="success">Success! Additional Account Created</span>
+                <% } %>
+                <br><br>
+                <button type="submit">Create Account</button>
+            </div>
+            <br>
+            <% if (!user) {%>
+                Already have an account? <a href="/account/login">Log in here</a>
+            <% } %>
+        </form>
+    </body>
 </html>

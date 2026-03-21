@@ -1,0 +1,82 @@
+<html>
+  <head>
+    <title>Movie List</title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+      body{
+        background-color: black;
+        color: whitesmoke;
+      }
+      .container {
+        display: grid;
+        grid-template-columns: auto auto auto auto auto;
+        justify-content: center;
+        padding: 20px;
+        row-gap: 20px;
+      }
+      .container div {
+        font-size: 14px;
+        text-align: left;
+        margin: 0px 30px;
+      }
+      img {
+        width: 200px;
+        cursor: pointer;
+      }
+      img:hover{
+        outline: 3px solid gold;
+        transition: 0.3s;
+        scale: 1.02;
+      }
+      p {
+        width: 200px;
+        height: 40px;
+        word-wrap: break-word;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+        <div class="nav-left">
+          <ul>
+              <li><a href="/index.html">Home</a></li>
+              <li><a class="active" href="/movie">Movies</a></li>
+          </ul>
+        </div>
+        <div class="nav-right">
+          <!-- Check if user is currently logged in -->
+          <%if (user){%>
+            <ul>
+                <li><a href="/account/profile">Profile</a></li>
+                <li><a href="/account/register">New Account</a></li>
+                <li><a id="logout" href="/account/logout">Logout</a></li>
+            </ul>
+            <span>Welcome, <%= user.username %></span>
+          <%} else {%>
+            <ul>
+                <li><a href="/account/login">Login</a></li>
+                <li><a href="/account/register">Register</a></li>
+            </ul>
+          <%}%> 
+        </div>
+    </nav>
+    <!-- EJS conditional block: Check if there are any movie list -->
+    <% if (movieList.length === 0) { %>
+      <p>No movies yet.</p> <!-- Message when there is no movies -->
+    <% } else { %>
+      <!-- EJS loop to render each movie -->
+      <div class="container">
+      <% movieList.forEach(movie => { %>
+        <div>
+          <a href="movie/search-movie?movieId=<%=movie._id%>">
+            <img src="images/<%=movie.img%>" alt="<%=movie.img%>">
+          </a>
+          <p><strong><%= movie.title %></strong></p>  
+          <%= movie.duration %> minutes<br><br>
+          Rating:
+        </div>
+      <% }); %>
+      </div>
+    <% } %>
+  </body>
+</html>

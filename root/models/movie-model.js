@@ -2,11 +2,6 @@ const mongoose = require('mongoose');
 
 // Create a new 'movie' schema
 const movieSchema = new mongoose.Schema({
-    id: {
-        type: Number,
-        required: [true, 'A movie must have a unique id'],
-        unique: true
-    },
     img: {
         type: String,
         required: [true, 'A movie must have a img path']
@@ -41,7 +36,7 @@ const movieSchema = new mongoose.Schema({
     }
 });
 // 'movies' refer to the 'movies' collection in our database
-const Movie = mongoose.model('Movie', movieSchema,'movies');
+const Movie = mongoose.model('Movie', movieSchema, 'movies');
 
 // CRUD Methods for Movie
 exports.retrieveAll = function() {
@@ -49,7 +44,7 @@ exports.retrieveAll = function() {
 };
 
 exports.findByID = function(id) {
-    return Movie.findOne({id: id});
+    return Movie.findOne({_id: id});
 };
 
 

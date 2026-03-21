@@ -30,6 +30,7 @@ nav li a {
 /* Change the color of links on hover */
 nav li a:hover {
     background-color: #111;
+    transition: 0.4s;
 }
 
 /* Add a color to the active/current link */
@@ -41,4 +42,18 @@ nav li a.active {
     display: flex;
     justify-content: space-between; /* Pushes content to the far ends */
     background-color: #333;
+}
+
+.nav-right span{
+    display: block;
+    color: gold;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: right;
+    padding: 5px 15px 5px 0px;
+}
+
+#logout:hover{
+    transition: 0.5s;
+    background-color: rgb(255, 66, 66);
 }

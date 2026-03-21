@@ -1,0 +1,48 @@
+const mongoose = require('mongoose');
+
+// Create a new 'account' schema
+const AccountSchema = new mongoose.Schema({
+    username: {
+        type: String,
+        required: [true, 'A user must have a username']
+    },
+    email: {
+        type: String,
+        required: [true, 'A user must have a password'],
+        unique: true
+    },
+    password: {
+        type: String,
+        required: [true, 'A user must have a password']
+    },
+    role: {
+        type: String,
+        required: [true, 'A user must have a role']
+    }
+}, {
+    timestamps: true // auto timestamp management (createdAt, updatedAt) will update automatically based on methods used
+});
+// 'account' refer to the 'accounts' collection in our database
+const Account = mongoose.model('Account', AccountSchema, 'accounts');
+
+// CRUD Methods for Accounts Schema
+// Register new account
+exports.addUser = function(newUser) {
+    return Account.create(newUser);
+};
+
+// Search account by email
+exports.findByEmail = function(email) {
+    return Account.findOne({ email: email });
+};
+
+// Update profile by email
+exports.updateUser = function(email, newUsername, newEmail) {
+    return Account.updateOne({email: email}, {username: newUsername, email: newEmail});
+};
+
+// Update profile password by email
+exports.updatePassword = function(email, newPassword) {
+    return Account.updateOne({email: email}, {password: newPassword});
+};
+

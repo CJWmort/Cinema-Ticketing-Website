@@ -1,9 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
-const fs = require('fs');
-
-const moviesRoutes = require('./routes/movies-routes');
+const session = require('express-session');
 
 const server = express();
 
@@ -23,7 +21,14 @@ server.use('/', express.static('public'));
 // Specify the path to the environment variablef file 'config.env'
 dotenv.config({ path: './config.env' });
 
+// Allow session storage while server is running
+server.use(session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false
+}));
 
+// Routing
 server.use('/account', require('./routes/accounts-routes'));
 server.use('/movie', require('./routes/movies-routes'));
 

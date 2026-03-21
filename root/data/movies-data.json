@@ -1,6 +1,5 @@
 [
     {
-        "id": 1,
         "img": "dhurandhar.png",
         "title": "Dhurandhar: The Revenge",
         "description": "Dhurandhar: The Revenge follows Hamza Ali Mazari's rise while operating deep undercover in enemy territory.",
@@ -11,7 +10,6 @@
         "language": "Hindi (Sub: English)"
     },
     {
-        "id": 2,
         "img": "hailmary.png",
         "title": "Project Hail Mary",
         "description": "Science teacher Ryland Grace (Ryan Gosling) wakes up on a spaceship light years from home with no recollection of who he is or how he got there. As his memory returns, he begins to uncover his mission: solve the riddle of the mysterious substance causing the sun to die out. He must call on his scientific knowledge and unorthodox ideas to save everything on Earth from extinction… but an unexpected friendship means he may not have to do it alone.",
@@ -22,7 +20,6 @@
         "language": "English (Sub: English, Chinese)"
     },
     {
-        "id": 3,
         "img": "hoppers.png",
         "title": "Disney And Pixar's Hoppers",
         "description": "What if you could talk to animals and understand what they're saying? In Disney and Pixar's all-new feature film “Hoppers,” scientists have discovered how to “hop” human consciousness into lifelike robotic animals, allowing people to communicate with animals as animals! The adventure introduces Mabel, an animal lover who seizes an opportunity to use the technology, uncovering mysteries within the animal world that are beyond anything she could have imagined.",
@@ -33,7 +30,6 @@
         "language": "English (Sub: English, Chinese)"
     },
     {
-        "id": 4,
         "img": "kongtao.png",
         "title": "Kong Tao 蛊降",
         "description": "Years after a horrifying incident in which a group of students mysteriously died at a school, the case was officially ruled a poisoning and quickly buried. But Fon, a determined journalist, believes something far darker was responsible. Convinced that black magic lies behind the tragedy, she begins an investigation that leads her into a shadowy world of curses, occult rituals, and hidden conspiracies. Her search soon intersects with four online video creators who travel to Thailand to explore local temples and supernatural folklore. Shortly after returning home, they begin experiencing terrifying accidents and unexplained deaths, leading Fon to suspect that they have become victims of a powerful curse. As the mystery deepens, Fon uncovers a sinister scheme involving a ruthless property developer who secretly uses black magic to terrorize villagers and seize valuable land. With the help of a revered monk who once confronted the sorcerer responsible, Fon and her allies must confront the forces behind the curse before more lives are lost…",
@@ -44,7 +40,6 @@
         "language": "Mandarin (Sub: English, Chinese, Malay)"
     },
     {
-        "id": 5,
         "img": "lovedone.png",
         "title": "The Loved One",
         "description": "Reuniting them after 15 years to play former lovers whose paths cross again, forcing them to confront unresolved emotions, past heartbreak, and lingering feelings, with the story exploring themes of lost love, memory, and moving on as they navigate painful encounters years later.",
@@ -55,7 +50,6 @@
         "language": "Tagalog (Sub: English)"
     },
     {
-        "id": 6,
         "img": "guardians.png",
         "title": "Blades Of The Guardians 镖人: 风起大漠",
         "description": "Four generations of martial arts stars unite! Directed by Yuen Woo Ping, icons like Wu Jing, Nicholas Tse, and Jet Li come together for an epic martial arts event. In the desert, many groups — including escorts, the government, and merchants — are fighting for power. Dao Ma, a famous biao ren, takes on the job of protecting a man on the long road to the city of Chang'an. However, he discovers the person he is protecting is the empire's most wanted man, Zhi Shi Lang. Every greedy faction is now hunting them and a deadly battle for the prize begins…",
@@ -66,7 +60,6 @@
         "language": "Mandarin (Sub: English, Chinese)"
     },
     {
-        "id": 7,
         "img": "ironlung.png",
         "title": "Iron Lung",
         "description": "The stars are gone. The planets have disappeared. Only individuals aboard space stations or starships were left to give the end a name - The Quiet Rapture. After decades of decay and crumbling infrastructure, the Consolidation of Iron has made a discovery on a barren moon designated AT-5. An ocean of blood. Hoping to discover desperately needed resources they immediately launch an expedition. A submarine is crafted and a convict is welded inside. Due to the pressure and depth of the ocean the forward viewport has been encased in metal. If successful, they will earn their freedom. If not, another will follow. This will be the 13th expedition.",
@@ -77,7 +70,6 @@
         "language": "English (Sub: English, Chinese)"
     },
     {
-        "id": 8,
         "img": "youth.png",
         "title": "Youth",
         "description": "The story revolves around 15-year-old Praveen’s pursuit of finding true love before finishing school, leading to emotional growth and maturity.",
@@ -88,7 +80,6 @@
         "language": "Tamil (Sub: English)"
     },
     {
-        "id": 9,
         "img": "scream.png",
         "title": "Scream 7",
         "description": "When a new Ghostface killer emerges in the quiet town where Sidney Prescott (Neve Campbell) has built a new life, her darkest fears are realized as her daughter (Isabel May) becomes the next target. Determined to protect her family, Sidney must face the horrors of her past to put an end to the bloodshed once and for all.",
@@ -99,7 +90,6 @@
         "language": "English (Sub: English, Chinese)"
     },
     {
-        "id": 10,
         "img": "scarlet.png",
         "title": "Scarlet",
         "description": "Scarlet, a princess who failed to avenge her father's murder, wakes up in the “Land of the Dead.” In this world filled with madness, if she does not achieve her revenge against her nemesis and reach the “No End Place,” she will become “Void” and cease to exist. An adventure beyond imagination. An endless struggle. A fateful encounter that transcends time and space. Can Scarlet find a way to live at the end of her endless journey?",
