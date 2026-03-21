@@ -1,0 +1,74 @@
+const Movie = require('../models/movie-model');
+const Review = require('../models/review-model');
+
+// Display selected movie details and reviews
+exports.reviewGet = async (req, res) => {
+  try {
+    const msg = req.query.msg;
+    const movieid = req.query.movieid;
+    if (!movieid){
+      res.redirect("/movie");
+    } else{
+      let result = await Movie.findByID(movieid); // Fetch the selected movie details
+      let reviewResult = await Review.findAllReview(movieid) // Fetch the selected movie reviews
+      let myReview = undefined;
+      if (req.session.user){
+        myReview = await Review.findMyReview(movieid, req.session.user.id); // Find single the review for movie that belongs to user
+        if (!myReview){
+          const emptyReview = { //initialize empty review values for users who have not reviewed
+            watched: true,
+            rating: null,
+            review: ''
+          }
+          return res.render("review", { msg, result, reviewResult, myReview: emptyReview, user: req.session.user }); 
+        }
+      }
+      return res.render("review", { msg, result, reviewResult, myReview, user: req.session.user }); 
+    }
+  } catch (error) {
+    console.error(error);
+    res.send("Error reading database"); // Send error message if fetching fails
+  }
+};
+
+// Handle review form submissions
+exports.reviewPost = async (req, res) => {
+  const movieid = req.body.movieid;
+  const userid = req.session.user.id;
+  const username = req.session.user.username;
+  const watched = req.body.watched;
+  const rating = req.body.rating;
+  const review = req.body.review.trim(); // remove whitespaces from review
+
+  try{
+    const movieReview = {
+      movieid: movieid,
+      userid: userid,
+      username: username,
+      watched: watched,
+      rating: rating,
+      review: review
+    }
+
+    const newReview = await Review.newReview(movieid, userid, movieReview);
+    console.log(newReview);
+    res.redirect('/review?msg=success&movieid=' + movieid);
+
+  } catch(error){
+      console.log(error);
+      res.redirect('/review?msg=error&movieid=' + movieid);
+  }
+};
+
+exports.reviewDelete = async (req, res) => {
+  const movieid = req.body.movieid;
+  const userid = req.session.user.id;
+
+  try {
+    await Review.deleteMyReview(movieid, userid);
+    res.redirect('/review?msg=Your Movie Review is Removed&movieid=' + movieid + '#review-form');
+  } catch (error) {
+    console.log(error);
+    res.redirect('/review?msg=Unable to delete review&movieid=' + movieid + '#review-form');
+  }
+}

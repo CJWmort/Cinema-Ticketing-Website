@@ -68,7 +68,7 @@
       <div class="container">
       <% movieList.forEach(movie => { %>
         <div>
-          <a href="movie/search-movie?movieId=<%=movie._id%>">
+          <a href="/review?movieid=<%=movie._id%>">
             <img src="images/<%=movie.img%>" alt="<%=movie.img%>">
           </a>
           <p><strong><%= movie.title %></strong></p>  

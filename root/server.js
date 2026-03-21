@@ -31,6 +31,7 @@ server.use(session({
 // Routing
 server.use('/account', require('./routes/accounts-routes'));
 server.use('/movie', require('./routes/movies-routes'));
+server.use('/review', require('./routes/reviews-routes'));
 
 // async function to connect to DB
 async function connectDB() {

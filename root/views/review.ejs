@@ -1,0 +1,201 @@
+<html>
+  <head>
+    <title>Movie Info</title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+      body{
+        background-color: black;
+        color: #f5f5f5;
+      }
+      h2{
+        color: gold;
+      }
+      p{
+        color: gold;
+        font-size: 20px;
+      }
+      b{
+        color: gold;
+      }
+      #details{
+        padding: 0px 0px;
+        margin: 0px 50px;
+      }
+      .container {
+        display: flex; 
+        width: 100%;
+        gap: 0px; /* Adds space between the items */
+      }
+      .review-container{
+        display: grid;
+        grid-template-columns: 20% 80%;
+        row-gap: 20px;
+      }
+      button{
+        font-size: 14px;
+        background-color: cornflowerblue;
+        color: whitesmoke;
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: none;
+      }
+      button:hover{
+        transition: 0.3s;
+        cursor: pointer;
+        background-color: rgba(100, 148, 237, 0.689);
+      }
+      #delete{
+        font-size: 14px;
+        background-color: rgb(255, 77, 77);
+        color: whitesmoke;
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: none;
+      }
+      #delete:hover{
+        transition: 0.3s;
+        cursor: pointer;
+        background-color: rgb(147, 0, 0);
+      }
+      .item {
+        flex: 1; /* Makes both items grow equally to fill the available space */
+      }
+      #error{
+        color: rgb(255, 84, 84);
+      }
+      #success{
+        color: rgb(89, 225, 89)
+      }
+      #user{
+        background-color: #333;
+        font-size: 14px;
+        padding: 5px;
+      }
+      #review{
+        background-color: rgb(222, 222, 222);
+        color: black;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+        <div class="nav-left">
+        <ul>
+            <li><a href="/index.html">Home</a></li>
+            <li><a class="active" href="/movie">Movies</a></li>
+            
+        </ul>
+        </div>
+        <div class="nav-right">
+        <!-- Check if user is currently logged in -->
+        <%if (user){%>
+            <ul>
+                <li><a href="/account/profile">Profile</a></li>
+                <li><a href="/account/register">New Account</a></li>
+                <li><a id="logout" href="/account/logout">Logout</a></li>
+            </ul>
+            <span>Welcome, <%= user.username %></span>
+        <%} else {%>
+            <ul>
+                <li><a href="/account/login">Login</a></li>
+                <li><a href="/account/register">Register</a></li>
+            </ul>
+        <%}%> 
+        </div>
+    </nav>
+    <%if(result){ %>
+      <div id="details">
+        <h2><%= result.title %></h2>
+        <hr>
+        <br>
+        <div class="container">
+          <div class="item">
+            <img src="/images/<%=result.img%>" alt="<%=result.img%>">
+          </div>
+          <div class="item">
+            <p><strong>Details</strong></p>
+            <b>Cast: </b><%= result.cast %><br><br>
+            <b>Genre: </b><%= result.genre %><br><br>
+            <b>Release: </b><%= result.release %><br><br>
+            <b>Duration: </b><%= result.duration %> minutes<br><br>
+            <b>Language: </b><%= result.language %><br><br>
+            <p><strong>Synopsis</strong></p>
+            <%= result.description %><br><br>
+          </div>
+        </div>
+        <br>
+        <h2>Reviews</h2>
+        <hr>
+        <!-- Only allow signed in users to leave movie review -->
+        <%if (user){%>
+          <form action="/review#review-form" method="POST" id="review-form">
+            <!-- send movieid as hidden value to server -->
+            <input type="hidden" name="movieid" value="<%=result._id%>">
+
+            <b>Mark movie as:</b><br>
+            <input type="radio" name="watched" value="true" <%= myReview.watched ? 'checked' :  ''%>  required> Watched<br>
+            <input type="radio" name="watched" value="false" <%= !myReview.watched ? 'checked' :  ''%> required> Have not Watched
+            <br><br>
+            <b>My Rating:</b>
+            <select name="rating">
+              <option value="" <%= myReview.rating == null ? 'selected' :  ''%>>no rating</option>
+              <option value="1" <%= myReview.rating == 1 ? 'selected' :  ''%>>1</option>
+              <option value="2" <%= myReview.rating == 2 ? 'selected' :  ''%>>2</option>
+              <option value="3" <%= myReview.rating == 3 ? 'selected' :  ''%>>3</option>
+              <option value="4" <%= myReview.rating == 4 ? 'selected' :  ''%>>4</option>
+              <option value="5" <%= myReview.rating == 5 ? 'selected' :  ''%>>5</option>
+              <option value="6" <%= myReview.rating == 6 ? 'selected' :  ''%>>6</option>
+              <option value="7" <%= myReview.rating == 7 ? 'selected' :  ''%>>7</option>
+              <option value="8" <%= myReview.rating == 8 ? 'selected' :  ''%>>8</option>
+              <option value="9" <%= myReview.rating == 9 ? 'selected' :  ''%>>9</option>
+              <option value="10" <%= myReview.rating == 10 ? 'selected' :  ''%>>10</option>
+            </select>
+            (1 - Bad, 5 - Neutral, 10 - Amazing)
+            <br><br>
+            <b>My Review</b><br>
+            <textarea id="textarea" name="review" placeholder="Write a review for this movie" rows="8" cols="60"><%= myReview.review %></textarea>
+            <br><br>
+            <% if (msg != "success") {%>
+                <span id="error"><%= msg %></span>
+            <% } else { %>
+                <span id="success">Success! Saved Movie Review</span>
+            <% } %>
+            <br><br>
+            <button type="submit">Save Changes</button>
+          </form>
+          <form action="/review/delete" method="POST">
+            <input type="hidden" name="movieid" value="<%=result._id%>">
+            <input onclick="return confirm('Are you sure you want to delete your review for this movie?')" id="delete" type="submit" value="Delete my review">
+          </form>
+        <%} else {%>
+          Sign in to leave a review.
+        <% } %>
+        <hr>
+        <% if (reviewResult.length === 0) { %>
+          <p>No reviews yet.</p> <!-- Message when there is no reviews for movie -->
+        <% } else { %>
+          <!-- EJS loop to render each review -->
+          <div class="review-container">
+          <% reviewResult.forEach(review => { %>
+            <div id="user">
+              <b>Reviewed by:</b><br><%= review.username %><br><br>
+              <b>Status:</b><br><%= review.watched ? 'Watched' : 'Not watched' %><br><br>
+              <b>Rated:</b><br><%= review.rating == null ? 'no rating' : review.rating + '/10' %><br><br>
+              <b>Updated at:</b><br><%= review.updatedAt.toLocaleDateString('en-GB') %>
+              <br>
+              <%= review.updatedAt.toLocaleTimeString('en-GB') %>
+            </div>
+            <div id="review">
+              <%= review.review == "" ? '* This user did not leave a review *' : review.review %>
+            </div>
+          <% }); %>
+          </div>
+          <br>
+        <% } %>
+      </div>      
+    <% }else if(result===null){%>
+      <p>Movie not found.</p>
+    <%} %>
+  </body>
+</html>

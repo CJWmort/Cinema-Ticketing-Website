@@ -14,12 +14,12 @@ exports.showMovies = async (req, res) => {
 
 exports.findMovie = async (req, res) => {
   try {
-    const id = req.query.movieId;
+    const id = req.query.movieid;
     if (id == ""){
       res.redirect("/movie");
     } else{
       let result = await Movie.findByID(id); // Get the movie selected to display the selected movie's view
-      res.render("search-movie", { result }); // Render the EJS form view and pass the posts
+      res.render("search-movie", { msg: undefined, result, user: req.session.user }); // Render the EJS form view and pass the posts
     }
   } catch (error) {
     console.error(error);
