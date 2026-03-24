@@ -41,6 +41,13 @@
           <ul>
               <li><a href="/index.html">Home</a></li>
               <li><a class="active" href="/movie">Movies</a></li>
+              <li>
+                <form id="search" action="/movie/search-movie" method="GET">
+                  <label for="search"><b>Search Movie:</b></label>
+                  <input type="text" name="search" placeholder="search by title">
+                  <button type="submit">Search</button>
+                </form>
+              </li>
           </ul>
         </div>
         <div class="nav-right">
@@ -63,7 +70,7 @@
     </nav>
     <!-- EJS conditional block: Check if there are any movie list -->
     <% if (movieList.length === 0) { %>
-      <p>No movies yet.</p> <!-- Message when there is no movies -->
+      <p>No movies found.</p> <!-- Message when there is no movies -->
     <% } else { %>
       <!-- EJS loop to render each movie -->
       <div class="container">

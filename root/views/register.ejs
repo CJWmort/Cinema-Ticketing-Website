@@ -10,7 +10,7 @@
         body{
             background-color: black;
         }
-        form{
+        #register{
             background-color: #333;
             color: whitesmoke;
             position: absolute;
@@ -21,10 +21,10 @@
             border-radius: 10px;
             width: 40%;
         }
-        form div{
+        #register div{
             text-align: center;
         }
-        form input{
+        #register input{
             display: flex;
             padding: 10px;
             background-color: white;
@@ -32,7 +32,7 @@
             border-radius: 5px;
             width: 100%;
         }
-        button{
+        #register button{
             font-size: 14px;
             background-color: cornflowerblue;
             color: whitesmoke;
@@ -40,7 +40,7 @@
             border-radius: 5px;
             border: none;
         }
-        button:hover{
+        #register button:hover{
             transition: 0.3s;
             cursor: pointer;
             background-color: rgba(100, 148, 237, 0.689);
@@ -63,6 +63,13 @@
             <ul>
                 <li><a href="/index.html">Home</a></li>
                 <li><a href="/movie">Movies</a></li>
+                <li>
+                    <form id="search" action="/movie/search-movie" method="GET">
+                        <label for="search"><b>Search Movie:</b></label>
+                        <input type="text" name="search" placeholder="search by title">
+                        <button type="submit">Search</button>
+                    </form>
+                </li>
             </ul>
             </div>
             <div class="nav-right">
@@ -83,7 +90,7 @@
             <%}%> 
             </div>
         </nav>
-        <form action="/account/register" method="POST">
+        <form id="register" action="/account/register" method="POST">
             <h2>Create an Account</h2>
             <label for="username">Username:</label>
             <input type="text" name="username" placeholder="Username" value="<%= username ? username : '' %>" required><br>
@@ -108,7 +115,7 @@
             </div>
             <br>
             <% if (!user) {%>
-                Already have an account? <a href="/account/login">Log in here</a>
+                <div>Already have an account? <a href="/account/login">Log in here</a></div>
             <% } %>
         </form>
     </body>

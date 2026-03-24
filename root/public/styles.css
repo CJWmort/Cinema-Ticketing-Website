@@ -57,3 +57,25 @@ nav li a.active {
     transition: 0.5s;
     background-color: rgb(255, 66, 66);
 }
+
+#search{
+    margin: 0px 20px;
+}
+#search label{
+    color: whitesmoke;
+}
+#search input{
+    padding: 10px;
+    width: 300px;
+}
+#search button{
+    background-color: cornflowerblue;
+    color: whitesmoke;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+#search button:hover{
+    cursor: pointer;
+    background-color: rgba(100, 148, 237, 0.689);
+    transition: 0.3s;
+}

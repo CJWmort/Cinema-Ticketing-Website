@@ -10,7 +10,7 @@
       body{
           background-color: black;
       }
-      form{
+      #profile{
           background-color: #333;
           color: whitesmoke;
           position: absolute;
@@ -21,10 +21,10 @@
           border-radius: 10px;
           width: 40%;
       }
-      form div{
+      #profile div{
           text-align: center;
       }
-      form input{
+      #profile input{
           display: flex;
           padding: 10px;
           background-color: white;
@@ -32,7 +32,7 @@
           border-radius: 5px;
           width: 100%;
       }
-      button{
+      #profile button{
           font-size: 14px;
           background-color: cornflowerblue;
           color: whitesmoke;
@@ -40,7 +40,7 @@
           border-radius: 5px;
           border: none;
       }
-      button:hover{
+      #profile button:hover{
           transition: 0.3s;
           cursor: pointer;
           background-color: rgba(100, 148, 237, 0.689);
@@ -63,6 +63,13 @@
           <ul>
               <li><a href="/index.html">Home</a></li>
               <li><a href="/movie">Movies</a></li>
+              <li>
+                <form id="search" action="/movie/search-movie" method="GET">
+                  <label for="search"><b>Search Movie:</b></label>
+                  <input type="text" name="search" placeholder="search by title">
+                  <button type="submit">Search</button>
+                </form>
+              </li>
           </ul>
         </div>
         <div class="nav-right">
@@ -83,7 +90,7 @@
           <%}%> 
         </div>
     </nav>
-    <form action="/account/profile" method="POST">
+    <form id="profile" action="/account/profile" method="POST">
         <h2>My Profile</h2>
         <label for="username">Username:</label>
         <input type="text" name="username" placeholder="Username" value="<%= user.username %>" required><br>

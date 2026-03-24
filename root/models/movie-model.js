@@ -47,6 +47,12 @@ exports.findByID = function(id) {
     return Movie.findOne({_id: id});
 };
 
+exports.findByTitle = function(title) {
+    // $regex to find movie that contains the search title
+    // $options to find movie ignoring case sensitivity
+    return Movie.find({title: { $regex: title, $options: 'i' }});
+};
+
 // $in query comparison operator used to select documents where 
 // if the value matches any value within a provided array (movieList)
 exports.getMyWatched = function(movieList) {

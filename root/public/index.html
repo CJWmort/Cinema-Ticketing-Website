@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/styles.css">
     <style>
         h1{
             color: gold;
@@ -43,6 +43,13 @@
             <ul>
                 <li><a class="active" href="/index.html">Home</a></li>
                 <li><a href="/movie">Movies</a></li>
+                <li>
+                    <form id="search" action="/movie/search-movie" method="GET">
+                        <label for="search"><b>Search Movie:</b></label>
+                        <input type="text" name="search" placeholder="search by title">
+                        <button type="submit">Search</button>
+                    </form>
+                </li>
             </ul>
         </div>
         <div class="nav-right">

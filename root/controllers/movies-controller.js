@@ -11,3 +11,15 @@ exports.showMovies = async (req, res) => {
     res.send("Error reading database"); // Send error message if fetching fails
   }
 };
+
+// Handle search bar for user to search specific movies
+exports.searchMovies = async (req, res) => {
+  try {
+    const searchQuery = req.query.search;
+    let searchResult = await Movie.findByTitle(searchQuery);
+    res.render("movie", { movieList: searchResult, user: req.session.user }); 
+  } catch (error) {
+    console.error(error);
+    res.send("Error reading database"); // Send error message if fetching fails
+  }
+};
