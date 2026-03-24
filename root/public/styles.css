@@ -63,6 +63,7 @@ nav li a.active {
 }
 #search label{
     color: whitesmoke;
+    font-weight: bold;
 }
 #search input{
     padding: 10px;
