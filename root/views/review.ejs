@@ -205,6 +205,14 @@
               <b>Updated at:</b><br><%= review.updatedAt.toLocaleDateString('en-GB') %>
               <br>
               <%= review.updatedAt.toLocaleTimeString('en-GB') %>
+                <!--Checks if user is admin, id so allow delete reviews-->
+              <% if (user && user.role==="admin") { %>
+                <form action="review/delete" method="POST">
+                    <input type="hidden" name="userid" value="<%= review.userid %>">
+                    <input type="hidden" name="movieid" value="<%= review.movieid %>">
+                    <button onclick="return confirm('Are you sure you want to delete this review for this movie?')" id="delete" type="submit">Delete</button>
+                </form>
+              <% } %>
             </div>
             <div id="review">
               <%= review.review == "" ? '* This user did not leave a review *' : review.review %>
