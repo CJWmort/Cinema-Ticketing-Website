@@ -23,3 +23,31 @@ exports.searchMovies = async (req, res) => {
     res.send("Error reading database"); // Send error message if fetching fails
   }
 };
+
+exports.editMoviesGet = async (req, res) => {
+    try {
+    const movieid = req.query.movieid;
+    const result = await Movie.findByID(movieid);
+    return res.render("movie-edit", { result:result, reviewResult:[], user: req.session.user }); 
+} catch (error) {
+    console.error(error);
+    res.send("Error loading page");
+}};
+
+exports.editMoviesPost = async (req,res) => {
+    try {
+        const movieid = req.body.movieid;
+        const cast = req.body.cast;
+        const genre = req.body.genre;
+        const release = req.body.release;
+        const duration = req.body.duration;
+        const language = req.body.language;
+        const description = req.body.description;
+
+        let updatecheck = await Movie.edit(movieid,description,genre,release,cast,duration,language);
+        res.redirect(`/review?movieid=${movieid}`)
+    } catch (error) {
+        console.error(error);
+        res.send("Error updating database"); // Send error message if update fails
+    }
+}
