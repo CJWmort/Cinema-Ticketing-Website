@@ -62,7 +62,14 @@ exports.reviewPost = async (req, res) => {
 
 exports.reviewDelete = async (req, res) => {
   const movieid = req.body.movieid;
-  const userid = req.session.user.id;
+  const sessionuser = req.session.user;
+  let userid;
+
+  if (sessionuser.role == "admin" && req.body.userid) {
+    userid = req.body.userid;
+  } else {
+    userid = sessionuser.id
+  }
 
   try {
     await Review.deleteMyReview(movieid, userid);
