@@ -34,7 +34,7 @@ exports.loginPost = async (req, res) => {
           
           req.session.user = accountFound;
           if (accountFound.role == "admin"){
-              res.redirect('/admin-profile');
+              res.redirect('/movie');
           } else{
               res.redirect('/movie');
           }
