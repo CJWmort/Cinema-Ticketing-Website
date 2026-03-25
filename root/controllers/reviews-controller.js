@@ -73,7 +73,7 @@ exports.reviewDelete = async (req, res) => {
 
   try {
     await Review.deleteMyReview(movieid, userid);
-    res.redirect('/review?msg=Your Movie Review is Removed&movieid=' + movieid + '#review-form');
+    res.redirect('/review?msg=Movie Review Deleted&movieid=' + movieid + '#review-form');
   } catch (error) {
     console.log(error);
     res.redirect('/review?msg=Unable to delete review&movieid=' + movieid + '#review-form');
