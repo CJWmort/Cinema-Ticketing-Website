@@ -138,7 +138,14 @@
             <b>Duration: </b><%= result.duration %> minutes<br><br>
             <b>Language: </b><%= result.language %><br><br>
             <p><strong>Synopsis</strong></p>
-            <%= result.description %><br><br>
+            <%= result.description %><br>
+            <!--Check if user is admin, if so allow movie edits-->
+            <% if (user && user.role==="admin") { %>
+                    <form action="/movie/movie-edit?movieid=<%= result._id %>" method="GET">
+                        <input type="hidden" name="movieid" value="<%=result._id%>">
+                    <button type="submit">Edit</button>
+                </form>
+            <% } %><br>
           </div>
         </div>
         <br>
