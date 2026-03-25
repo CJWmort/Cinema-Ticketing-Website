@@ -1,0 +1,158 @@
+<html>
+  <head>
+    <title>Movie Info</title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+      body{
+        background-color: black;
+        color: #f5f5f5;
+      }
+      h2,h3{
+        color: gold;
+      }
+      p{
+        color: gold;
+        font-size: 20px;
+      }
+      b{
+        color: gold;
+      }
+      #details{
+        padding: 0px 0px;
+        margin: 0px 50px;
+      }
+      .container {
+        display: flex; 
+        width: 100%;
+        gap: 10px;
+      }
+      .review-container{
+        display: grid;
+        grid-template-columns: 20% 80%;
+        row-gap: 20px;
+      }
+      button{
+        font-size: 14px;
+        background-color: cornflowerblue;
+        color: whitesmoke;
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: none;
+      }
+      button:hover{
+        transition: 0.3s;
+        cursor: pointer;
+        background-color: rgba(100, 148, 237, 0.689);
+      }
+      #delete{
+        font-size: 14px;
+        background-color: rgb(255, 77, 77);
+        color: whitesmoke;
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: none;
+      }
+      #delete:hover{
+        transition: 0.3s;
+        cursor: pointer;
+        background-color: rgb(147, 0, 0);
+      }
+      .item {
+        flex: 1; /* Makes both items grow equally to fill the available space */
+      }
+      #error{
+        color: rgb(255, 84, 84);
+      }
+      #success{
+        color: rgb(89, 225, 89)
+      }
+      #user{
+        background-color: #333;
+        font-size: 14px;
+        padding: 5px;
+      }
+      #review{
+        background-color: rgb(222, 222, 222);
+        color: black;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+        <div class="nav-left">
+        <ul>
+            <li><a href="/index.html">Home</a></li>
+            <li><a class="active" href="/movie">Movies</a></li>
+            <li>
+              <form id="search" action="/movie/search-movie" method="GET">
+                <label for="search">Search Movie:</label>
+                <input type="text" name="search" placeholder="search by title">
+                <button type="submit">Search</button>
+              </form>
+            </li>
+        </ul>
+        </div>
+        <div class="nav-right">
+        <!-- Check if user is currently logged in -->
+        <%if (user){%>
+            <ul>
+                <li><a href="/review/watchlist">My WatchList</a></li>
+                <li><a href="/account/profile">Profile</a></li>
+                <li><a href="/account/register">New Account</a></li>
+                <li><a id="logout" href="/account/logout">Logout</a></li>
+            </ul>
+            <span>Welcome, <%= user.username %></span>
+        <%} else {%>
+            <ul>
+                <li><a href="/account/login">Login</a></li>
+                <li><a href="/account/register">Register</a></li>
+            </ul>
+        <%}%> 
+        </div>
+    </nav>
+    <%if(result){ %>
+      <div id="details">
+        <h2><%= result.title %></h2>
+        <!-- Calculate Average Rating of Movie -->
+        <% let totalRating = 0 %>
+        <% reviewResult.forEach(review => { %>
+          <% totalRating += review.rating %>
+        <%})%>
+        <%if (reviewResult.length > 0) {%>
+          <h3>Overall Rating: <%= totalRating / reviewResult.length %>/10</h3>
+        <%} else {%>
+          <h3>Overall Rating: Not Rated</h3>
+        <% } %>
+        <hr>
+        <br>
+        <div class="container">
+          <div class="item">
+            <img src="/images/<%=result.img%>" alt="<%=result.img%>">
+          </div>
+          <div class="item">
+            <form action="/movie/movie-edit?movieid=<%= result._id %>" method="POST">
+            <p><strong>Details</strong></p>
+            <b>Cast: </b><input type="text" name="cast" value="<%= result.cast %>"><br><br>
+            <b>Genre: </b><input type="text" name="genre" value="<%= result.genre %>"><br><br>
+            <b>Release: </b><input type="text" name="release" value="<%= result.release %>"><br><br>
+            <b>Duration: </b><input type="text" name="duration" value="<%= result.duration %>"> minutes<br><br>
+            <b>Language: </b><input type="text" name="language" value="<%= result.language %>"><br><br>
+            <p><strong>Synopsis</strong></p>
+            <textarea id="textarea" name="description" rows="8" cols="50"><%= result.description %></textarea><br>
+            <input type="hidden" name="movieid" value="<%=result._id%>">
+            <button onclick="return confirm('Update Movie?')" type="submit">Update</button>
+            </form>
+            <br>
+          </div>
+        </div>
+        <br>
+        <h2>Reviews</h2>
+        <hr>
+        <hr>
+      </div>    
+    <% }else if(result===null){%>
+      <p>Movie not found.</p>
+    <%} %>
+  </body>
+</html>
