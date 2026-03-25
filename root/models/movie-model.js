@@ -47,6 +47,11 @@ exports.findByID = function(id) {
     return Movie.findOne({_id: id});
 };
 
+exports.edit = function(id,description,genre,release,cast,duration,language) {
+    return Movie.updateOne({_id:id},
+        {description:description,genre:genre,release:release,cast:cast,duration:duration,language:language})
+};
+
 exports.findByTitle = function(title) {
     // $regex to find movie that contains the search title
     // $options to find movie ignoring case sensitivity
