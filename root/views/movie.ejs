@@ -79,8 +79,8 @@
           <a href="/review?movieid=<%=movie._id%>">
             <img src="/images/<%=movie.img%>" alt="<%=movie.img%>">
           </a>
-          <p><strong><%= movie.title %></strong></p>  
-          <%= movie.duration %> minutes<br><br>
+          <p><strong><%= !movie.title ? "No Title: N.A." : movie.title %></strong></p>  
+          <%= !movie.duration ? "Duration: N.A." : movie.duration + " minutes" %><br><br>
         </div>
       <% }); %>
       </div>

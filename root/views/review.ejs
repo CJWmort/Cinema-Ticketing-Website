@@ -132,11 +132,11 @@
           </div>
           <div class="item">
             <p><strong>Details</strong></p>
-            <b>Cast: </b><%= result.cast %><br><br>
-            <b>Genre: </b><%= result.genre %><br><br>
-            <b>Release: </b><%= result.release %><br><br>
-            <b>Duration: </b><%= result.duration %> minutes<br><br>
-            <b>Language: </b><%= result.language %><br><br>
+            <b>Cast: </b><%= !result.cast ? "N.A." : result.cast %><br><br>
+            <b>Genre: </b><%= !result.genre ? "N.A." : result.genre %><br><br>
+            <b>Release: </b><%= !result.release ? "N.A." : result.release %><br><br>
+            <b>Duration: </b><%= !result.duration ? "N.A." : result.duration + " minutes"%><br><br>
+            <b>Language: </b><%= !result.language ? "N.A." : result.language %><br><br>
             <p><strong>Synopsis</strong></p>
             <%= result.description %><br>
             <!--Check if user is admin, if so allow movie edits-->
