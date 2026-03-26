@@ -81,6 +81,7 @@
           </a>
           <p><strong><%= !movie.title ? "No Title: N.A." : movie.title %></strong></p>  
           <%= !movie.duration ? "Duration: N.A." : movie.duration + " minutes" %><br><br>
+          <%= !ratingList[movie._id] ? "No rating" : "Rating: " + ratingList[movie._id].toFixed(1) + "/10" %>
         </div>
       <% }); %>
       </div>

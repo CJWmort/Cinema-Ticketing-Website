@@ -50,8 +50,7 @@ exports.reviewPost = async (req, res) => {
       review: review
     }
 
-    const newReview = await Review.newReview(movieid, userid, movieReview);
-    console.log(newReview);
+    await Review.newReview(movieid, userid, movieReview);
     res.redirect('/review?msg=success&movieid=' + movieid);
 
   } catch(error){

@@ -116,11 +116,15 @@
         <h2><%= result.title %></h2>
         <!-- Calculate Average Rating of Movie -->
         <% let totalRating = 0 %>
+        <% let ratingCount = 0 %>
         <% reviewResult.forEach(review => { %>
-          <% totalRating += review.rating %>
+          <% if (review.rating != null){ %>
+            <% totalRating += review.rating %>
+            <% ratingCount ++ %>
+          <% } %>
         <%})%>
-        <%if (reviewResult.length > 0) {%>
-          <h3>Overall Rating: <%= totalRating / reviewResult.length %>/10</h3>
+        <%if (ratingCount != 0) {%>
+          <h3>Overall Rating: <%= (totalRating / ratingCount).toFixed(1) %>/10</h3>
         <%} else {%>
           <h3>Overall Rating: Not Rated</h3>
         <% } %>

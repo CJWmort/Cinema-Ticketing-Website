@@ -4,20 +4,20 @@ const mongoose = require('mongoose');
 const AccountSchema = new mongoose.Schema({
     username: {
         type: String,
-        required: [true, 'A user must have a username']
+        required: true
     },
     email: {
         type: String,
-        required: [true, 'A user must have a password'],
+        required: true,
         unique: true
     },
     password: {
         type: String,
-        required: [true, 'A user must have a password']
+        required: true
     },
     role: {
         type: String,
-        required: [true, 'A user must have a role']
+        required: true
     }
 }, {
     timestamps: true // auto timestamp management (createdAt, updatedAt) will update automatically based on methods used
