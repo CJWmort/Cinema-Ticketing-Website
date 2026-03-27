@@ -82,7 +82,8 @@
       <% movieList.forEach(movie => { %>
         <div>
           <a href="/review?movieid=<%=movie._id%>">
-            <img src="/images/<%=movie.img%>" alt="<%=movie.img%>">
+            <img src="/images/<%=movie.img || 'temp.png'%>" alt="<%=movie.img%>"
+            onerror="this.onerror=null; this.src='/images/temp.png';">
           </a>
           <p><strong><%= movie.title %></strong></p>  
           <%= movie.duration %> minutes<br><br>
