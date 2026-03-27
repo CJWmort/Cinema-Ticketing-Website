@@ -54,10 +54,15 @@
           <!-- Check if user is currently logged in -->
           <%if (user){%>
             <ul>
+                <!--Check if user is an admin-->
+                <%if (user.role==="admin") {%>
+                    <li><a href="/account/admin-tool">Admin Tools</a></li>
+                <%}%>
                 <li><a href="/review/watchlist">My WatchList</a></li>
                 <li><a href="/account/profile">Profile</a></li>
                 <li><a href="/account/register">New Account</a></li>
                 <li><a id="logout" href="/account/logout">Logout</a></li>
+                
             </ul>
             <span>Welcome, <%= user.username %></span>
           <%} else {%>
