@@ -11,5 +11,7 @@ router.get("/search-movie", moviesController.searchMovies);
 router.get("/movie-edit",authMiddleware.isAdmin, moviesController.editMoviesGet);
 router.post("/movie-edit",authMiddleware.isAdmin,moviesController.editMoviesPost);
 
+// POST route for movie voting
+router.post("/vote",moviesController.voteMovie);
 // EXPORT
 module.exports = router;

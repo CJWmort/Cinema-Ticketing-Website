@@ -70,3 +70,26 @@ exports.editMoviesPost = async (req,res) => {
         res.send("Error updating database"); // Send error message if update fails
     }
 }
+
+//movie voting
+exports.voteMovie = async (req, res) => {
+  try {
+    const { movieid, vote } = req.body;
+    const userid = req.session.user._id;
+
+    let existingReview = await Review.findOne({ movieid, userid });
+
+    if (existingReview) {
+      existingReview.rating = vote;
+      await existingReview.save();
+    } else {
+      await Review.create({
+        movieid, userid, rating: vote
+      });
+    }
+    res.redirect('/movie');
+  } catch (error) {
+    console.error(error);
+    res.send("Error voting");
+  }
+};
