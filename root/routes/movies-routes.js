@@ -5,7 +5,7 @@ const authMiddleware = require('../middleware/auth-middleware');
 
 
 // GET route to display the list of movies
-router.get("/", moviesController.showMovies);
+router.get("/", moviesController.moviesGet);
 router.get("/search-movie", moviesController.searchMovies);
 
 router.get("/movie-edit",authMiddleware.isAdmin, moviesController.editMoviesGet);

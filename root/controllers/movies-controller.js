@@ -3,7 +3,7 @@ const Movie = require('../models/movie-model');
 const Review = require('../models/review-model');
 
 // Controller function to get all the documents in the db and display it
-exports.showMovies = async (req, res) => {
+exports.moviesGet = async (req, res) => {
   try {
     const searchQuery = req.query.search;
     let movieList;

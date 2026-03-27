@@ -56,9 +56,9 @@ exports.edit = function(id,description,genre,release,cast,duration,language) {
         {description:description,genre:genre,release:release,cast:cast,duration:duration,language:language})
 };
 
+// $regex to find movie that contains the search title
+// $options to find movie ignoring case sensitivity
 exports.findByTitle = function(title) {
-    // $regex to find movie that contains the search title
-    // $options to find movie ignoring case sensitivity
     return Movie.find({title: { $regex: title, $options: 'i' }});
 };
 
