@@ -1,6 +1,6 @@
 <html>
     <head>
-    <title>Create Account</title>
+    <title>Create Movie</title>
     <link rel="stylesheet" href="/styles.css">
     <style>
         h2{
@@ -76,7 +76,6 @@
             <!-- Check if user is currently logged in -->
             <%if (user){%>
                 <ul>
-                <!--Check if user is an admin-->
                 <%if (user.role==="admin") {%>
                     <li><a href="/account/admin-tool">Admin Tools</a></li>
                 <%}%>
@@ -94,33 +93,35 @@
             <%}%> 
             </div>
         </nav>
-        <form id="register" action="/account/register" method="POST">
-            <h2>Create an Account</h2>
-            <label for="username">Username:</label>
-            <input type="text" name="username" placeholder="Username" value="<%= username ? username : '' %>" required><br>
+        <form id="register" action="/movie/movie-create" method="POST">
+            <h2>Movie details</h2>
+            <input type="text" name="title" placeholder="Movie title" required><br>
+
+            <input type="text" name="cast" placeholder="Movie cast members" ><br>
             
-            <label for="email">Email:</label>
-            <input type="email" name="email" placeholder="example@gmail.com" value="<%= email ? email : '' %>" required><br>
+            <input type="text" name="genre" placeholder="Movie genre" ><br>
 
-            <label for="password">Password:</label>
-            <input type="password" name="password" placeholder="Password" required><br>
+            <input type="text" name="release" placeholder="Movie release date"><br>
 
-            <label for="cfmpassword">Confirm Password:</label>
-            <input type="password" name="cfmpassword" placeholder="Confirm Password" required>
+            <input type="number" name="duration" placeholder="Movie duration" ><br>
+
+            <input type="text" name="language" placeholder="Movie language" ><br>
+            <!--New image have to be locally uploaded to images file to function-->
+            <input type="text" name="img" placeholder="Image file (eg: example.png)" required><br>
+
+            <textarea id="textarea" name="description" rows="4" cols="82" placeholder="Movie Synopsis"></textarea><br>
+            
             <div>
                 <br>
                 <% if (msg != "success") {%>
                     <span id="error"><%= msg %></span>
                 <% } else { %>
-                    <span id="success">Success! Additional Account Created</span>
+                    <span id="success">Success! Movie Added</span><br>
                 <% } %>
-                <br><br>
-                <button type="submit">Create Account</button>
+                
+                <button type="submit">Add Movie</button>
             </div>
             <br>
-            <% if (!user) {%>
-                <div>Already have an account? <a href="/account/login">Log in here</a></div>
-            <% } %>
         </form>
     </body>
 </html>

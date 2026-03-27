@@ -163,3 +163,8 @@ exports.changePasswordPost = async (req, res) => {
     res.render('change-password', { msg: "Error, Unable to update password", user: req.session.user });
   }
 };
+
+exports.adminTool = async (req,res) => {
+    const msg = req.query.msg;
+    res.render('admin-tool', { msg, user: req.session.user });
+}

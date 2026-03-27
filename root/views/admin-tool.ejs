@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Change Password</title>
+    <title>My Profile</title>
     <link rel="stylesheet" href="/styles.css">
     <style>
       h2{
@@ -10,7 +10,7 @@
       body{
           background-color: black;
       }
-      #changePwd{
+      #profile{
           background-color: #333;
           color: whitesmoke;
           position: absolute;
@@ -21,10 +21,10 @@
           border-radius: 10px;
           width: 40%;
       }
-      #changePwd div{
+      #profile div{
           text-align: center;
       }
-      #changePwd input{
+      #profile input{
           display: flex;
           padding: 10px;
           background-color: white;
@@ -32,7 +32,7 @@
           border-radius: 5px;
           width: 100%;
       }
-      #changePwd button{
+      #profile button{
           font-size: 14px;
           background-color: cornflowerblue;
           color: whitesmoke;
@@ -40,7 +40,7 @@
           border-radius: 5px;
           border: none;
       }
-      #changePwd button:hover{
+      #profile button:hover{
           transition: 0.3s;
           cursor: pointer;
           background-color: rgba(100, 148, 237, 0.689);
@@ -78,10 +78,10 @@
             <ul>
                 <!--Check if user is an admin-->
                 <%if (user.role==="admin") {%>
-                    <li><a href="/account/admin-tool">Admin Tools</a></li>
+                    <li><a class="active" href="/account/admin-tool">Admin Tools</a></li>
                 <%}%>
                 <li><a href="/review/watchlist">My WatchList</a></li>
-                <li><a class="active" href="/account/profile">Profile</a></li>
+                <li><a href="/account/profile">Profile</a></li>
                 <li><a href="/account/register">New Account</a></li>
                 <li><a id="logout" href="/account/logout">Logout</a></li>
             </ul>
@@ -94,28 +94,14 @@
           <%}%> 
         </div>
     </nav>
-    <form id="changePwd" action="/account/change-password" method="POST">
-        <h2>Change Password</h2>
-        <label for="currentPassword">Current Password:</label>
-        <input type="password" name="currentPassword" placeholder="Current Password" required><br>
-
-        <label for="newPassword">New Password:</label>
-        <input type="password" name="newPassword" placeholder="New Password" required><br>
-
-        <label for="cfmNewPassword">Confirm New Password:</label>
-        <input type="password" name="cfmNewPassword" placeholder="Confirm Password" required>
-        <div>
-            <br>
-            <% if (msg != "success") {%>
-                <span id="error"><%= msg %></span>
-            <% } else { %>
-                <span id="success">Success! Password Updated</span>
-            <% } %>
-            <br><br>
-            <a href="/account/profile">back to profile</a>
-            <br><br>
-            <button type="submit">Update Password</button>
-        </div>
+    
+    <div class="profile">
+        <h2>Admin Tools</h2>
+        <ul id="profile">
+            <li><a href="/movie/movie-create">Create Movie</a></li>
+            <li><a href="/movie/movie-create">placeholder</a></li>
+        </ul>
+    </div>
         <br>
     </form>
   </body>
