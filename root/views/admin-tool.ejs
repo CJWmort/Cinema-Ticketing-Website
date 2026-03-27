@@ -1,0 +1,108 @@
+<html>
+  <head>
+    <title>My Profile</title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+      h2{
+          color: gold;
+          text-align: center;
+      }
+      body{
+          background-color: black;
+      }
+      #profile{
+          background-color: #333;
+          color: whitesmoke;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          padding: 10px 40px;
+          border-radius: 10px;
+          width: 40%;
+      }
+      #profile div{
+          text-align: center;
+      }
+      #profile input{
+          display: flex;
+          padding: 10px;
+          background-color: white;
+          border: 3px solid cornflowerblue;
+          border-radius: 5px;
+          width: 100%;
+      }
+      #profile button{
+          font-size: 14px;
+          background-color: cornflowerblue;
+          color: whitesmoke;
+          padding: 5px 10px;
+          border-radius: 5px;
+          border: none;
+      }
+      #profile button:hover{
+          transition: 0.3s;
+          cursor: pointer;
+          background-color: rgba(100, 148, 237, 0.689);
+      }
+      #error{
+      color: rgb(255, 84, 84);
+      }
+      #success{
+          color: rgb(89, 225, 89)
+      }
+      a{
+          color: gold;
+          font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+        <div class="nav-left">
+          <ul>
+              <li><a href="/index.html">Home</a></li>
+              <li><a href="/movie">Movies</a></li>
+              <li>
+                <form id="search" action="/movie/search-movie" method="GET">
+                  <label for="search"><b>Search Movie:</b></label>
+                  <input type="text" name="search" placeholder="search by title">
+                  <button type="submit">Search</button>
+                </form>
+              </li>
+          </ul>
+        </div>
+        <div class="nav-right">
+          <!-- Check if user is currently logged in -->
+          <%if (user){%>
+            <ul>
+                <!--Check if user is an admin-->
+                <%if (user.role==="admin") {%>
+                    <li><a class="active" href="/account/admin-tool">Admin Tools</a></li>
+                <%}%>
+                <li><a href="/review/watchlist">My WatchList</a></li>
+                <li><a href="/account/profile">Profile</a></li>
+                <li><a href="/account/register">New Account</a></li>
+                <li><a id="logout" href="/account/logout">Logout</a></li>
+            </ul>
+            <span>Welcome, <%= user.username %></span>
+          <%} else {%>
+            <ul>
+                <li><a href="/account/login">Login</a></li>
+                <li><a href="/account/register">Register</a></li>
+            </ul>
+          <%}%> 
+        </div>
+    </nav>
+    
+    <div class="profile">
+        <h2>Admin Tools</h2>
+        <ul id="profile">
+            <li><a href="/movie/movie-create">Create Movie</a></li>
+            <li><a href="/movie/movie-create">placeholder</a></li>
+        </ul>
+    </div>
+        <br>
+    </form>
+  </body>
+</html>
