@@ -39,6 +39,10 @@ const movieSchema = new mongoose.Schema({
 const Movie = mongoose.model('Movie', movieSchema, 'movies');
 
 // CRUD Methods for Movie
+exports.addMovie = function(newMovie) {
+    return Movie.create(newMovie);
+};
+
 exports.retrieveAll = function() {
     return Movie.find();
 };
@@ -63,6 +67,3 @@ exports.findByTitle = function(title) {
 exports.getMyWatched = function(movieList) {
     return Movie.find({_id: { $in: movieList }});
 };
-
-
-
