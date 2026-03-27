@@ -11,5 +11,8 @@ router.get("/search-movie", moviesController.searchMovies);
 router.get("/movie-edit",authMiddleware.isAdmin, moviesController.editMoviesGet);
 router.post("/movie-edit",authMiddleware.isAdmin,moviesController.editMoviesPost);
 
+router.get("/movie-create",authMiddleware.isAdmin,moviesController.createMoviesGet);
+router.post("/movie-create",authMiddleware.isAdmin,moviesController.createMoviesPost);
+
 // EXPORT
 module.exports = router;
