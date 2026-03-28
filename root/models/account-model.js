@@ -10,7 +10,7 @@ const AccountSchema = new mongoose.Schema({
     email: {
         type: String,
         required: [true, 'A user must have a password'],
-    
+        unique: true
     },
     
     bio:{
