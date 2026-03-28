@@ -129,16 +129,20 @@
           <h3>Overall Rating: Not Rated</h3>
         <% } %>
         <!-- Upvote Downvote buttons -->
-        <form action="/movies/vote" method="POST">
-          <input type="hidden" name="movieid" value="<%= result._id %>">
-          <input type="hidden" name="vote" value="1">
-          <button type="submit">👍 Upvote</button>
-        </form>
-        <form action="/movies/vote" method="POST">
-          <input type="hidden" name="movieid" value="<%= result._id %>">
-          <input type="hidden" name="vote" value="-1">
-          <button type="submit">👎 Downvote</button>
-        </form>
+         <%if (user){%>
+          <form action="/movies/vote" method="POST">
+            <input type="hidden" name="movieid" value="<%= result._id %>">
+            <input type="hidden" name="vote" value="1">
+            <button type="submit">👍 Upvote</button>
+          </form>
+          <form action="/movies/vote" method="POST">
+            <input type="hidden" name="movieid" value="<%= result._id %>">
+            <input type="hidden" name="vote" value="-1">
+            <button type="submit">👎 Downvote</button>
+          </form>
+        <% } else {%>
+          <p>You must be logged in to vote.</p>
+        <% } %>
         <hr>
         <br>
         <div class="container">

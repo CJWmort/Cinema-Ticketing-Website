@@ -98,8 +98,11 @@ exports.watchlistGet = async (req, res) => {
 exports.voteMovie = async (req, res) => {
   try {
     const { movieid, vote } = req.body;
-    const userid = req.session.user._id;
+    const userid = req.session.user?._id;
 
+    if(!userid) {
+      return res.direct(`/review?movieid=?{movieid}&msg=Please log in to vote`);
+    }
     let existingReview = await Review.findOne({ movieid, userid });
 
     if (existingReview) {
@@ -110,7 +113,7 @@ exports.voteMovie = async (req, res) => {
         movieid, userid, rating: vote
       });
     }
-    res.redirect('/movie');
+    res.redirect(`/movie`);
   } catch (error) {
     console.error(error);
     res.send("Error voting");
