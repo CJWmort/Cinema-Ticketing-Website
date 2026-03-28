@@ -18,9 +18,17 @@ router.get("/logout", accountsController.logout);
 
 router.get("/profile", authMiddleware.isLoggedIn, accountsController.profileGet);
 router.post("/profile", accountsController.profilePost); // Update Profile Details
+
 router.get("/change-password", authMiddleware.isLoggedIn, accountsController.changePasswordGet);
 router.post("/change-password", accountsController.changePasswordPost); // Update Profile Password
 
+
+router.get('/delete-acct', authMiddleware.isLoggedIn, accountsController.deleteacctGet);
+router.post('/delete-acct', accountsController.deleteacctPost); // deactive account
+
 router.get("/admin-tool", authMiddleware.isAdmin, accountsController.adminTool)
 
+
+router.get('/home', accountsController.homeGet);// homepage
+router.get('/user/:id', accountsController.visitothersGet);
 module.exports = router;
