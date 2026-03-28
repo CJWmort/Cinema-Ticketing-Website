@@ -96,7 +96,7 @@
     </nav>
     <form id="profile" action="/account/profile" method="POST">
         <h2>Edit My Profile</h2>
-        <img src="/images/<%= user.profilepic %>" width="120" height="120"  style="border-radius:50%;"><br>
+        <img src="/images/pfp/<%= user.profilepic %>" width="120" height="120"  style="border-radius:50%;"><br>
         <label for="username">Username:</label>
         <input type="text" name="username" placeholder="Username" value="<%= user.username %>" required><br>
         
@@ -120,6 +120,8 @@
             <a href="change-password">change password</a>
             <br><br>
             <a href="delete-acct">delete account</a>
+            <br><br>
+            <a href="change-pfp">change pfp</a>
             <br><br>
             <button type="submit">Save Changes</button>
         </div>
