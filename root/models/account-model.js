@@ -4,23 +4,20 @@ const mongoose = require('mongoose');
 const AccountSchema = new mongoose.Schema({
     username: {
         type: String,
-        required: [true, 'A user must have a username'],
+        required: true,
         unique: true
     },
     email: {
         type: String,
-        required: [true, 'A user must have a password'],
-    
+        required: true
     },
-    
     bio:{
         type: String,
         required: false
     },
     profilepic:{
         type: String,
-        default: '../images/pfp/defaultpfp.jpg'
-
+        default: '../images/pfp/defaultpfp.jpg',
         required: true
     },
     email: {
