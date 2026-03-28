@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <title>
+      Home Page
+    </title>
+  </head>
+  <body>
+    <div style="display: flex; align-items: center; gap: 15px; margin-top: 10px;">
+     <img src="/images/<%= user.profilepic %>" width="120" height="120" style="border-radius:50%;">
+      <div style="display: flex; flex-direction: column;">
+        <p style="margin: 0;">Username:<%= user.username %></p>
+        <p style="margin: 0;">Bio:<%= user.bio || "No bio yet" %></p>
+        <a href="/account/profile">Edit Profile</a>
+        <a href="/account/logout">Logout</a>
+      </div>
+    </div>
+    <hr>
+
+    <% if(combined.length === 0){ %>
+      <p>This user has not watched or reviewed any movies yet.</p>
+    <% } else { %>
+      <p>All Reviews & Movie Watched: </p>
+      <hr>
+      <% combined.forEach(r => { %>
+      <div style="display: flex; align-items: flex-start; gap: 15px; margin-top: 10px;">
+        <img src="/images/<%= r.movie.img %>" width="200" height="250" style = "border: 2px;">
+
+        
+        <div style="display: flex; flex-direction: column;">
+          <!-- title -->
+          <p>Movie Title: <%= r.movie.title %></p>
+
+          <!-- watched? -->
+          <% if (r.review.watched === true){ %>
+                  <p>Watched:Yes</p>
+                  <% } else {%>
+                  <p>Watched:No</p>
+                  <% } %>
+          
+          <!-- review + date created + update created -->
+          <% if (r.review.review==='') { %>
+            <p>Review: This person did not leave any review</p>
+          <% } else { %>
+            <p>Review: <%= r.review.review %></p>
+            <p>Created on :<%= r.review.createdAt %> </p>
+              <p>Updated on :<%= r.review.updatedAt %></p>
+          <% } %>
+      </div>
+    </div>
+  <hr>
+<% }) %>
+<% } %>
+     </body>
