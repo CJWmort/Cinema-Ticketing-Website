@@ -67,7 +67,8 @@ exports.registerPost = async (req, res) => {
   // Check if Password matches Confirm Password
   if (password != cfmpassword){
     res.render("register", { msg: "Password not matching", username, email, user: req.session.user });
-  } else{
+  } 
+  else{
     try {
       // Password matches, need to hash the Password
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -93,8 +94,13 @@ exports.registerPost = async (req, res) => {
         res.render('register', { msg: "Error creating account", username, email, user: req.session.user });
       }
     } catch (error) {
-      console.log(error);
-      res.render('register', { msg: "This email is already taken", username, email, user: req.session.user });
+      if (error.code === 11000) {
+        // 11000 is duplicate key error code
+        const field = Object.keys(error.keyPattern)[0]; 
+        res.render('register', { msg: `A user with this ${field} already exists`, username, email, user: req.session.user });
+      } else {
+        res.render('register', { msg: "Error creating account", username, email, user: req.session.user });
+      }
     }
   }
 };
