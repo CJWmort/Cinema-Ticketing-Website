@@ -128,6 +128,17 @@
         <%} else {%>
           <h3>Overall Rating: Not Rated</h3>
         <% } %>
+        <!-- Upvote Downvote buttons -->
+        <form action="/movies/vote" method="POST">
+          <input type="hidden" name="movieid" value="<%= movie._id %>">
+          <input type="hidden" name="vote" value="1">
+          <button type="submit">👍 Upvote</button>
+        </form>
+        <form action="/movies/vote" method="POST">
+          <input type="hidden" name="movieid" value="<%= movie._id %>">
+          <input type="hidden" name="vote" value="1">
+          <button type="submit">👎 Downvote</button>
+        </form>
         <hr>
         <br>
         <div class="container">
