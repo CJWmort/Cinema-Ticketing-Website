@@ -1,10 +1,45 @@
 <html>
   <head>
-    <title>
-      Change Your Profile Picture
-    </title>
+    <title>Change Profile Picture</title>
+    <link rel="stylesheet" href="/styles.css">
   </head>
   <body>
+    <nav class="navbar">
+        <div class="nav-left">
+          <ul>
+              <li><a href="/index.html">Home</a></li>
+              <li><a href="/movie">Movies</a></li>
+              <li>
+                <form id="search" action="/movie/search-movie" method="GET">
+                  <label for="search"><b>Search Movie:</b></label>
+                  <input type="text" name="search" placeholder="search by title">
+                  <button type="submit">Search</button>
+                </form>
+              </li>
+          </ul>
+        </div>
+        <div class="nav-right">
+          <!-- Check if user is currently logged in -->
+          <%if (user){%>
+            <ul>
+                <!--Check if user is an admin-->
+                <%if (user.role==="admin") {%>
+                    <li><a href="/account/admin-tool">Admin Tools</a></li>
+                <%}%>
+                <li><a href="/review/watchlist">My WatchList</a></li>
+                <li><a class="active" href="/account/profile">Edit Profile</a></li>
+                <li><a href="/account/register">New Account</a></li>
+                <li><a id="logout" href="/account/logout">Logout</a></li>
+            </ul>
+            <span>Welcome, <%= user.username %></span>
+          <%} else {%>
+            <ul>
+                <li><a href="/account/login">Login</a></li>
+                <li><a href="/account/register">Register</a></li>
+            </ul>
+          <%}%> 
+        </div>
+    </nav>
     <form action="/account/change-pfp" method="POST">
         <img src="/images/pfp/defaultpfp.jpg">
         <input type="radio" name="pfp" value="defaultpfp.jpg" 

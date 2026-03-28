@@ -1,17 +1,47 @@
 <html>
   <head>
-    <title>
-      Home Page
-    </title>
+    <title>My Homepage</title>
+    <link rel="stylesheet" href="/styles.css">
   </head>
+  <nav class="navbar">
+      <div class="nav-left">
+        <ul>
+            <li><a href="/index.html">Home</a></li>
+            <li><a href="/movie">Movies</a></li>
+            <li>
+              <form id="search" action="/movie/search-movie" method="GET">
+                <label for="search"><b>Search Movie:</b></label>
+                <input type="text" name="search" placeholder="search by title">
+                <button type="submit">Search</button>
+              </form>
+            </li>
+        </ul>
+      </div>
+      <div class="nav-right">
+        <!-- Check if user is currently logged in -->
+        <%if (user){%>
+          <ul>
+              <li><a href="/review/watchlist">My WatchList</a></li>
+              <li><a class="active" href="/account/profile">Edit Profile</a></li>
+              <li><a href="/account/register">New Account</a></li>
+              <li><a id="logout" href="/account/logout">Logout</a></li>
+          </ul>
+          <span>Welcome, <%= user.username %></span>
+        <%} else {%>
+          <ul>
+              <li><a href="/account/login">Login</a></li>
+              <li><a href="/account/register">Register</a></li>
+          </ul>
+        <%}%> 
+      </div>
+  </nav>
   <body>
     <div style="display: flex; align-items: center; gap: 15px; margin-top: 10px;">
-     <img src="/images/pfp/<%= user.profilepic %>" width="120" height="120" style="border-radius:50%;">
+     <img src="/images/pfp/<%= userFound.profilepic %>" width="120" height="120" style="border-radius:50%;">
       <div style="display: flex; flex-direction: column;">
-        <p style="margin: 0;">Username:<%= user.username %></p>
-        <p style="margin: 0;">Bio:<%= user.bio || "No bio yet" %></p>
-        <a href="/account/profile">Edit Profile</a>
-        <a href="/account/logout">Logout</a>
+        <p style="margin: 0;"><b>Username: </b><%= userFound.username %></p>
+        <p style="margin: 0;"><b>Bio: </b><%= userFound.bio || "No bio yet" %></p>
+        <button onclick="history.back()">Go Back</button>
       </div>
     </div>
     <hr>
@@ -19,7 +49,7 @@
     <% if(combined.length === 0){ %>
       <p>This user has not watched or reviewed any movies yet.</p>
     <% } else { %>
-      <p>All Reviews & Movie Watched: </p>
+      <p>All Movie Reviews: </p>
       <hr>
       <% combined.forEach(r => { %>
       <div style="display: flex; align-items: flex-start; gap: 15px; margin-top: 10px;">
@@ -32,9 +62,9 @@
 
           <!-- watched? -->
           <% if (r.review.watched === true){ %>
-                  <p>Watched:Yes</p>
+                  <p>Watched: Yes</p>
                   <% } else {%>
-                  <p>Watched:No</p>
+                  <p>Watched: No</p>
                   <% } %>
           
           <!-- review + date created + update created -->
@@ -42,8 +72,7 @@
             <p>Review: This person did not leave any review</p>
           <% } else { %>
             <p>Review: <%= r.review.review %></p>
-            <p>Created on :<%= r.review.createdAt %> </p>
-              <p>Updated on :<%= r.review.updatedAt %></p>
+            <p>Updated on: <%= r.review.updatedAt.toLocaleString('en-GB') %></p>
           <% } %>
       </div>
     </div>

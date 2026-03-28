@@ -120,16 +120,21 @@ exports.profilePost = async (req, res) => {
   
   try {
     let success = await Account.updateUser(email, newUsername, newEmail , newbio);
-    console.log(success);
-    // Update the username and email session variables
+    
+    // Update the username, email and bio session variables
     req.session.user.username = newUsername;
     req.session.user.email = newEmail;
     req.session.user.bio = newbio;
 
     res.redirect('/account/profile?msg=success');
   } catch (error) {
-    console.log(error);
-    res.render('profile', { msg: "This email is already taken", user: req.session.user });
+    if (error.code === 11000) {
+      // 11000 is duplicate key error code
+      const field = Object.keys(error.keyPattern)[0]; 
+      res.render('profile', { msg: `A user with this ${field} already exists`, user: req.session.user });
+    } else {
+      res.render('profile', { msg: "Error updating account", user: req.session.user });
+    }
   }
 };
 
@@ -212,37 +217,15 @@ exports.deleteacctPost = async (req, res) => {
     // delete account
     await Account.deleteacct(email);
 
-    // destroy session
-    req.session.destroy(err => {
-      if (err) {
-        console.log(err);
-      }
-      res.redirect('/index.html?msg=success');
-    });
+    // destroy current session
+    req.session.destroy();
+
+    // redirect to login page
+    res.redirect('/account/login?msg=Your Account has been Deleted')
 
   } catch (err) {
     console.log(err);
     res.render('delete-acct', { msg: 'an error has occured', user: req.session.user });
-  }
-};
-exports.homeGet = async (req, res) => {
-
-  const user = req.session.user;
-  let combined =[] // to combine movie + review (without it the layout will be weird)
-  try {
-    const reviews = await Review.findallreviewbyusers(user.id) || [];
-    for (let i = 0; i < reviews.length; i++){
-      const movie = await Movie.findByID(reviews[i].movieid);
-      combined.push({
-        review: reviews[i],  
-        movie: movie         
-      });
-    }
-  
-    res.render('home', {user,combined});
-  } catch (err) {
-    console.log(err);
-    res.render('home', { user,combined });
   }
 };
 
@@ -255,15 +238,13 @@ exports.visitothersGet = async (req, res) => {
 
     const otherUser = await Account.findByID(user); // other user acct
     const reviews = await Review.findallreviewbyusers(user) || [];  // fetch their reviews
-
-
   
     for (let i = 0; i < reviews.length; i++) {
       const movie = await Movie.findByID(reviews[i].movieid);
       combined.push({ review: reviews[i], movie });
     }
 
-    res.render('home', { user: otherUser, combined });
+    res.render('home', { userFound: otherUser, combined, user: req.session.user });
   } catch (err) {
     console.log("Error in visitothersGet:", err);
     res.status(500).send("Server error");
@@ -287,7 +268,7 @@ exports.changepfpPost = async (req,res) =>{
   try{
     await Account.updateUser( selected_pfp);
     user.profilepic = selected_pfp
-    res.redirect('/account/profile?msg=profile pic updated successfully');
+    res.redirect('/account/profile?msg=success');
   } catch (err) {
     console.log(err);
     res.render('change-pfp', {user: user, currentpfp: user.profilepic, msg: 'Error updating avatar'

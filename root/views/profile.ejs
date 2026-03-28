@@ -3,6 +3,11 @@
     <title>My Profile</title>
     <link rel="stylesheet" href="/styles.css">
     <style>
+      main{
+        margin: 10px auto;
+        justify-content: center;
+        width: 50%;
+      }
       h2{
           color: gold;
           text-align: center;
@@ -10,16 +15,15 @@
       body{
           background-color: black;
       }
+      #profilepic{
+        justify-content: center;
+        margin: 10px;
+      }
       #profile{
           background-color: #333;
           color: whitesmoke;
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
           padding: 10px 40px;
           border-radius: 10px;
-          width: 40%;
       }
       #profile div{
           text-align: center;
@@ -94,36 +98,40 @@
           <%}%> 
         </div>
     </nav>
-    <form id="profile" action="/account/profile" method="POST">
-        <h2>Edit My Profile</h2>
-        <img src="/images/pfp/<%= user.profilepic %>" width="120" height="120"  style="border-radius:50%;"><br>
-        <label for="username">Username:</label>
-        <input type="text" name="username" placeholder="Username" value="<%= user.username %>" required><br>
-        
-        <label for="email">Email:</label>
-        <input type="email" name="email" placeholder="example@gmail.com" value="<%= user.email %>" required><br>
+    <main>
+        <form id="profile" action="/account/profile" method="POST">
+          <h2>Edit My Profile</h2>
+          <div id="profilepic">
+            <img src="/images/pfp/<%= user.profilepic %>" width="120" height="120"  style="border-radius:50%;"><br>
+          </div>
+          <label for="username">Username:</label>
+          <input type="text" name="username" placeholder="Username" value="<%= user.username %>" required><br>
+          
+          <label for="email">Email:</label>
+          <input type="email" name="email" placeholder="example@gmail.com" value="<%= user.email %>" required><br>
 
-        <label for="bio">Bio:</label>
-        <input type="text" name="bio" placeholder="Bio"<%= user.bio %> value="<%= user.bio %>"><br>
+          <label for="bio">Bio:</label>
+          <input type="text" name="bio" placeholder="Bio"<%= user.bio %> value="<%= user.bio %>"><br>
 
-        
-        <div>
-            <br>
-            <% if (msg != "success") {%>
-                <span id="error"><%= msg %></span>
-            <% } else { %>
-                <span id="success">Success! Account Updated</span>
-            <% } %>
-            <br><br>
-            <a href="home">home</a>
-            <br><br>
-            <a href="change-password">change password</a>
-            <br><br>
-            <a href="delete-acct">delete account</a>
-            <br><br>
-            <a href="change-pfp">change pfp</a>
-            <br><br>
-            <button type="submit">Save Changes</button>
-        </div>
-        <br>
-    </form>
+          <div>
+              <br>
+              <% if (msg != "success") {%>
+                  <span id="error"><%= msg %></span>
+              <% } else { %>
+                  <span id="success">Success! Your account has been updated</span>
+              <% } %>
+              <br><br>
+              <a href="/account/user/<%= user.id %>">My homepage</a>
+              <br><br>
+              <a href="change-password">Change password</a>
+              <br><br>
+              <a href="delete-acct">Delete account</a>
+              <br><br>
+              <a href="change-pfp">Change profile picture</a>
+              <br><br>
+              <button type="submit">Save Changes</button>
+          </div>
+          <br>
+      </form>
+    </main>
+    
