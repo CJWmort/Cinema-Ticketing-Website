@@ -6,6 +6,8 @@ exports.reviewGet = async (req, res) => {
   try {
     const msg = req.query.msg;
     const movieid = req.query.movieid;
+    const upvotes = reviewResult.filter(r => r.rating === 1).length;
+    const downvotes = reviewResult.filter(r => r.rating === -1).length;
     if (!movieid){
       res.redirect("/movie");
     } else{
@@ -23,7 +25,7 @@ exports.reviewGet = async (req, res) => {
           return res.render("review", { msg, result, reviewResult, myReview: emptyReview, user: req.session.user }); 
         }
       }
-      return res.render("review", { msg, result, reviewResult, myReview, user: req.session.user }); 
+      return res.render("review", { msg, result, reviewResult, myReview, user: req.session.user, upvotes, downvotes }); 
     }
   } catch (error) {
     console.error(error);
@@ -106,14 +108,14 @@ exports.voteMovie = async (req, res) => {
     let existingReview = await Review.findOne({ movieid, userid });
 
     if (existingReview) {
-      existingReview.rating = vote;
+      existingReview.rating = parseInt(vote, 10);
       await existingReview.save();
     } else {
       await Review.create({
-        movieid, userid, rating: vote
+        movieid, userid, rating: parseInt(vote, 10)
       });
     }
-    res.redirect(`/movie`);
+    res.redirect(`/review?movieid=${movieid}`);
   } catch (error) {
     console.error(error);
     res.send("Error voting");
