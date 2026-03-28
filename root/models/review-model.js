@@ -66,13 +66,3 @@ exports.findMyWatched = function(userid) {
 exports.deleteMyReview = function(movieid, userid) {
     return Review.deleteOne({movieid: movieid, userid: userid});
 };
-
-// automatically remove review if user deactivate their acct
-exports.removedeletedusers = function(userid){
-    return Review.deleteMany({userid: userid})
-}
-
-// find all the reviews that this user gave
-exports.findallreviewbyusers = function(userid){
-    return Review.find({userid: userid}).sort('-updatedAt');
-}
