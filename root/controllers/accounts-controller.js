@@ -1,5 +1,7 @@
 // Get Service model
 const Account = require('../models/account-model');
+const Review = require('../models/review-model') 
+const Movie = require('../models/movie-model') 
 // Bcrypt used to Hash and protect passwords
 const bcrypt = require('bcrypt');
 
@@ -29,7 +31,9 @@ exports.loginPost = async (req, res) => {
               id: userFound._id,
               username: userFound.username,
               email: userFound.email,
-              role: userFound.role
+              bio: userFound.bio,
+              role: userFound.role,
+              profilepic: userFound.profilepic
           }
           
           req.session.user = accountFound;
@@ -106,12 +110,15 @@ exports.profilePost = async (req, res) => {
   const email = req.session.user.email; // Find by the email of the current logged in user
   const newUsername = req.body.username;
   const newEmail = req.body.email;
+  const newbio = req.body.bio;
+
   try {
-    let success = await Account.updateUser(email, newUsername, newEmail);
+    let success = await Account.updateUser(email, newUsername, newEmail , newbio);
     console.log(success);
     // Update the username and email session variables
     req.session.user.username = newUsername;
     req.session.user.email = newEmail;
+    req.session.user.bio = newbio;
 
     res.redirect('/account/profile?msg=success');
   } catch (error) {
@@ -164,6 +171,99 @@ exports.changePasswordPost = async (req, res) => {
   }
 };
 
+// go to delete acct page
+exports.deleteacctGet = (req, res) => {
+  res.render('delete-acct', { msg: '', user: req.session.user });
+};
+
+// allow users to delete their acct (with password verification)
+exports.deleteacctPost = async (req, res) => {
+  try {
+    const password = req.body.password;
+    const email = req.session.user.email;
+    const username = req.session.user.username;
+    const userid = req.session.user.id;
+
+    console.log("Deleting account for:", email, username);
+
+    // find user & check if it exists
+    const user = await Account.findByEmail(email);
+    console.log("User found:", user);
+    if (!user) {
+      return res.render('delete-acct', { msg: 'user not found', user: req.session.user });
+    }
+
+    // verify password
+    const match = await bcrypt.compare(password, user.password);
+    console.log("Password match?", match);
+    if (!match) {
+      return res.render('delete-acct', { msg: 'incorrect password', user: req.session.user });
+    }
+
+    // remove all reviews by user
+    await Review.removedeletedusers(userid);
+
+    // delete account
+    await Account.deleteacct(email);
+
+    // destroy session
+    req.session.destroy(err => {
+      if (err) {
+        console.log(err);
+      }
+      res.redirect('/index.html?msg=success');
+    });
+
+  } catch (err) {
+    console.log(err);
+    res.render('delete-acct', { msg: 'an error has occured', user: req.session.user });
+  }
+};
+exports.homeGet = async (req, res) => {
+
+  const user = req.session.user;
+
+  try {
+    const reviews = await Review.findallreviewbyusers(user.id) || [];
+
+    let combined =[] // to combine movie + review (without it the layout will be weird)
+    for (let i = 0; i < reviews.length; i++){
+      const movie = await Movie.findByID(reviews[i].movieid);
+      combined.push({
+        review: reviews[i],  
+        movie: movie         
+      });
+    }
+  
+    res.render('home', {user,combined});
+  } catch (err) {
+    console.log(err);
+    res.render('home', { user,combined });
+  }
+};
+
+exports.visitothersGet = async (req, res) => {
+  try {
+    const user = req.params.id; // get user ID from URL
+    console.log("Visiting user ID:", user);
+
+    const otherUser = await Account.findByID(user); // other user acct
+    const reviews = await Review.findallreviewbyusers(user) || [];  // fetch their reviews
+
+
+    // combine movie + review
+    let combined = [];
+    for (let i = 0; i < reviews.length; i++) {
+      const movie = await Movie.findByID(reviews[i].movieid);
+      combined.push({ review: reviews[i], movie });
+    }
+
+    res.render('home', { user: otherUser, combined });
+  } catch (err) {
+    console.log("Error in visitothersGet:", err);
+    res.status(500).send("Server error");
+  }
+};
 exports.adminTool = async (req,res) => {
     const msg = req.query.msg;
     res.render('admin-tool', { msg, user: req.session.user });
