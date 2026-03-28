@@ -14,4 +14,4 @@ router.get("/watchlist", authMiddleware.isLoggedIn, reviewsController.watchlistG
 module.exports = router;
 
 // POST route for movie voting
-router.post("/vote",moviesController.voteMovie);
+router.post("/vote", reviewsController.voteMovie);
