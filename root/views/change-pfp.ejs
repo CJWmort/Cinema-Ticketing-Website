@@ -1,0 +1,35 @@
+<html>
+  <head>
+    <title>
+      Change Your Profile Picture
+    </title>
+  </head>
+  <body>
+    <form action="/account/change-pfp" method="POST">
+        <img src="/images/pfp/defaultpfp.jpg">
+        <input type="radio" name="pfp" value="defaultpfp.jpg" 
+            <%= currentpfp === 'defaultpfp.jpg' ? 'checked' : '' %> > default<br>
+            <%# default select if pfp is currently use %>
+
+        <img src="/images/pfp/pfp1.jpg">
+        <input type="radio" name="pfp" value="pfp1.jpg" 
+            <%= currentpfp === 'pfp1.jpg' ? 'checked' : '' %> > pfp1<br> 
+        
+        <img src="/images/pfp/pfp2.jpg">
+        <input type="radio" name="pfp" value="pfp2.jpg" 
+            <%= currentpfp === 'pfp2.jpg' ? 'checked' : '' %> > pfp2<br>
+        
+        <img src="/images/pfp/pfp3.jpg">
+        <input type="radio" name="pfp" value="pfp3.jpg" 
+            <%= currentpfp === 'pfp3.jpg' ? 'checked' : '' %> > pfp3<br>
+
+        <img src="/images/pfp/pfp4.jpg">
+        <input type="radio" name="pfp" value="pfp4.jpg" 
+            <%= currentpfp === 'pfp4.jpg' ? 'checked' : '' %> > pfp4<br>
+
+        <img src="/images/pfp/pfp5.jpg">
+        <input type="radio" name="pfp" value="pfp5.jpg" 
+            <%= currentpfp === 'pfp5.jpg' ? 'checked' : '' %> > pfp5<br>
+
+    <button type="submit">Save</button>
+</form>

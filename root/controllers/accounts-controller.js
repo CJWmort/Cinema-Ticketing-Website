@@ -117,7 +117,7 @@ exports.profilePost = async (req, res) => {
   const newUsername = req.body.username;
   const newEmail = req.body.email;
   const newbio = req.body.bio;
-
+  
   try {
     let success = await Account.updateUser(email, newUsername, newEmail , newbio);
     console.log(success);
@@ -228,11 +228,9 @@ exports.deleteacctPost = async (req, res) => {
 exports.homeGet = async (req, res) => {
 
   const user = req.session.user;
-
+  let combined =[] // to combine movie + review (without it the layout will be weird)
   try {
     const reviews = await Review.findallreviewbyusers(user.id) || [];
-
-    let combined =[] // to combine movie + review (without it the layout will be weird)
     for (let i = 0; i < reviews.length; i++){
       const movie = await Movie.findByID(reviews[i].movieid);
       combined.push({
@@ -249,16 +247,17 @@ exports.homeGet = async (req, res) => {
 };
 
 exports.visitothersGet = async (req, res) => {
+  const user = req.params.id; // get user ID from URL
+  let combined =[];
   try {
-    const user = req.params.id; // get user ID from URL
+    
     console.log("Visiting user ID:", user);
 
     const otherUser = await Account.findByID(user); // other user acct
     const reviews = await Review.findallreviewbyusers(user) || [];  // fetch their reviews
 
 
-    // combine movie + review
-    let combined = [];
+  
     for (let i = 0; i < reviews.length; i++) {
       const movie = await Movie.findByID(reviews[i].movieid);
       combined.push({ review: reviews[i], movie });
@@ -274,3 +273,24 @@ exports.adminTool = async (req,res) => {
     const msg = req.query.msg;
     res.render('admin-tool', { msg, user: req.session.user });
 }
+
+
+exports.changepfpGet = async (req,res) =>{
+  const currentpfp = req.session.user.profilepic;
+  res.render('change-pfp',{user: req.session.user, currentpfp});
+}
+
+exports.changepfpPost = async (req,res) =>{
+  const user = req.session.user;
+  const selected_pfp =req.body.pfp;
+  
+  try{
+    await Account.updateUser( selected_pfp);
+    user.profilepic = selected_pfp
+    res.redirect('/account/profile?msg=profile pic updated successfully');
+  } catch (err) {
+    console.log(err);
+    res.render('change-pfp', {user: user, currentpfp: user.profilepic, msg: 'Error updating avatar'
+    });
+  }
+};

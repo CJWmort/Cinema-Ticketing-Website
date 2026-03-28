@@ -22,6 +22,11 @@ router.post("/profile", accountsController.profilePost); // Update Profile Detai
 router.get("/change-password", authMiddleware.isLoggedIn, accountsController.changePasswordGet);
 router.post("/change-password", accountsController.changePasswordPost); // Update Profile Password
 
+router.get('/home', accountsController.homeGet);// homepage
+router.get('/user/:id', accountsController.visitothersGet);//visit other user
+
+router.get("/change-pfp", accountsController.changepfpGet); // fetch original pfp
+router.post('/change-pfp',accountsController.changepfpPost);
 
 router.get('/delete-acct', authMiddleware.isLoggedIn, accountsController.deleteacctGet);
 router.post('/delete-acct', accountsController.deleteacctPost); // deactive account

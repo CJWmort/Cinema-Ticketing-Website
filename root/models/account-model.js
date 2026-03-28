@@ -18,7 +18,7 @@ const AccountSchema = new mongoose.Schema({
     },
     profilepic:{
         type: String,
-        default: '../images/pfp/defaultpfp.jpg',
+        default: 'defaultpfp.jpg',
         required: true
     },
     email: {
