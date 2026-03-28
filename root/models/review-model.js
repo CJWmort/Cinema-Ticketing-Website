@@ -76,3 +76,10 @@ exports.removedeletedusers = function(userid){
 exports.findallreviewbyusers = function(userid){
     return Review.find({userid: userid}).sort('-updatedAt');
 }
+
+// Fetch all reviews with non-null ratings
+// $ne is (not equal) operator
+exports.findReviewsWithRating = function() {
+    return Review.find({rating: { $ne: null }});
+};
+

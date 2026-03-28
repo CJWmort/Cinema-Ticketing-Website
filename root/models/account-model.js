@@ -21,14 +21,20 @@ const AccountSchema = new mongoose.Schema({
         type: String,
         default: '../images/pfp/defaultpfp.jpg'
 
+        required: true
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true
     },
     password: {
         type: String,
-        required: [true, 'A user must have a password']
+        required: true
     },
     role: {
         type: String,
-        required: [true, 'A user must have a role']
+        required: true
     }
 }, {
     timestamps: true // auto timestamp management (createdAt, updatedAt) will update automatically based on methods used

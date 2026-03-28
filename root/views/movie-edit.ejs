@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Movie Info</title>
+    <title>Edit Movie</title>
     <link rel="stylesheet" href="/styles.css">
     <style>
       body{
@@ -128,7 +128,8 @@
         <br>
         <div class="container">
           <div class="item">
-            <img src="/images/<%=result.img%>" alt="<%=result.img%>">
+            <img src="/images/<%=result.img || temp.png%>" alt="<%=result.img%>"
+            onerror="this.onerror=null; this.src='/images/temp.png';">
           </div>
           <div class="item">
             <form action="/movie/movie-edit?movieid=<%= result._id %>" method="POST">
@@ -136,7 +137,7 @@
             <b>Cast: </b><input type="text" name="cast" value="<%= result.cast %>"><br><br>
             <b>Genre: </b><input type="text" name="genre" value="<%= result.genre %>"><br><br>
             <b>Release: </b><input type="text" name="release" value="<%= result.release %>"><br><br>
-            <b>Duration: </b><input type="text" name="duration" value="<%= result.duration %>"> minutes<br><br>
+            <b>Duration: </b><input type="number" name="duration" value="<%= result.duration %>"> minutes<br><br>
             <b>Language: </b><input type="text" name="language" value="<%= result.language %>"><br><br>
             <p><strong>Synopsis</strong></p>
             <textarea id="textarea" name="description" rows="8" cols="50"><%= result.description %></textarea><br>
