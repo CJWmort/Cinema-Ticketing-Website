@@ -28,6 +28,12 @@ router.get('/user/:id', accountsController.visitothersGet);//visit other user
 router.get("/change-pfp", accountsController.changepfpGet); // fetch original pfp
 router.post('/change-pfp',accountsController.changepfpPost);
 
+router.get('/delete-acct', authMiddleware.isLoggedIn, accountsController.deleteacctGet);
+router.post('/delete-acct', accountsController.deleteacctPost); // deactive account
+
 router.get("/admin-tool", authMiddleware.isAdmin, accountsController.adminTool)
 
+
+router.get('/home', accountsController.homeGet);// homepage
+router.get('/user/:id', accountsController.visitothersGet);
 module.exports = router;

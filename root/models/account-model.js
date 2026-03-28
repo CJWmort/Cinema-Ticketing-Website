@@ -9,7 +9,8 @@ const AccountSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     bio:{
         type: String,
