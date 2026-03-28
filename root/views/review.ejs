@@ -97,6 +97,10 @@
         <!-- Check if user is currently logged in -->
         <%if (user){%>
             <ul>
+                <!--Check if user is an admin-->
+                <%if (user.role==="admin") {%>
+                    <li><a href="/account/admin-tool">Admin Tools</a></li>
+                <%}%>
                 <li><a href="/review/watchlist">My WatchList</a></li>
                 <li><a href="/account/profile">Edit Profile</a></li>
                 <li><a href="/account/register">New Account</a></li>
@@ -116,11 +120,15 @@
         <h2><%= result.title %></h2>
         <!-- Calculate Average Rating of Movie -->
         <% let totalRating = 0 %>
+        <% let ratingCount = 0 %>
         <% reviewResult.forEach(review => { %>
-          <% totalRating += review.rating %>
+          <% if (review.rating != null){ %>
+            <% totalRating += review.rating %>
+            <% ratingCount ++ %>
+          <% } %>
         <%})%>
-        <%if (reviewResult.length > 0) {%>
-          <h3>Overall Rating: <%= totalRating / reviewResult.length %>/10</h3>
+        <%if (ratingCount != 0) {%>
+          <h3>Overall Rating: <%= (totalRating / ratingCount).toFixed(1) %>/10</h3>
         <%} else {%>
           <h3>Overall Rating: Not Rated</h3>
         <% } %>
@@ -128,15 +136,16 @@
         <br>
         <div class="container">
           <div class="item">
-            <img src="/images/<%=result.img%>" alt="<%=result.img%>">
+            <img src="/images/<%=result.img || temp.png%>" alt="<%=result.img%>"
+            onerror="this.onerror=null; this.src='/images/temp.png';">
           </div>
           <div class="item">
             <p><strong>Details</strong></p>
-            <b>Cast: </b><%= result.cast %><br><br>
-            <b>Genre: </b><%= result.genre %><br><br>
-            <b>Release: </b><%= result.release %><br><br>
-            <b>Duration: </b><%= result.duration %> minutes<br><br>
-            <b>Language: </b><%= result.language %><br><br>
+            <b>Cast: </b><%= !result.cast ? "N.A." : result.cast %><br><br>
+            <b>Genre: </b><%= !result.genre ? "N.A." : result.genre %><br><br>
+            <b>Release: </b><%= !result.release ? "N.A." : result.release %><br><br>
+            <b>Duration: </b><%= !result.duration ? "N.A." : result.duration + " minutes"%><br><br>
+            <b>Language: </b><%= !result.language ? "N.A." : result.language %><br><br>
             <p><strong>Synopsis</strong></p>
             <%= result.description %><br>
             <!--Check if user is admin, if so allow movie edits-->

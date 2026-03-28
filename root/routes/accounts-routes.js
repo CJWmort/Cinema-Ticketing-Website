@@ -21,5 +21,6 @@ router.post("/profile", accountsController.profilePost); // Update Profile Detai
 router.get("/change-password", authMiddleware.isLoggedIn, accountsController.changePasswordGet);
 router.post("/change-password", accountsController.changePasswordPost); // Update Profile Password
 
+router.get("/admin-tool", authMiddleware.isAdmin, accountsController.adminTool)
 
 module.exports = router;

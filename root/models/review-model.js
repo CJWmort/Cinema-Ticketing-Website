@@ -66,3 +66,9 @@ exports.findMyWatched = function(userid) {
 exports.deleteMyReview = function(movieid, userid) {
     return Review.deleteOne({movieid: movieid, userid: userid});
 };
+
+// Fetch all reviews with non-null ratings
+// $ne is (not equal) operator
+exports.findReviewsWithRating = function() {
+    return Review.find({rating: { $ne: null }});
+};

@@ -264,3 +264,7 @@ exports.visitothersGet = async (req, res) => {
     res.status(500).send("Server error");
   }
 };
+exports.adminTool = async (req,res) => {
+    const msg = req.query.msg;
+    res.render('admin-tool', { msg, user: req.session.user });
+}
