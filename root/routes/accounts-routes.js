@@ -23,7 +23,7 @@ router.get("/change-password", authMiddleware.isLoggedIn, accountsController.cha
 router.post("/change-password", accountsController.changePasswordPost); // Update Profile Password
 
 
-router.get('/delete-acct', accountsController.deleteacctGet);
+router.get('/delete-acct', authMiddleware.isLoggedIn, accountsController.deleteacctGet);
 router.post('/delete-acct', accountsController.deleteacctPost); // deactive account
 
 router.get("/admin-tool", authMiddleware.isAdmin, accountsController.adminTool)
