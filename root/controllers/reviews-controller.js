@@ -6,13 +6,13 @@ exports.reviewGet = async (req, res) => {
   try {
     const msg = req.query.msg;
     const movieid = req.query.movieid;
-    const upvotes = reviewResult.filter(r => r.rating === 1).length;
-    const downvotes = reviewResult.filter(r => r.rating === -1).length;
     if (!movieid){
       res.redirect("/movie");
     } else{
       let result = await Movie.findByID(movieid); // Fetch the selected movie details
       let reviewResult = await Review.findAllReview(movieid) // Fetch the selected movie reviews
+      const upvotes = reviewResult.filter(r => r.rating === 1).length;
+      const downvotes = reviewResult.filter(r => r.rating === -1).length;
       let myReview = undefined;
       if (req.session.user){
         myReview = await Review.findMyReview(movieid, req.session.user.id); // Find single the review for movie that belongs to user
@@ -103,7 +103,7 @@ exports.voteMovie = async (req, res) => {
     const userid = req.session.user?._id;
 
     if(!userid) {
-      return res.direct(`/review?movieid=?{movieid}&msg=Please log in to vote`);
+      return res.redirect(`/review?movieid=?{movieid}&msg=Please log in to vote`);
     }
     let existingReview = await Review.findOne({ movieid, userid });
 
