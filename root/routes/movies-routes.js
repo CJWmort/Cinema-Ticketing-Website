@@ -14,5 +14,8 @@ router.post("/movie-edit",authMiddleware.isAdmin,moviesController.editMoviesPost
 router.get("/movie-create",authMiddleware.isAdmin,moviesController.createMoviesGet);
 router.post("/movie-create",authMiddleware.isAdmin,moviesController.createMoviesPost);
 
+router.get("/movie-manage",authMiddleware.isAdmin,moviesController.manageMovieGet);
+
+router.get("/movie-delete",authMiddleware.isAdmin,moviesController.deleteMovie);
 // EXPORT
 module.exports = router;

@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Admin Configuration</title>
+    <title>Manage Movies</title>
     <link rel="stylesheet" href="/styles.css">
     <style>
       h2{
@@ -94,15 +94,25 @@
           <%}%> 
         </div>
     </nav>
-    
+    <% if (movieList.length === 0) { %>
+        <p>No movies found. </p>
+    <% } else { %>
     <div class="profile">
-        <h2>Admin Tools</h2>
+        <h2>All Movies</h2>
         <ul id="profile">
-            <li><a href="/movie/movie-create">Create Movie</a></li>
-            <li><a href="/movie/movie-manage">Manage Movies</a></li>
+            <% movieList.forEach(movie => { %>
+                <li>
+                    <a href="/review?movieid=<%=movie._id%>"><%=movie.title%></a>
+                    <a href="/movie/movie-edit?movieid=<%=movie._id%>" style="color: cornflowerblue; margin-right: 15px; margin-left: 15px">Edit</a>
+                    <a href="/movie/movie-delete?movieid=<%=movie._id%>" style="color: rgb(255, 84, 84)"
+                        onclick="return confirm('Are you sure you want to delete movie: <%=movie.title%>?')">
+                        Delete</a>
+                </li>
+            <% }); %>
+    <% } %>
         </ul>
     </div>
+
         <br>
-    </form>
   </body>
 </html>

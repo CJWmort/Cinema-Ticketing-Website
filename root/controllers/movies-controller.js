@@ -98,3 +98,24 @@ exports.createMoviesPost = async (req,res) => {
         res.send("Error adding movie to database");
     };
 };
+exports.manageMovieGet = async (req,res) => {
+    try {
+    const movieList = await Movie.retrieveAll();
+    res.render("movie-manage",{movieList: movieList ,user:req.session.user});
+    } catch (error) {
+        console.error(error);
+        res.send("Error fetching movieList")
+    }
+};
+exports.deleteMovie = async (req,res) => {
+    try {
+        const movieid = req.query.movieid;
+        let deleteCheck = await Movie.deleteOne(movieid);
+        if (deleteCheck.deletedCount===1) {
+            res.redirect("/movie/movie-manage");
+        }
+    } catch (error) {
+        console.error(error);
+        res.send("Error deleting Movie")
+    }
+};

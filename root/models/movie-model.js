@@ -67,3 +67,6 @@ exports.findByTitle = function(title) {
 exports.getMyWatched = function(movieList) {
     return Movie.find({_id: { $in: movieList }});
 };
+exports.deleteOne = function(id) {
+    return Movie.deleteOne({_id:id});
+};
