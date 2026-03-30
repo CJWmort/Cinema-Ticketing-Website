@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Admin Configuration</title>
+    <title>Manage Movies</title>
     <link rel="stylesheet" href="/styles.css">
     <style>
       h2{
@@ -94,16 +94,42 @@
           <%}%> 
         </div>
     </nav>
-    
+    <% if (userList.length === 0) { %>
+        <p>No Users found. </p>
+    <% } else { %>
     <div class="profile">
-        <h2>Admin Tools</h2>
-        <ul id="profile">
-            <li><a href="/movie/movie-create">Create Movie</a></li>
-            <li><a href="/movie/movie-manage">Manage Movies</a></li>
-            <li><a href="/account/user-manage">Manage Users</a></li>
+        <h2>All Users</h2>
+        <ul id="admin-profile">
+        <h3 style="margin-bottom: 10px; color: gold; border-bottom: 1px solid #ccc;">Admin List</h3>
+            <% userList.forEach(account => { %>
+                <% if (account.role === "admin") { %>
+                <li>
+                    <a href="/account/user/<%=account._id%>"><%=account.username%></a>
+                    <a href="/account/user-change?userid=<%= account._id %>" onclick="return confirm('Are you sure you want to demote user: <%= account.username %>?')" style="color: cornflowerblue; margin-right: 15px; margin-left: 15px">
+                        Demote to User</a>
+                    <a href="/movie/movie-delete?movieid=" style="color: rgb(255, 84, 84)"
+                        onclick="return confirm('Are you sure you want to delete this?')">
+                        Delete (placeholder for now)</a>
+                </li>
+            <% }}); %>
+            </ul>
+            <ul id="user-profile">
+        <h3 style="margin-bottom: 10px; color: gold; border-bottom: 1px solid #ccc;">User List</h3>
+            <% userList.forEach(account => { %>
+                <% if (account.role === "user") { %>
+                <li>
+                    <a href="/account/user/<%=account._id%>"><%=account.username%></a>
+                    <a href="/account/user-change?userid=<%= account._id %>" onclick="return confirm('Are you sure you want to promote user: <%= account.username %>?')" style="color: cornflowerblue; margin-right: 15px; margin-left: 15px">
+                        Promote to Admin</a>
+                    <a href="/movie/movie-delete?movieid=" style="color: rgb(255, 84, 84)"
+                        onclick="return confirm('Are you sure you want to delete this?')">
+                        Delete (placeholder for now)</a>
+                </li>
+            <% }}); %>
+    
         </ul>
-    </div>
+    </div><% } %>
+
         <br>
-    </form>
   </body>
 </html>

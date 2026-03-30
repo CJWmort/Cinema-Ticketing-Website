@@ -275,3 +275,26 @@ exports.changepfpPost = async (req,res) =>{
     });
   }
 };
+exports.userList = async (req,res) => {
+    const userList = await Account.retrieveAll();
+    res.render("user-manage",{userList : userList, user : req.session.user});
+};
+exports.userChangeRole = async (req,res) => {
+    try {
+    const userid = req.query.userid;
+    const userDetail = await Account.findByID(userid);
+    const newRole = userDetail.role === "admin" ? "user" : "admin";
+    await Account.changeRole(userid,newRole);
+    console.log(req.session.user)
+    if (req.session.user.id === userid) { // check if demoted ownself?
+        req.session.user.role = newRole; //updates user role
+        return req.session.save(() => {
+            res.redirect("/"); //redirect back to home since no longer admin
+        });
+    }
+    res.redirect("/account/user-manage");
+} catch(error) {
+    console.error(error);
+    res.send("Error changing user roles");
+}
+}

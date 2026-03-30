@@ -30,6 +30,10 @@ router.post('/change-pfp',accountsController.changepfpPost);
 router.get('/delete-acct', authMiddleware.isLoggedIn, accountsController.deleteacctGet);
 router.post('/delete-acct', accountsController.deleteacctPost); // deactive account
 
-router.get("/admin-tool", authMiddleware.isAdmin, accountsController.adminTool)
+router.get("/admin-tool", authMiddleware.isAdmin, accountsController.adminTool); //admin tools page
+
+router.get("/user-manage",authMiddleware.isAdmin,accountsController.userList); //manage user page for admins
+
+router.get("/user-change",authMiddleware.isAdmin,accountsController.userChangeRole); //promote or demote admins
 
 module.exports = router;
