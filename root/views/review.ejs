@@ -130,16 +130,16 @@
         <% } %>
         <!-- Upvote Downvote buttons -->
          <h3>👍 Upvotes: <%= upvotes %></h3>
-         <h3>👍 Downvotes: <%= downvotes %></h3>
+         <h3>👎 Downvotes: <%= downvotes %></h3>
          <%if (user){%>
-          <form action="/movies/vote" method="POST">
+          <form action="/review/vote" method="POST">
             <input type="hidden" name="movieid" value="<%= result._id %>">
             <input type="hidden" name="vote" value="1">
             <button type="submit"
             <%= myReview && myReview.rating === 1 ? 'style="background-color: lightgreen;"' : '' %>>
             👍 Upvote</button>
           </form>
-          <form action="/movies/vote" method="POST">
+          <form action="/review/vote" method="POST">
             <input type="hidden" name="movieid" value="<%= result._id %>">
             <input type="hidden" name="vote" value="-1">
             <button type="submit"

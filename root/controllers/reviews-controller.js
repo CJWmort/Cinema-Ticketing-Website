@@ -22,7 +22,7 @@ exports.reviewGet = async (req, res) => {
             rating: null,
             review: ''
           }
-          return res.render("review", { msg, result, reviewResult, myReview: emptyReview, user: req.session.user }); 
+          return res.render("review", { msg, result, reviewResult, myReview: emptyReview, user: req.session.user, upvotes, downvotes }); 
         }
       }
       return res.render("review", { msg, result, reviewResult, myReview, user: req.session.user, upvotes, downvotes }); 
@@ -103,7 +103,7 @@ exports.voteMovie = async (req, res) => {
     const userid = req.session.user?._id;
 
     if(!userid) {
-      return res.redirect(`/review?movieid=?{movieid}&msg=Please log in to vote`);
+      return res.redirect(`/review?movieid=${movieid}&msg=Please log in to vote`);
     }
     let existingReview = await Review.findOne({ movieid, userid });
 
