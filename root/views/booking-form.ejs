@@ -1,0 +1,208 @@
+<html>
+  <head>
+    <title>Book Movie Screening</title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+      body{
+        background-color: black;
+        color: #f5f5f5;
+      }
+      h2,h3{
+        color: gold;
+      }
+      p{
+        color: gold;
+        font-size: 20px;
+      }
+      b{
+        color: gold;
+      }
+      #details{
+        padding: 0px 0px;
+        margin: 0px 50px;
+      }
+      .container {
+        display: flex; 
+        width: 100%;
+        gap: 10px;
+      }
+      .item {
+        flex: 1; /* Makes both items grow equally to fill the available space */
+      }
+      #error{
+        color: rgb(255, 84, 84);
+      }
+      button{
+        background-color: cornflowerblue;
+        padding: 10px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        border: none;
+        color: whitesmoke;
+      }
+      button:hover{
+        background-color: rgba(100, 148, 237, 0.689);
+        transition: 0.3s;
+      }
+      form{
+        text-align: center;
+        font-weight: bold;
+      }
+      table{
+        text-align: center;
+        margin: 0px auto;
+      }
+      table td,
+      table th{
+        padding: 10px;
+      }
+      table input:hover{
+        cursor: pointer;
+      }
+      input[disabled]{
+        opacity: 0.5; 
+        cursor: not-allowed;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+        <div class="nav-left">
+        <ul>
+            <li><a href="/index.html">Home</a></li>
+            <li><a class="active" href="/movie">Movies</a></li>
+            <li>
+              <form id="search" action="/movie/search-movie" method="GET">
+                <label for="search">Search Movie:</label>
+                <input type="text" name="search" placeholder="search by title">
+                <button type="submit">Search</button>
+              </form>
+            </li>
+        </ul>
+        </div>
+        <div class="nav-right">
+        <!-- Check if user is currently logged in -->
+        <%if (user){%>
+            <ul>
+                <!--Check if user is an admin-->
+                <%if (user.role==="admin") {%>
+                    <li><a href="/account/admin-tool">Admin Tools</a></li>
+                <%}%>
+                <li><a href="/review/watchlist">My WatchList</a></li>
+                <li><a href="/account/profile">Edit Profile</a></li>
+                <li><a href="/account/register">New Account</a></li>
+                <li><a id="logout" href="/account/logout">Logout</a></li>
+            </ul>
+            <span>Welcome, <%= user.username %></span>
+        <%} else {%>
+            <ul>
+                <li><a href="/account/login">Login</a></li>
+                <li><a href="/account/register">Register</a></li>
+            </ul>
+        <%}%> 
+        </div>
+    </nav>
+    <%if(result){ %>
+      <div id="details">
+        <h2><%= result.title %></h2>
+        <hr>
+        <br>
+        <div class="container">
+          <div class="item">
+            <img src="/images/<%=result.img || temp.png%>" alt="<%=result.img%>">
+          </div>
+          <div class="item">
+            <p><strong>Buy Tickets</strong></p>
+            <form action="/booking" method="GET">
+              <input type="hidden" name="movieid" value="<%=result._id%>">
+              <b>Date: </b>
+              <input type="date" name="bookingDate" id="bookingDate" required>&nbsp;&nbsp;&nbsp;&nbsp;
+              <b>Time: </b>
+              <select name="bookingTime" required>
+                <option value="">Select Time</option>
+                <option value="10:00">10:00 AM</option>
+                <option value="12:00">12:00 PM</option>
+                <option value="14:00">02:00 PM</option>
+                <option value="16:00">04:00 PM</option>
+                <option value="18:00">06:00 PM</option>
+                <option value="20:00">08:00 PM</option>
+              </select>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="submit">Select Timeslot</button>
+            </form>
+            <form action="/booking" method="POST"> 
+              <input type="hidden" value="<%=result._id%>" name="movieid">
+              <input type="hidden" value="<%=result.title%>" name="title">
+              <input type="hidden" value="<%=result.img%>" name="img">
+              <input type="hidden" value="<%=bookingDate%>" name="bookingDate">
+              <input type="hidden" value="<%=bookingTime%>" name="bookingTime">
+              <b>Selected Date: </b>
+              <%= !bookingDate ? 'Not Selected' : bookingDate %>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>Selected Time: </b>
+              <%= !bookingTime ? 'Not Selected' : bookingTime %>
+              <div><p><strong>SCREEN</strong></p></div>
+              <hr><br>
+              <table border="1">
+                <th>Category</th>
+                <th colspan="5">Seat Layout</th>
+                <tr>
+                  <td>A</td>
+                  <td><input type="checkbox" name="seat" value="A1" <%= mySeats.includes('A1') ? 'checked' : ''%> <%= resultSeats.includes('A1') ? 'disabled' : ''%> >1</td>
+                  <td><input type="checkbox" name="seat" value="A2" <%= mySeats.includes('A2') ? 'checked' : ''%> <%= resultSeats.includes('A2') ? 'disabled' : ''%> >2</td>
+                  <td><input type="checkbox" name="seat" value="A3" <%= mySeats.includes('A3') ? 'checked' : ''%> <%= resultSeats.includes('A3') ? 'disabled' : ''%> >3</td>
+                  <td><input type="checkbox" name="seat" value="A4" <%= mySeats.includes('A4') ? 'checked' : ''%> <%= resultSeats.includes('A4') ? 'disabled' : ''%> >4</td>
+                  <td><input type="checkbox" name="seat" value="A5" <%= mySeats.includes('A5') ? 'checked' : ''%> <%= resultSeats.includes('A5') ? 'disabled' : ''%> >5</td>
+                </tr>
+                <tr>
+                  <td>B</td>
+                  <td><input type="checkbox" name="seat" value="B1" <%= mySeats.includes('B1') ? 'checked' : ''%> <%= resultSeats.includes('B1') ? 'disabled' : ''%> >1</td>
+                  <td><input type="checkbox" name="seat" value="B2" <%= mySeats.includes('B2') ? 'checked' : ''%> <%= resultSeats.includes('B2') ? 'disabled' : ''%> >2</td>
+                  <td><input type="checkbox" name="seat" value="B3" <%= mySeats.includes('B3') ? 'checked' : ''%> <%= resultSeats.includes('B3') ? 'disabled' : ''%> >3</td>
+                  <td><input type="checkbox" name="seat" value="B4" <%= mySeats.includes('B4') ? 'checked' : ''%> <%= resultSeats.includes('B4') ? 'disabled' : ''%> >4</td>
+                  <td><input type="checkbox" name="seat" value="B5" <%= mySeats.includes('B5') ? 'checked' : ''%> <%= resultSeats.includes('B5') ? 'disabled' : ''%> >5</td>
+                </tr>
+                <tr>
+                  <td>C</td>
+                  <td><input type="checkbox" name="seat" value="C1" <%= mySeats.includes('C1') ? 'checked' : ''%> <%= resultSeats.includes('C1') ? 'disabled' : ''%> >1</td>
+                  <td><input type="checkbox" name="seat" value="C2" <%= mySeats.includes('C2') ? 'checked' : ''%> <%= resultSeats.includes('C2') ? 'disabled' : ''%> >2</td>
+                  <td><input type="checkbox" name="seat" value="C3" <%= mySeats.includes('C3') ? 'checked' : ''%> <%= resultSeats.includes('C3') ? 'disabled' : ''%> >3</td>
+                  <td><input type="checkbox" name="seat" value="C4" <%= mySeats.includes('C4') ? 'checked' : ''%> <%= resultSeats.includes('C4') ? 'disabled' : ''%> >4</td>
+                  <td><input type="checkbox" name="seat" value="C5" <%= mySeats.includes('C5') ? 'checked' : ''%> <%= resultSeats.includes('C5') ? 'disabled' : ''%> >5</td>
+                </tr>
+                <tr>
+                  <td>D</td>
+                  <td><input type="checkbox" name="seat" value="D1" <%= mySeats.includes('D1') ? 'checked' : ''%> <%= resultSeats.includes('D1') ? 'disabled' : ''%> >1</td>
+                  <td><input type="checkbox" name="seat" value="D2" <%= mySeats.includes('D2') ? 'checked' : ''%> <%= resultSeats.includes('D2') ? 'disabled' : ''%> >2</td>
+                  <td><input type="checkbox" name="seat" value="D3" <%= mySeats.includes('D3') ? 'checked' : ''%> <%= resultSeats.includes('D3') ? 'disabled' : ''%> >3</td>
+                  <td><input type="checkbox" name="seat" value="D4" <%= mySeats.includes('D4') ? 'checked' : ''%> <%= resultSeats.includes('D4') ? 'disabled' : ''%> >4</td>
+                  <td><input type="checkbox" name="seat" value="D5" <%= mySeats.includes('D5') ? 'checked' : ''%> <%= resultSeats.includes('D5') ? 'disabled' : ''%> >5</td>
+                </tr>
+              </table>
+              <% if (msg) {%>
+                <br>
+                <span id="error"><%= msg %></span>
+                <br>
+              <% } %>
+              <br>
+              <span style="color: whitesmoke; background-color: rgb(67, 67, 255); padding: 5px;">My Seats: <%= mySeats.length%></span>
+              <span style="color: #333; background-color: cornflowerblue; padding: 5px;">Seats currently occupied: <%= resultSeats.length + mySeats.length%></span>
+              <br><br>
+              <button type="submit">Purchase Tickets</button>
+            </form>
+          </div>
+        </div>
+    <% }else if(result===null){%>
+      <p>Movie not found.</p>
+    <%} %>
+  </body>
+    <script>
+      // Only allow user to book next day onward's movie screening
+      const today = new Date();
+      today.setDate(today.getDate() + 1);
+      const [formattedDate] = today.toISOString().split('T');
+      const dateInput = document.getElementById('bookingDate');
+      dateInput.setAttribute('min', formattedDate);
+    </script>
+</html>
