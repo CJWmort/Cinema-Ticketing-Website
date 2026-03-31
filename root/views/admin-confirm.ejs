@@ -95,37 +95,36 @@
           <%}%> 
         </div>
     </nav>
-    <% if (userList.length === 0) { %>
-        <p>No Users found. </p>
-    <% } else { %>
-    <div class="profile">
-        <h2>All Users</h2>
-        <ul id="admin-profile">
-        <h3 style="margin-bottom: 10px; color: gold; border-bottom: 1px solid #ccc;">Admin List</h3>
-            <% userList.forEach(account => { %>
-                <% if (account.role === "admin") { %>
-                <li>
-                    <a href="/account/user/<%=account._id%>"><%=account.username%></a>
-                    <a href="/account/admin-confirm?id=<%= account._id %>&type=demote-user" style="color: rgb(255, 84, 84); margin-right: 15px; margin-left: 15px">
-                        Demote to User</a>
-                </li>
-            <% }}); %>
-            </ul>
-            <ul id="user-profile">
-        <h3 style="margin-bottom: 10px; color: gold; border-bottom: 1px solid #ccc;">User List</h3>
-            <% userList.forEach(account => { %>
-                <% if (account.role === "user") { %>
-                <li>
-                    <a href="/account/user/<%=account._id%>"><%=account.username%></a>
-                    <a href="/account/admin-confirm?id=<%= account._id %>&type=promote-user" style="color: cornflowerblue; margin-right: 15px; margin-left: 15px">
-                        Promote to Admin</a>
-                    <a href="/account/admin-confirm?id=<%= account._id %>&type=delete-user" style="color: rgb(255, 84, 84)">
-                        Delete</a>
-                </li>
-            <% }}); %>
+<div style="max-width: 400px; margin: 50px auto; text-align: center; font-family: sans-serif; border: 1px solid #ccc; padding: 20px; border-radius: 8px;">
+    <h2 style="color: #d9534f;">Security Verification</h2>
     
-        </ul>
-    </div><% } %>
+    <p style="color : gold">You are attempting to: <br>
+       <strong><%= actionType.replace('-', ' ').toUpperCase() %></strong>
+    </p>
+    
+    <p style="color : gold">Target: <strong><%= displayName %></strong></p>
+
+    <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+
+    <form action="/account/admin-confirm" method="POST">
+        <input type="hidden" name="targetId" value="<%= targetId %>">
+        <input type="hidden" name="actionType" value="<%= actionType %>">
+        
+        <div style="margin-bottom: 20px;">
+            <label for="adminPassword" style="display: block; margin-bottom: 8px;">Confirm Admin Password:</label>
+            <input type="password" name="adminPassword" id="adminPassword" required autofocus 
+                   style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+        </div>
+
+        <button type="submit" style="background-color: #d9534f; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; width: 100%;">
+            Authorize Action
+        </button>
+        
+        <div style="margin-top: 15px;">
+            <a href="javascript:history.back()" style="color: #666; text-decoration: none; font-size: 14px;">Cancel and Go Back</a>
+        </div>
+    </form>
+</div>
 
         <br>
   </body>

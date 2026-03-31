@@ -1,6 +1,7 @@
 // Get Service model
 const Movie = require('../models/movie-model');
 const Review = require('../models/review-model');
+const Booking = require('../models/booking-model');
 
 // Controller function to get all the documents in the db and display it
 exports.moviesGet = async (req, res) => {
@@ -105,17 +106,5 @@ exports.manageMovieGet = async (req,res) => {
     } catch (error) {
         console.error(error);
         res.send("Error fetching movieList")
-    }
-};
-exports.deleteMovie = async (req,res) => {
-    try {
-        const movieid = req.query.movieid;
-        let deleteCheck = await Movie.deleteOne(movieid);
-        if (deleteCheck.deletedCount===1) {
-            res.redirect("/movie/movie-manage");
-        }
-    } catch (error) {
-        console.error(error);
-        res.send("Error deleting Movie")
     }
 };

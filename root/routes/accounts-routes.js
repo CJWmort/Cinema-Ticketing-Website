@@ -34,6 +34,6 @@ router.get("/admin-tool", authMiddleware.isAdmin, accountsController.adminTool);
 
 router.get("/user-manage",authMiddleware.isAdmin,accountsController.userList); //manage user page for admins
 
-router.get("/user-change",authMiddleware.isAdmin,accountsController.userChangeRole); //promote or demote admins
-
+router.get("/admin-confirm",authMiddleware.isAdmin,accountsController.adminActionGet); // Admin action authroization
+router.post("/admin-confirm",authMiddleware.isAdmin,accountsController.adminActionPost);
 module.exports = router;

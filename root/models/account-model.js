@@ -77,3 +77,6 @@ exports.retrieveAll = function () {
 exports.changeRole = function(id,role) {
     return Account.updateOne({_id:id},{role:role});
 };
+exports.deleteAccountByID = function(id) {
+    return Account.deleteOne({_id:id});
+};
