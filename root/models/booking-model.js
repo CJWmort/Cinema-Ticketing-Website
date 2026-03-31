@@ -9,6 +9,10 @@ const BookingSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    username:{
+        type: String,
+        required: true
+    },
     date: {
         type: String,
         required: true
@@ -54,4 +58,14 @@ exports.findOccupiedSeats = function(movieid, date, time) {
 exports.deleteBooking = function(bookingid, userid) {
     // require userid to delete booking for added security
     return Booking.deleteOne({_id: bookingid, userid: userid});
+};
+
+// Delete all bookings from a user
+exports.deleteUserBooking = function(userid) {
+    return Booking.deleteMany({userid: userid});
+};
+
+// Delete all bookings for a movie
+exports.deleteMovieBooking = function(movieid) {
+    return Booking.deleteMany({movieid: movieid});
 };

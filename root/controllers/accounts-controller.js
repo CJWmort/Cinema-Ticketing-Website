@@ -2,6 +2,7 @@
 const Account = require('../models/account-model');
 const Review = require('../models/review-model') 
 const Movie = require('../models/movie-model') 
+const Booking = require('../models/booking-model') 
 // Bcrypt used to Hash and protect passwords
 const bcrypt = require('bcrypt');
 
@@ -213,6 +214,9 @@ exports.deleteacctPost = async (req, res) => {
 
     // remove all reviews by user
     await Review.removedeletedusers(userid);
+    
+    // remove all bookings by user
+    await Booking.deleteUserBooking(userid);
 
     // delete account
     await Account.deleteacct(email);
