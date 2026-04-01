@@ -133,17 +133,17 @@
          <h3>👎 Downvotes: <%= downvotes %></h3>
          <%if (user){%>
           <form action="/review/vote" method="POST">
-            <input type="hidden" name="movieid" value="<%= result._id %>">
+            <input type="hidden" name="movieid" value="<%= result._id.toString() %>">
             <input type="hidden" name="vote" value="1">
             <button type="submit"
-            <%= myReview && myReview.rating === 1 ? 'style="background-color: lightgreen;"' : '' %>>
+            <%= myVote && myVote.vote === 1 ? 'style="background-color: lightgreen;"' : '' %>>
             👍 Upvote</button>
           </form>
           <form action="/review/vote" method="POST">
-            <input type="hidden" name="movieid" value="<%= result._id %>">
+            <input type="hidden" name="movieid" value="<%= result._id.toString() %>">
             <input type="hidden" name="vote" value="-1">
             <button type="submit"
-            <%= myReview && myReview.rating === -1 ? 'style="background-color: rgb(238, 167, 144);"' : '' %>>
+            <%=  myVote && myVote.vote === -1 ? 'style="background-color: rgb(238, 167, 144);"' : '' %>>
             👎 Downvote</button>
           </form>
         <% } else {%>

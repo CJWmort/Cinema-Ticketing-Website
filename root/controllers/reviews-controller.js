@@ -1,5 +1,6 @@
 const Movie = require('../models/movie-model');
 const Review = require('../models/review-model');
+const Vote = require('../models/vote-model');
 
 // Display selected movie details and reviews
 exports.reviewGet = async (req, res) => {
@@ -11,21 +12,24 @@ exports.reviewGet = async (req, res) => {
     } else{
       let result = await Movie.findByID(movieid); // Fetch the selected movie details
       let reviewResult = await Review.findAllReview(movieid) // Fetch the selected movie reviews
-      const upvotes = reviewResult.filter(r => r.rating === 1).length;
-      const downvotes = reviewResult.filter(r => r.rating === -1).length;
+      const votes = await Vote.find({movieid});
+      const upvotes = votes.filter(v => v.vote === 1).length;
+      const downvotes = votes.filter(v => v.vote === -1).length;
+      let myVote = null;
       let myReview = undefined;
       if (req.session.user){
         myReview = await Review.findMyReview(movieid, req.session.user.id); // Find single the review for movie that belongs to user
+        myVote = await Vote.findOne({movieid, userid: req.session.user.id});
         if (!myReview){
           const emptyReview = { //initialize empty review values for users who have not reviewed
             watched: undefined,
             rating: null,
             review: ''
           }
-          return res.render("review", { msg, result, reviewResult, myReview: emptyReview, user: req.session.user, upvotes, downvotes }); 
+          return res.render("review", { msg, result, reviewResult, myReview: emptyReview, user: req.session.user, upvotes, downvotes, myVote }); 
         }
       }
-      return res.render("review", { msg, result, reviewResult, myReview, user: req.session.user, upvotes, downvotes }); 
+      return res.render("review", { msg, result, reviewResult, myReview, user: req.session.user, upvotes, downvotes, myVote }); 
     }
   } catch (error) {
     console.error(error);
@@ -100,21 +104,18 @@ exports.watchlistGet = async (req, res) => {
 exports.voteMovie = async (req, res) => {
   try {
     const { movieid, vote } = req.body;
-    const userid = req.session.user?._id;
+    const userid = req.session.user.id;
+  console.log("Session user object:", req.session.user);
 
     if(!userid) {
       return res.redirect(`/review?movieid=${movieid}&msg=Please log in to vote`);
     }
-    let existingReview = await Review.findOne({ movieid, userid });
 
-    if (existingReview) {
-      existingReview.rating = parseInt(vote, 10);
-      await existingReview.save();
-    } else {
-      await Review.create({
-        movieid, userid, rating: parseInt(vote, 10)
-      });
-    }
+    await Vote.findOneAndUpdate(
+      { movieid, userid },
+      { vote: parseInt(vote, 10) },
+      {upsert: true, returnDocument: 'after'}
+    );
     res.redirect(`/review?movieid=${movieid}`);
   } catch (error) {
     console.error(error);
