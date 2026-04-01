@@ -1,6 +1,7 @@
 // Get Service model
 const Movie = require('../models/movie-model');
 const Review = require('../models/review-model');
+const Booking = require('../models/booking-model');
 
 // Controller function to get all the documents in the db and display it
 exports.moviesGet = async (req, res) => {
@@ -97,4 +98,13 @@ exports.createMoviesPost = async (req,res) => {
         console.error(error);
         res.send("Error adding movie to database");
     };
+};
+exports.manageMovieGet = async (req,res) => {
+    try {
+    const movieList = await Movie.retrieveAll();
+    res.render("movie-manage",{movieList: movieList ,user:req.session.user});
+    } catch (error) {
+        console.error(error);
+        res.send("Error fetching movieList")
+    }
 };

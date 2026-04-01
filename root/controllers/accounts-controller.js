@@ -279,3 +279,74 @@ exports.changepfpPost = async (req,res) =>{
     });
   }
 };
+exports.userList = async (req,res) => {
+    const userList = await Account.retrieveAll();
+    res.render("user-manage",{userList : userList, user : req.session.user});
+};
+exports.adminActionGet = async (req,res) => {
+    const { id, type } = req.query;
+    let displayName = "";
+
+    if (type.includes('user')) {
+        const user = await Account.findByID(id);
+        displayName = user.username;
+    } else if (type.includes('movie')) {
+        const movie = await Movie.findByID(id);
+        displayName = movie.title;
+    }
+
+    res.render('admin-confirm', { 
+        targetId: id, 
+        actionType: type, 
+        displayName: displayName,
+        user : req.session.user
+    })
+};
+exports.adminActionPost = async (req,res) => {
+    const { targetId, actionType, adminPassword } = req.body;
+    const adminUser = await Account.findByID(req.session.user.id);
+    const isMatch = await bcrypt.compare(adminPassword, adminUser.password);
+    if (!isMatch) {
+        return res.status(403).send("Incorrect admin password. Action denied.");
+    }
+
+    try {
+        switch (actionType) {
+            case 'delete-user':
+                // remove all bookings by user
+                await Booking.deleteByUser(targetId);
+                // remove all reviews by user
+                await Review.removedeletedusers(targetId);
+                await Account.deleteAccountByID(targetId);
+                return res.redirect("/account/user-manage");
+
+            case 'promote-user':
+                await Account.changeRole(targetId,"admin");
+                return res.redirect("/account/user-manage");
+            case 'demote-user':
+                await Account.changeRole(targetId,"user");
+                if (adminUser.id === targetId) { //checks if user demoted themselves
+                    req.session.user.role = "user"; //updat user role
+                    return req.session.save(()=> {
+                        return res.redirect("/"); //redirect back to homepage
+                    })
+                } else {
+                    return res.redirect("/account/user-manage");
+                }
+            case 'delete-movie':
+                // remove all bookings of movie
+                await Booking.deleteByMovie(targetId);
+                // remove all reviews of movie
+                await Review.deleteByMovie(targetId);
+                await Movie.deleteOne(targetId);
+                return res.redirect("/movie/movie-manage");
+
+            default:
+                return res.status(400).send("Unknown action type.");
+        }
+
+        res.redirect("/");
+    } catch (err) {
+        res.status(500).send("An error occurred while processing the request.");
+    }
+}

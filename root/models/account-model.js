@@ -71,5 +71,12 @@ exports.findByID = function (id) {
     return Account.findById(id);
 };
 
-
-
+exports.retrieveAll = function () {
+    return Account.find();
+};
+exports.changeRole = function(id,role) {
+    return Account.updateOne({_id:id},{role:role});
+};
+exports.deleteAccountByID = function(id) {
+    return Account.deleteOne({_id:id});
+};

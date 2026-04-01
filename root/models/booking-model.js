@@ -59,13 +59,12 @@ exports.deleteBooking = function(bookingid, userid) {
     // require userid to delete booking for added security
     return Booking.deleteOne({_id: bookingid, userid: userid});
 };
-
-// Delete all bookings from a user
-exports.deleteUserBooking = function(userid) {
-    return Booking.deleteMany({userid: userid});
+// Deletes all bookings for a user
+exports.deleteByUser = function(userid) {
+    return Booking.deleteMany({userid:userid});
 };
 
-// Delete all bookings for a movie
-exports.deleteMovieBooking = function(movieid) {
-    return Booking.deleteMany({movieid: movieid});
+// Deletes all bookings for a movie
+exports.deleteByMovie = function(movieid) {
+    return Booking.deleteMany({movieid:movieid});
 };
