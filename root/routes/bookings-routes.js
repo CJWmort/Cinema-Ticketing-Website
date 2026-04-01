@@ -10,5 +10,4 @@ router.get("/history", authMiddleware.isLoggedIn, bookingsController.bookinghist
 
 router.get("/delete", authMiddleware.isLoggedIn, bookingsController.bookingDelete);
 
-// EXPORT
 module.exports = router;

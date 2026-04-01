@@ -254,11 +254,11 @@ exports.visitothersGet = async (req, res) => {
     res.status(500).send("Server error");
   }
 };
+
 exports.adminTool = async (req,res) => {
     const msg = req.query.msg;
     res.render('admin-tool', { msg, user: req.session.user });
 }
-
 
 exports.changepfpGet = async (req,res) =>{
   const currentpfp = req.session.user.profilepic;
@@ -279,10 +279,12 @@ exports.changepfpPost = async (req,res) =>{
     });
   }
 };
+
 exports.userList = async (req,res) => {
     const userList = await Account.retrieveAll();
     res.render("user-manage",{userList : userList, user : req.session.user});
 };
+
 exports.adminActionGet = async (req,res) => {
     const { id, type } = req.query;
     let displayName = "";
@@ -302,6 +304,7 @@ exports.adminActionGet = async (req,res) => {
         user : req.session.user
     })
 };
+
 exports.adminActionPost = async (req,res) => {
     const { targetId, actionType, adminPassword } = req.body;
     const adminUser = await Account.findByID(req.session.user.id);
@@ -344,8 +347,6 @@ exports.adminActionPost = async (req,res) => {
             default:
                 return res.status(400).send("Unknown action type.");
         }
-
-        res.redirect("/");
     } catch (err) {
         res.status(500).send("An error occurred while processing the request.");
     }

@@ -36,4 +36,5 @@ router.get("/user-manage",authMiddleware.isAdmin,accountsController.userList); /
 
 router.get("/admin-confirm",authMiddleware.isAdmin,accountsController.adminActionGet); // Admin action authroization
 router.post("/admin-confirm",authMiddleware.isAdmin,accountsController.adminActionPost);
+
 module.exports = router;
