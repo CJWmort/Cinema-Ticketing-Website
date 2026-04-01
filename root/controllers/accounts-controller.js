@@ -114,13 +114,16 @@ exports.profileGet = async (req, res) => {
 
 // Update the current logged in user's profile details (username, email)
 exports.profilePost = async (req, res) => {
+  const userid = req.session.user.id;
   const email = req.session.user.email; // Find by the email of the current logged in user
   const newUsername = req.body.username;
   const newEmail = req.body.email;
   const newbio = req.body.bio;
   
   try {
-    let success = await Account.updateUser(email, newUsername, newEmail , newbio);
+    await Account.updateUser(email, newUsername, newEmail , newbio);
+    await Review.updateAllReview(userid, newUsername);
+    await Booking.updateAllBooking(userid, newUsername);
     
     // Update the username, email and bio session variables
     req.session.user.username = newUsername;

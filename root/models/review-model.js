@@ -43,7 +43,12 @@ const Review = mongoose.model('Review', ReviewSchema, 'reviews');
 
 // "$set" ensures only specific fields are modified, preserving the rest of the document data.
 exports.newReview = function(movieid, userid, newReview) {
-    return Review.findOneAndUpdate({movieid: movieid, userid: userid}, {$set: newReview}, {upsert: true})
+    return Review.findOneAndUpdate({movieid: movieid, userid: userid}, {$set: newReview}, {upsert: true});
+};
+
+// Update all review username for user when they change username
+exports.updateAllReview = function(userid, username) {
+    return Review.updateMany({userid: userid}, { $set: { username: username } });
 };
 
 // Display all reviews for a specified movie and sort by latest review ('updatedAt' descending order) 

@@ -44,6 +44,11 @@ exports.newBooking = function(userid, movieid, date, time, booking) {
     return Booking.findOneAndUpdate({userid: userid, movieid: movieid, date: date, time: time}, {$set: booking}, {upsert: true})
 };
 
+// Update all booking username for user when they change username
+exports.updateAllBooking = function(userid, username) {
+    return Booking.updateMany({userid: userid}, { $set: { username: username } });
+};
+
 // Fetch all account's movie booking
 exports.findBooking = function(userid) {
     return Booking.find({userid}).sort('date time -updatedAt').exec(); // sort by Ascending date, Ascending time, Descending updatedAt
