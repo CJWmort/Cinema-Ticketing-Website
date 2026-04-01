@@ -9,8 +9,6 @@ router.get("/search-movie", moviesController.searchMovies);
 router.get("/movie-edit",authMiddleware.isAdmin, moviesController.editMoviesGet); //admin edit movie page
 router.post("/movie-edit",authMiddleware.isAdmin,moviesController.editMoviesPost);
 
-
-// EXPORT
 router.get("/movie-create",authMiddleware.isAdmin,moviesController.createMoviesGet); //admin create movie page
 router.post("/movie-create",authMiddleware.isAdmin,moviesController.createMoviesPost);
 
