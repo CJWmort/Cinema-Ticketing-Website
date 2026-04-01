@@ -2,6 +2,12 @@
 <html>
 <head>
     <title>Admin Reports</title>
+    <style>
+        table td,
+        table th{
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
     <h1>Admin - Reports</h1>
@@ -12,6 +18,7 @@
         <label><input type="checkbox" name="status" value="deleted"checked > Deleted</label><br>
         <label><input type="checkbox" name="status" value="dismissed" checked> Dismissed</label><br>
         <button type="submit">Filter</button>
+        <button onclick="history.back()">Go Back</button>
     </form>
 
     <hr>
@@ -20,7 +27,7 @@
         <table border="1">
             <tr>
                 <th>Report ID</th>
-                <th>Reported</th>
+                <th>User Reported</th>
                 <th>Reported By</th>
                 <th>Movie Title</th>
                 <th>Review</th>
@@ -31,9 +38,9 @@
 
             <% reports.forEach(report => { %>
                 <tr>
-                    <td><%= report._id %></td>
-                    <td><%= report.reportedby_username %></td>
+                    <td><%= report._id %></td>                   
                     <td><%= report.reported_username %></td>
+                    <td><%= report.reportedby_username %></td>
                     <td><%= report.movieid %></td>
                     <td><%= report.review %></td>
                     <td><%= report.description %></td>
