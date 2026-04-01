@@ -11,4 +11,7 @@ router.post("/delete", reviewsController.reviewDelete);
 
 router.get("/watchlist", authMiddleware.isLoggedIn, reviewsController.watchlistGet);
 
+// POST route for movie voting
+router.post("/vote", reviewsController.voteMovie);
+
 module.exports = router;
