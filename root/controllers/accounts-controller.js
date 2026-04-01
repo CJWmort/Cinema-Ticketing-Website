@@ -214,6 +214,9 @@ exports.deleteacctPost = async (req, res) => {
 
     // remove all reviews by user
     await Review.removedeletedusers(userid);
+    
+    // remove all bookings by user
+    await Booking.deleteUserBooking(userid);
 
     // delete account
     await Account.deleteacct(email);

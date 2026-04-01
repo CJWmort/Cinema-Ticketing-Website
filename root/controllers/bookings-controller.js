@@ -59,6 +59,7 @@ exports.bookingformPost = async (req, res) => {
   const seat = req.body.seat;
   const title = req.body.title;
   const img = req.body.img;
+  const username = req.session.user.username;
 
   // Redirect back to booking-form if no date or time selected
   if (!date || !time){
@@ -78,7 +79,8 @@ exports.bookingformPost = async (req, res) => {
       time: time,
       seat: normaliseArray(seat),
       title: title,
-      img: img
+      img: img,
+      username: username
     };
     let result = await Booking.newBooking(userid, movieid, date, time, booking);
     if (result){ // This means that this booking record already exists, we Update

@@ -128,7 +128,7 @@
                             <b>Seat(s): </b><%= record.seat %><br><br>
                             <b>Last Modified: </b><%= record.updatedAt.toLocaleString('en-GB') %><br><br>
                             <a id="edit" href="/booking?movieid=<%=record.movieid%>&bookingDate=<%=record.date%>&bookingTime=<%=record.time%>">Edit</a>
-                            <a id="delete" href="/booking/delete?bookingid=<%=record._id%>">Refund all bookings</a>
+                            <a id="delete" href="/booking/delete?bookingid=<%=record._id%>">Refund booking</a>
                         </div>       
                     </div>
                 <% }) %>
