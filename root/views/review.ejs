@@ -79,6 +79,16 @@
       a{
         color: whitesmoke;
       }
+      #buyticket{
+        background-color: cornflowerblue;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+      #buyticket:hover{
+        background-color: rgba(100, 148, 237, 0.689);
+        transition: 0.3s;
+      }
     </style>
   </head>
   <body>
@@ -104,6 +114,7 @@
                 <%if (user.role==="admin") {%>
                     <li><a href="/account/admin-tool">Admin Tools</a></li>
                 <%}%>
+                <li><a href="/booking/history">Booking History</a></li>
                 <li><a href="/review/watchlist">My WatchList</a></li>
                 <li><a href="/account/profile">Edit Profile</a></li>
                 <li><a href="/account/register">New Account</a></li>
@@ -135,6 +146,27 @@
         <%} else {%>
           <h3>Overall Rating: Not Rated</h3>
         <% } %>
+        <!-- Upvote Downvote buttons -->
+         <h3>👍 Upvotes: <%= upvotes %></h3>
+         <h3>👎 Downvotes: <%= downvotes %></h3>
+         <%if (user){%>
+          <form action="/review/vote" method="POST">
+            <input type="hidden" name="movieid" value="<%= result._id.toString() %>">
+            <input type="hidden" name="vote" value="1">
+            <button type="submit"
+            <%= myVote && myVote.vote === 1 ? 'style="background-color: lightgreen;"' : '' %>>
+            👍 Upvote</button>
+          </form>
+          <form action="/review/vote" method="POST">
+            <input type="hidden" name="movieid" value="<%= result._id.toString() %>">
+            <input type="hidden" name="vote" value="-1">
+            <button type="submit"
+            <%=  myVote && myVote.vote === -1 ? 'style="background-color: rgb(238, 167, 144);"' : '' %>>
+            👎 Downvote</button>
+          </form>
+        <% } else {%>
+          <p>You must be logged in to vote.</p>
+        <% } %>
         <hr>
         <br>
         <div class="container">
@@ -153,10 +185,14 @@
             <%= result.description %><br>
             <!--Check if user is admin, if so allow movie edits-->
             <% if (user && user.role==="admin") { %>
-                    <form action="/movie/movie-edit?movieid=<%= result._id %>" method="GET">
-                        <input type="hidden" name="movieid" value="<%=result._id%>">
-                    <button type="submit">Edit</button>
+                <form action="/movie/movie-edit?movieid=<%= result._id %>" method="GET">
+                  <input type="hidden" name="movieid" value="<%=result._id%>">
+                  <button type="submit">Edit</button>
                 </form>
+            <% } %><br>
+            <!--Check if user is logged in, if so allow ticket purchase-->
+            <% if (user) { %>
+                <a id="buyticket" href="/booking?movieid=<%=result._id%>">Buy Tickets</a>
             <% } %><br>
           </div>
         </div>

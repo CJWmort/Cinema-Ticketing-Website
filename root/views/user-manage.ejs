@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Admin Configuration</title>
+    <title>Manage Movies</title>
     <link rel="stylesheet" href="/styles.css">
     <style>
       h2{
@@ -82,7 +82,7 @@
                 <%}%>
                 <li><a href="/booking/history">Booking History</a></li>
                 <li><a href="/review/watchlist">My WatchList</a></li>
-                <li><a href="/account/profile">Edit Profile</a></li>
+                <li><a href="/account/profile">Profile</a></li>
                 <li><a href="/account/register">New Account</a></li>
                 <li><a id="logout" href="/account/logout">Logout</a></li>
             </ul>
@@ -95,17 +95,38 @@
           <%}%> 
         </div>
     </nav>
-    
+    <% if (userList.length === 0) { %>
+        <p>No Users found. </p>
+    <% } else { %>
     <div class="profile">
-        <h2>Admin Tools</h2>
-        <ul id="profile">
-            <li><a href="/movie/movie-create">Create Movie</a></li>          
-            <li><a href="/movie/movie-manage">Manage Movies</a></li>
-            <li><a href="/account/user-manage">Manage Users</a></li>
-            <li><a href="/report/admin-report">Manage reports</a></li>
+        <h2>All Users</h2>
+        <ul id="admin-profile">
+        <h3 style="margin-bottom: 10px; color: gold; border-bottom: 1px solid #ccc;">Admin List</h3>
+            <% userList.forEach(account => { %>
+                <% if (account.role === "admin") { %>
+                <li>
+                    <a href="/account/user/<%=account._id%>"><%=account.username%></a>
+                    <a href="/account/admin-confirm?id=<%= account._id %>&type=demote-user" style="color: rgb(255, 84, 84); margin-right: 15px; margin-left: 15px">
+                        Demote to User</a>
+                </li>
+            <% }}); %>
+            </ul>
+            <ul id="user-profile">
+        <h3 style="margin-bottom: 10px; color: gold; border-bottom: 1px solid #ccc;">User List</h3>
+            <% userList.forEach(account => { %>
+                <% if (account.role === "user") { %>
+                <li>
+                    <a href="/account/user/<%=account._id%>"><%=account.username%></a>
+                    <a href="/account/admin-confirm?id=<%= account._id %>&type=promote-user" style="color: cornflowerblue; margin-right: 15px; margin-left: 15px">
+                        Promote to Admin</a>
+                    <a href="/account/admin-confirm?id=<%= account._id %>&type=delete-user" style="color: rgb(255, 84, 84)">
+                        Delete</a>
+                </li>
+            <% }}); %>
+    
         </ul>
-    </div>
+    </div><% } %>
+
         <br>
-    </form>
   </body>
 </html>

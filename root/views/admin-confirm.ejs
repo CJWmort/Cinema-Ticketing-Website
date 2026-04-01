@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Admin Configuration</title>
+    <title>Manage Movies</title>
     <link rel="stylesheet" href="/styles.css">
     <style>
       h2{
@@ -82,7 +82,7 @@
                 <%}%>
                 <li><a href="/booking/history">Booking History</a></li>
                 <li><a href="/review/watchlist">My WatchList</a></li>
-                <li><a href="/account/profile">Edit Profile</a></li>
+                <li><a href="/account/profile">Profile</a></li>
                 <li><a href="/account/register">New Account</a></li>
                 <li><a id="logout" href="/account/logout">Logout</a></li>
             </ul>
@@ -95,17 +95,37 @@
           <%}%> 
         </div>
     </nav>
+<div style="max-width: 400px; margin: 50px auto; text-align: center; font-family: sans-serif; border: 1px solid #ccc; padding: 20px; border-radius: 8px;">
+    <h2 style="color: #d9534f;">Security Verification</h2>
     
-    <div class="profile">
-        <h2>Admin Tools</h2>
-        <ul id="profile">
-            <li><a href="/movie/movie-create">Create Movie</a></li>          
-            <li><a href="/movie/movie-manage">Manage Movies</a></li>
-            <li><a href="/account/user-manage">Manage Users</a></li>
-            <li><a href="/report/admin-report">Manage reports</a></li>
-        </ul>
-    </div>
-        <br>
+    <p style="color : gold">You are attempting to: <br>
+       <strong><%= actionType.replace('-', ' ').toUpperCase() %></strong>
+    </p>
+    
+    <p style="color : gold">Target: <strong><%= displayName %></strong></p>
+
+    <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+
+    <form action="/account/admin-confirm" method="POST">
+        <input type="hidden" name="targetId" value="<%= targetId %>">
+        <input type="hidden" name="actionType" value="<%= actionType %>">
+        
+        <div style="margin-bottom: 20px;">
+            <label for="adminPassword" style="display: block; margin-bottom: 8px;">Confirm Admin Password:</label>
+            <input type="password" name="adminPassword" id="adminPassword" required autofocus 
+                   style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;" placeholder="enter admin password">
+        </div>
+
+        <button type="submit" style="background-color: #d9534f; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; width: 100%;">
+            Authorize Action
+        </button>
+        
+        <div style="margin-top: 15px;">
+            <a href="javascript:history.back()" style="color: #666; text-decoration: none; font-size: 14px;">Cancel and Go Back</a>
+        </div>
     </form>
+</div>
+
+        <br>
   </body>
 </html>

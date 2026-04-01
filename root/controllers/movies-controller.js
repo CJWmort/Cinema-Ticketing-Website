@@ -74,6 +74,7 @@ exports.editMoviesPost = async (req,res) => {
 exports.createMoviesGet = async (req,res) => {
     res.render("movie-create",{msg:null,user:req.session.user});
 }
+
 exports.createMoviesPost = async (req,res) => {
     try {
         const {img,title,description,genre,release,cast,duration,language} = req.body;
@@ -97,4 +98,14 @@ exports.createMoviesPost = async (req,res) => {
         console.error(error);
         res.send("Error adding movie to database");
     };
+};
+
+exports.manageMovieGet = async (req,res) => {
+    try {
+    const movieList = await Movie.retrieveAll();
+    res.render("movie-manage",{movieList: movieList ,user:req.session.user});
+    } catch (error) {
+        console.error(error);
+        res.send("Error fetching movieList")
+    }
 };

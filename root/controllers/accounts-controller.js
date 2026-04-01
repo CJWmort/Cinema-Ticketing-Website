@@ -2,6 +2,7 @@
 const Account = require('../models/account-model');
 const Review = require('../models/review-model') 
 const Movie = require('../models/movie-model') 
+const Booking = require('../models/booking-model') 
 // Bcrypt used to Hash and protect passwords
 const bcrypt = require('bcrypt');
 
@@ -113,13 +114,16 @@ exports.profileGet = async (req, res) => {
 
 // Update the current logged in user's profile details (username, email)
 exports.profilePost = async (req, res) => {
+  const userid = req.session.user.id;
   const email = req.session.user.email; // Find by the email of the current logged in user
   const newUsername = req.body.username;
   const newEmail = req.body.email;
   const newbio = req.body.bio;
   
   try {
-    let success = await Account.updateUser(email, newUsername, newEmail , newbio);
+    await Account.updateUser(email, newUsername, newEmail , newbio);
+    await Review.updateAllReview(userid, newUsername);
+    await Booking.updateAllBooking(userid, newUsername);
     
     // Update the username, email and bio session variables
     req.session.user.username = newUsername;
@@ -213,6 +217,9 @@ exports.deleteacctPost = async (req, res) => {
 
     // remove all reviews by user
     await Review.removedeletedusers(userid);
+    
+    // remove all bookings by user
+    await Booking.deleteByUser(userid);
 
     // delete account
     await Account.deleteacct(email);
@@ -250,11 +257,11 @@ exports.visitothersGet = async (req, res) => {
     res.status(500).send("Server error");
   }
 };
+
 exports.adminTool = async (req,res) => {
     const msg = req.query.msg;
     res.render('admin-tool', { msg, user: req.session.user });
 }
-
 
 exports.changepfpGet = async (req,res) =>{
   const currentpfp = req.session.user.profilepic;
@@ -275,3 +282,75 @@ exports.changepfpPost = async (req,res) =>{
     });
   }
 };
+
+exports.userList = async (req,res) => {
+    const userList = await Account.retrieveAll();
+    res.render("user-manage",{userList : userList, user : req.session.user});
+};
+
+exports.adminActionGet = async (req,res) => {
+    const { id, type } = req.query;
+    let displayName = "";
+
+    if (type.includes('user')) {
+        const user = await Account.findByID(id);
+        displayName = user.username;
+    } else if (type.includes('movie')) {
+        const movie = await Movie.findByID(id);
+        displayName = movie.title;
+    }
+
+    res.render('admin-confirm', { 
+        targetId: id, 
+        actionType: type, 
+        displayName: displayName,
+        user : req.session.user
+    })
+};
+
+exports.adminActionPost = async (req,res) => {
+    const { targetId, actionType, adminPassword } = req.body;
+    const adminUser = await Account.findByID(req.session.user.id);
+    const isMatch = await bcrypt.compare(adminPassword, adminUser.password);
+    if (!isMatch) {
+        return res.status(403).send("Incorrect admin password. Action denied.");
+    }
+
+    try {
+        switch (actionType) {
+            case 'delete-user':
+                // remove all bookings by user
+                await Booking.deleteByUser(targetId);
+                // remove all reviews by user
+                await Review.removedeletedusers(targetId);
+                await Account.deleteAccountByID(targetId);
+                return res.redirect("/account/user-manage");
+
+            case 'promote-user':
+                await Account.changeRole(targetId,"admin");
+                return res.redirect("/account/user-manage");
+            case 'demote-user':
+                await Account.changeRole(targetId,"user");
+                if (adminUser.id === targetId) { //checks if user demoted themselves
+                    req.session.user.role = "user"; //updat user role
+                    return req.session.save(()=> {
+                        return res.redirect("/"); //redirect back to homepage
+                    })
+                } else {
+                    return res.redirect("/account/user-manage");
+                }
+            case 'delete-movie':
+                // remove all bookings of movie
+                await Booking.deleteByMovie(targetId);
+                // remove all reviews of movie
+                await Review.deleteByMovie(targetId);
+                await Movie.deleteOne(targetId);
+                return res.redirect("/movie/movie-manage");
+
+            default:
+                return res.status(400).send("Unknown action type.");
+        }
+    } catch (err) {
+        res.status(500).send("An error occurred while processing the request.");
+    }
+}
