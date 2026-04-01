@@ -76,7 +76,9 @@ nav li a.active {
     border-radius: 5px;
 }
 #search button:hover{
-    cursor: pointer;
     background-color: rgba(100, 148, 237, 0.689);
     transition: 0.3s;
+}
+button:hover{
+    cursor: pointer;
 }

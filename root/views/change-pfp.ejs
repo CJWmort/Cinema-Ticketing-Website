@@ -1,0 +1,71 @@
+<html>
+  <head>
+    <title>Change Profile Picture</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <nav class="navbar">
+        <div class="nav-left">
+          <ul>
+              <li><a href="/index.html">Home</a></li>
+              <li><a href="/movie">Movies</a></li>
+              <li>
+                <form id="search" action="/movie/search-movie" method="GET">
+                  <label for="search"><b>Search Movie:</b></label>
+                  <input type="text" name="search" placeholder="search by title">
+                  <button type="submit">Search</button>
+                </form>
+              </li>
+          </ul>
+        </div>
+        <div class="nav-right">
+          <!-- Check if user is currently logged in -->
+          <%if (user){%>
+            <ul>
+                <!--Check if user is an admin-->
+                <%if (user.role==="admin") {%>
+                    <li><a href="/account/admin-tool">Admin Tools</a></li>
+                <%}%>
+                <li><a href="/booking/history">Booking History</a></li>
+                <li><a href="/review/watchlist">My WatchList</a></li>
+                <li><a class="active" href="/account/profile">Edit Profile</a></li>
+                <li><a href="/account/register">New Account</a></li>
+                <li><a id="logout" href="/account/logout">Logout</a></li>
+            </ul>
+            <span>Welcome, <%= user.username %></span>
+          <%} else {%>
+            <ul>
+                <li><a href="/account/login">Login</a></li>
+                <li><a href="/account/register">Register</a></li>
+            </ul>
+          <%}%> 
+        </div>
+    </nav>
+    <form action="/account/change-pfp" method="POST">
+        <img src="/images/pfp/defaultpfp.jpg">
+        <input type="radio" name="pfp" value="defaultpfp.jpg" 
+            <%= currentpfp === 'defaultpfp.jpg' ? 'checked' : '' %> > default<br>
+            <%# default select if pfp is currently use %>
+
+        <img src="/images/pfp/pfp1.jpg">
+        <input type="radio" name="pfp" value="pfp1.jpg" 
+            <%= currentpfp === 'pfp1.jpg' ? 'checked' : '' %> > pfp1<br> 
+        
+        <img src="/images/pfp/pfp2.jpg">
+        <input type="radio" name="pfp" value="pfp2.jpg" 
+            <%= currentpfp === 'pfp2.jpg' ? 'checked' : '' %> > pfp2<br>
+        
+        <img src="/images/pfp/pfp3.jpg">
+        <input type="radio" name="pfp" value="pfp3.jpg" 
+            <%= currentpfp === 'pfp3.jpg' ? 'checked' : '' %> > pfp3<br>
+
+        <img src="/images/pfp/pfp4.jpg">
+        <input type="radio" name="pfp" value="pfp4.jpg" 
+            <%= currentpfp === 'pfp4.jpg' ? 'checked' : '' %> > pfp4<br>
+
+        <img src="/images/pfp/pfp5.jpg">
+        <input type="radio" name="pfp" value="pfp5.jpg" 
+            <%= currentpfp === 'pfp5.jpg' ? 'checked' : '' %> > pfp5<br>
+
+    <button type="submit">Save</button>
+</form>

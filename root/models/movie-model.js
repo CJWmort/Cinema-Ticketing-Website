@@ -39,6 +39,10 @@ const movieSchema = new mongoose.Schema({
 const Movie = mongoose.model('Movie', movieSchema, 'movies');
 
 // CRUD Methods for Movie
+exports.addMovie = function(newMovie) {
+    return Movie.create(newMovie);
+};
+
 exports.retrieveAll = function() {
     return Movie.find();
 };
@@ -52,9 +56,9 @@ exports.edit = function(id,description,genre,release,cast,duration,language) {
         {description:description,genre:genre,release:release,cast:cast,duration:duration,language:language})
 };
 
+// $regex to find movie that contains the search title
+// $options to find movie ignoring case sensitivity
 exports.findByTitle = function(title) {
-    // $regex to find movie that contains the search title
-    // $options to find movie ignoring case sensitivity
     return Movie.find({title: { $regex: title, $options: 'i' }});
 };
 
@@ -63,6 +67,6 @@ exports.findByTitle = function(title) {
 exports.getMyWatched = function(movieList) {
     return Movie.find({_id: { $in: movieList }});
 };
-
-
-
+exports.deleteOne = function(id) {
+    return Movie.deleteOne({_id:id});
+};

@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Change Password</title>
+    <title>Manage Movies</title>
     <link rel="stylesheet" href="/styles.css">
     <style>
       h2{
@@ -10,7 +10,7 @@
       body{
           background-color: black;
       }
-      #changePwd{
+      #profile{
           background-color: #333;
           color: whitesmoke;
           position: absolute;
@@ -21,10 +21,10 @@
           border-radius: 10px;
           width: 40%;
       }
-      #changePwd div{
+      #profile div{
           text-align: center;
       }
-      #changePwd input{
+      #profile input{
           display: flex;
           padding: 10px;
           background-color: white;
@@ -32,7 +32,7 @@
           border-radius: 5px;
           width: 100%;
       }
-      #changePwd button{
+      #profile button{
           font-size: 14px;
           background-color: cornflowerblue;
           color: whitesmoke;
@@ -40,7 +40,7 @@
           border-radius: 5px;
           border: none;
       }
-      #changePwd button:hover{
+      #profile button:hover{
           transition: 0.3s;
           cursor: pointer;
           background-color: rgba(100, 148, 237, 0.689);
@@ -78,11 +78,11 @@
             <ul>
                 <!--Check if user is an admin-->
                 <%if (user.role==="admin") {%>
-                    <li><a href="/account/admin-tool">Admin Tools</a></li>
+                    <li><a class="active" href="/account/admin-tool">Admin Tools</a></li>
                 <%}%>
                 <li><a href="/booking/history">Booking History</a></li>
                 <li><a href="/review/watchlist">My WatchList</a></li>
-                <li><a class="active" href="/account/profile">Profile</a></li>
+                <li><a href="/account/profile">Profile</a></li>
                 <li><a href="/account/register">New Account</a></li>
                 <li><a id="logout" href="/account/logout">Logout</a></li>
             </ul>
@@ -95,29 +95,38 @@
           <%}%> 
         </div>
     </nav>
-    <form id="changePwd" action="/account/change-password" method="POST">
-        <h2>Change Password</h2>
-        <label for="currentPassword">Current Password:</label>
-        <input type="password" name="currentPassword" placeholder="Current Password" required><br>
+    <% if (userList.length === 0) { %>
+        <p>No Users found. </p>
+    <% } else { %>
+    <div class="profile">
+        <h2>All Users</h2>
+        <ul id="admin-profile">
+        <h3 style="margin-bottom: 10px; color: gold; border-bottom: 1px solid #ccc;">Admin List</h3>
+            <% userList.forEach(account => { %>
+                <% if (account.role === "admin") { %>
+                <li>
+                    <a href="/account/user/<%=account._id%>"><%=account.username%></a>
+                    <a href="/account/admin-confirm?id=<%= account._id %>&type=demote-user" style="color: rgb(255, 84, 84); margin-right: 15px; margin-left: 15px">
+                        Demote to User</a>
+                </li>
+            <% }}); %>
+            </ul>
+            <ul id="user-profile">
+        <h3 style="margin-bottom: 10px; color: gold; border-bottom: 1px solid #ccc;">User List</h3>
+            <% userList.forEach(account => { %>
+                <% if (account.role === "user") { %>
+                <li>
+                    <a href="/account/user/<%=account._id%>"><%=account.username%></a>
+                    <a href="/account/admin-confirm?id=<%= account._id %>&type=promote-user" style="color: cornflowerblue; margin-right: 15px; margin-left: 15px">
+                        Promote to Admin</a>
+                    <a href="/account/admin-confirm?id=<%= account._id %>&type=delete-user" style="color: rgb(255, 84, 84)">
+                        Delete</a>
+                </li>
+            <% }}); %>
+    
+        </ul>
+    </div><% } %>
 
-        <label for="newPassword">New Password:</label>
-        <input type="password" name="newPassword" placeholder="New Password" required><br>
-
-        <label for="cfmNewPassword">Confirm New Password:</label>
-        <input type="password" name="cfmNewPassword" placeholder="Confirm Password" required>
-        <div>
-            <br>
-            <% if (msg != "success") {%>
-                <span id="error"><%= msg %></span>
-            <% } else { %>
-                <span id="success">Success! Password Updated</span>
-            <% } %>
-            <br><br>
-            <a href="/account/profile">back to profile</a>
-            <br><br>
-            <button type="submit">Update Password</button>
-        </div>
         <br>
-    </form>
   </body>
 </html>

@@ -43,7 +43,12 @@ const Review = mongoose.model('Review', ReviewSchema, 'reviews');
 
 // "$set" ensures only specific fields are modified, preserving the rest of the document data.
 exports.newReview = function(movieid, userid, newReview) {
-    return Review.findOneAndUpdate({movieid: movieid, userid: userid}, {$set: newReview}, {upsert: true})
+    return Review.findOneAndUpdate({movieid: movieid, userid: userid}, {$set: newReview}, {upsert: true});
+};
+
+// Update all review username for user when they change username
+exports.updateAllReview = function(userid, username) {
+    return Review.updateMany({userid: userid}, { $set: { username: username } });
 };
 
 // Display all reviews for a specified movie and sort by latest review ('updatedAt' descending order) 
@@ -67,8 +72,22 @@ exports.deleteMyReview = function(movieid, userid) {
     return Review.deleteOne({movieid: movieid, userid: userid});
 };
 
+// automatically remove review if user deactivate their acct
+exports.removedeletedusers = function(userid){
+    return Review.deleteMany({userid: userid})
+};
+
+// find all the reviews that this user gave
+exports.findallreviewbyusers = function(userid){
+    return Review.find({userid: userid}).sort('-updatedAt');
+};
+
 // Fetch all reviews with non-null ratings
 // $ne is (not equal) operator
 exports.findReviewsWithRating = function() {
     return Review.find({rating: { $ne: null }});
+};
+// Deletes all reviews of movie
+exports.deleteByMovie = function(movieid) {
+    return Review.deleteMany({movieid:movieid});
 };

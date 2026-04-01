@@ -54,10 +54,16 @@
           <!-- Check if user is currently logged in -->
           <%if (user){%>
             <ul>
+                <!--Check if user is an admin-->
+                <%if (user.role==="admin") {%>
+                    <li><a href="/account/admin-tool">Admin Tools</a></li>
+                <%}%>
+                <li><a href="/booking/history">Booking History</a></li>
                 <li><a href="/review/watchlist">My WatchList</a></li>
-                <li><a href="/account/profile">Profile</a></li>
+                <li><a href="/account/profile">Edit Profile</a></li>
                 <li><a href="/account/register">New Account</a></li>
                 <li><a id="logout" href="/account/logout">Logout</a></li>
+                
             </ul>
             <span>Welcome, <%= user.username %></span>
           <%} else {%>
@@ -77,7 +83,8 @@
       <% movieList.forEach(movie => { %>
         <div>
           <a href="/review?movieid=<%=movie._id%>">
-            <img src="/images/<%=movie.img%>" alt="<%=movie.img%>">
+            <img src="/images/<%=movie.img || 'temp.png'%>" alt="<%=movie.img%>"
+            onerror="this.onerror=null; this.src='/images/temp.png';">
           </a>
           <p><strong><%= !movie.title ? "No Title: N.A." : movie.title %></strong></p>  
           <%= !movie.duration ? "Duration: N.A." : movie.duration + " minutes" %><br><br>

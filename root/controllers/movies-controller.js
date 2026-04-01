@@ -3,7 +3,7 @@ const Movie = require('../models/movie-model');
 const Review = require('../models/review-model');
 
 // Controller function to get all the documents in the db and display it
-exports.showMovies = async (req, res) => {
+exports.moviesGet = async (req, res) => {
   try {
     const searchQuery = req.query.search;
     let movieList;
@@ -71,3 +71,41 @@ exports.editMoviesPost = async (req,res) => {
     }
 }
 
+exports.createMoviesGet = async (req,res) => {
+    res.render("movie-create",{msg:null,user:req.session.user});
+}
+
+exports.createMoviesPost = async (req,res) => {
+    try {
+        const {img,title,description,genre,release,cast,duration,language} = req.body;
+        if (!title || !img) {
+            return res.render("movie-create",{msg:"Please fill all required fields",user:req.session.user});
+        };
+        const newMovie = {
+            img:img,
+            title:title,
+            description:description ? description :"nill",
+            genre:genre ? genre : "nill",
+            release:release ? release : "nill",
+            cast:cast ? cast : "nill",
+            duration:duration ? duration : 0,
+            language:language ? language : "nill",
+        };
+        await Movie.addMovie(newMovie);
+        res.render("movie-create",{msg:"success",user:req.session.user})
+
+    } catch(error) {
+        console.error(error);
+        res.send("Error adding movie to database");
+    };
+};
+
+exports.manageMovieGet = async (req,res) => {
+    try {
+    const movieList = await Movie.retrieveAll();
+    res.render("movie-manage",{movieList: movieList ,user:req.session.user});
+    } catch (error) {
+        console.error(error);
+        res.send("Error fetching movieList")
+    }
+};

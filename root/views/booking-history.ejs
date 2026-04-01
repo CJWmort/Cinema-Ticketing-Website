@@ -1,0 +1,138 @@
+<html>
+    <head>
+    <title>My Bookings</title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        h2, b{
+            color: gold;
+            text-align: center;
+        }
+        body{
+            background-color: black;
+            color: whitesmoke;
+        }
+        main{
+            margin: 0px 50px;
+        }
+        #success{
+            color: rgb(89, 225, 89);
+            text-align: center;
+            display: block;
+            font-weight: bold;
+        }
+        #browse{
+            text-decoration: none;
+            color: whitesmoke;
+            background-color: #333;
+            display: block;
+            font-weight: bold;
+            padding: 10px 20px;
+            float: left;
+            border-radius: 5px;
+            font-size: 20px;
+        }
+        #browse:hover{
+            background-color: cornflowerblue;
+            transition: 0.3s;
+        }
+        #record{
+            background-color: #333;
+            border: 2px solid goldenrod;
+            margin-bottom: 10px;
+            padding: 10px;
+            display: flex;
+            gap: 10px;
+        }
+        #edit{
+            text-decoration: none;
+            color: whitesmoke;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: cornflowerblue;
+        }
+        #edit:hover{
+            transition: 0.3s;
+            background-color: rgba(100, 148, 237, 0.689);
+        }
+        #delete{
+            text-decoration: none;
+            color: whitesmoke;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: rgb(255, 83, 83);
+        }
+        #delete:hover{
+            transition: 0.3s;
+            background-color: rgb(174, 29, 29);
+        }
+    </style>
+    </head>
+    <body>
+        <nav class="navbar">
+            <div class="nav-left">
+            <ul>
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="/movie">Movies</a></li>
+                <li>
+                    <form id="search" action="/movie/search-movie" method="GET">
+                        <label for="search"><b>Search Movie:</b></label>
+                        <input type="text" name="search" placeholder="search by title">
+                        <button type="submit">Search</button>
+                    </form>
+                </li>
+            </ul>
+            </div>
+            <div class="nav-right">
+            <!-- Check if user is currently logged in -->
+            <%if (user){%>
+                <ul>
+                <!--Check if user is an admin-->
+                <%if (user.role==="admin") {%>
+                    <li><a href="/account/admin-tool">Admin Tools</a></li>
+                <%}%>
+                    <li><a class="active" href="/booking/history">Booking History</a></li>
+                    <li><a href="/review/watchlist">My WatchList</a></li>
+                    <li><a href="/account/profile">Edit Profile</a></li>
+                    <li><a href="/account/register">New Account</a></li>
+                    <li><a id="logout" href="/account/logout">Logout</a></li>
+                </ul>
+                <span>Welcome, <%= user.username %></span>
+            <%} else {%>
+                <ul>
+                    <li><a href="/account/login">Login</a></li>
+                    <li><a href="/account/register">Register</a></li>
+                </ul>
+            <%}%> 
+            </div>
+        </nav>
+        <h2>My Booking History</h2>
+        <% if (msg) {%>
+            <span id="success"><%= msg %></span><br>
+        <%}%>
+        <main>
+            <% if (history.length === 0) { %>
+                <h3>No bookings found.</h3><br>
+                <a id="browse" href="/movie">Browse Movies</a>
+            <% } else { %>
+                <% history.forEach(record => { %>
+                    <div id="record">
+                        <a href="/review?movieid=<%=record.movieid%>" title="Find out more.">
+                            <img src="/images/<%= record.img %>" alt="<%= record.img %>" width="150">
+                        </a>
+                        <div>
+                            <b>Booking ID: </b><%= record._id %><br><br>
+                            <b>Title: </b><%= record.title %><br><br>
+                            <b>Screening Date: </b><%= record.date %><br>
+                            <b>Screening Time: </b><%= record.time %><br>
+                            <br>
+                            <b>Seat(s): </b><%= record.seat %><br><br>
+                            <b>Last Modified: </b><%= record.updatedAt.toLocaleString('en-GB') %><br><br>
+                            <a id="edit" href="/booking?movieid=<%=record.movieid%>&bookingDate=<%=record.date%>&bookingTime=<%=record.time%>">Edit</a>
+                            <a id="delete" href="/booking/delete?bookingid=<%=record._id%>">Refund booking</a>
+                        </div>       
+                    </div>
+                <% }) %>
+            <% } %>
+        </main>
+    </body>
+</html>

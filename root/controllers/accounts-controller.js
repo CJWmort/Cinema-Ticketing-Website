@@ -1,5 +1,8 @@
 // Get Service model
 const Account = require('../models/account-model');
+const Review = require('../models/review-model') 
+const Movie = require('../models/movie-model') 
+const Booking = require('../models/booking-model') 
 // Bcrypt used to Hash and protect passwords
 const bcrypt = require('bcrypt');
 
@@ -29,7 +32,9 @@ exports.loginPost = async (req, res) => {
               id: userFound._id,
               username: userFound.username,
               email: userFound.email,
-              role: userFound.role
+              bio: userFound.bio,
+              role: userFound.role,
+              profilepic: userFound.profilepic
           }
           
           req.session.user = accountFound;
@@ -63,7 +68,8 @@ exports.registerPost = async (req, res) => {
   // Check if Password matches Confirm Password
   if (password != cfmpassword){
     res.render("register", { msg: "Password not matching", username, email, user: req.session.user });
-  } else{
+  } 
+  else{
     try {
       // Password matches, need to hash the Password
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -89,8 +95,13 @@ exports.registerPost = async (req, res) => {
         res.render('register', { msg: "Error creating account", username, email, user: req.session.user });
       }
     } catch (error) {
-      console.log(error);
-      res.render('register', { msg: "This email is already taken", username, email, user: req.session.user });
+      if (error.code === 11000) {
+        // 11000 is duplicate key error code
+        const field = Object.keys(error.keyPattern)[0]; 
+        res.render('register', { msg: `A user with this ${field} already exists`, username, email, user: req.session.user });
+      } else {
+        res.render('register', { msg: "Error creating account", username, email, user: req.session.user });
+      }
     }
   }
 };
@@ -103,20 +114,31 @@ exports.profileGet = async (req, res) => {
 
 // Update the current logged in user's profile details (username, email)
 exports.profilePost = async (req, res) => {
+  const userid = req.session.user.id;
   const email = req.session.user.email; // Find by the email of the current logged in user
   const newUsername = req.body.username;
   const newEmail = req.body.email;
+  const newbio = req.body.bio;
+  
   try {
-    let success = await Account.updateUser(email, newUsername, newEmail);
-    console.log(success);
-    // Update the username and email session variables
+    await Account.updateUser(email, newUsername, newEmail , newbio);
+    await Review.updateAllReview(userid, newUsername);
+    await Booking.updateAllBooking(userid, newUsername);
+    
+    // Update the username, email and bio session variables
     req.session.user.username = newUsername;
     req.session.user.email = newEmail;
+    req.session.user.bio = newbio;
 
     res.redirect('/account/profile?msg=success');
   } catch (error) {
-    console.log(error);
-    res.render('profile', { msg: "This email is already taken", user: req.session.user });
+    if (error.code === 11000) {
+      // 11000 is duplicate key error code
+      const field = Object.keys(error.keyPattern)[0]; 
+      res.render('profile', { msg: `A user with this ${field} already exists`, user: req.session.user });
+    } else {
+      res.render('profile', { msg: "Error updating account", user: req.session.user });
+    }
   }
 };
 
@@ -163,3 +185,172 @@ exports.changePasswordPost = async (req, res) => {
     res.render('change-password', { msg: "Error, Unable to update password", user: req.session.user });
   }
 };
+
+// go to delete acct page
+exports.deleteacctGet = (req, res) => {
+  res.render('delete-acct', { msg: '', user: req.session.user });
+};
+
+// allow users to delete their acct (with password verification)
+exports.deleteacctPost = async (req, res) => {
+  try {
+    const password = req.body.password;
+    const email = req.session.user.email;
+    const username = req.session.user.username;
+    const userid = req.session.user.id;
+
+    console.log("Deleting account for:", email, username);
+
+    // find user & check if it exists
+    const user = await Account.findByEmail(email);
+    console.log("User found:", user);
+    if (!user) {
+      return res.render('delete-acct', { msg: 'user not found', user: req.session.user });
+    }
+
+    // verify password
+    const match = await bcrypt.compare(password, user.password);
+    console.log("Password match?", match);
+    if (!match) {
+      return res.render('delete-acct', { msg: 'incorrect password', user: req.session.user });
+    }
+
+    // remove all reviews by user
+    await Review.removedeletedusers(userid);
+    
+    // remove all bookings by user
+    await Booking.deleteByUser(userid);
+
+    // delete account
+    await Account.deleteacct(email);
+
+    // destroy current session
+    req.session.destroy();
+
+    // redirect to login page
+    res.redirect('/account/login?msg=Your Account has been Deleted')
+
+  } catch (err) {
+    console.log(err);
+    res.render('delete-acct', { msg: 'an error has occured', user: req.session.user });
+  }
+};
+
+exports.visitothersGet = async (req, res) => {
+  const user = req.params.id; // get user ID from URL
+  let combined =[];
+  try {
+    
+    console.log("Visiting user ID:", user);
+
+    const otherUser = await Account.findByID(user); // other user acct
+    const reviews = await Review.findallreviewbyusers(user) || [];  // fetch their reviews
+  
+    for (let i = 0; i < reviews.length; i++) {
+      const movie = await Movie.findByID(reviews[i].movieid);
+      combined.push({ review: reviews[i], movie });
+    }
+
+    res.render('home', { userFound: otherUser, combined, user: req.session.user });
+  } catch (err) {
+    console.log("Error in visitothersGet:", err);
+    res.status(500).send("Server error");
+  }
+};
+
+exports.adminTool = async (req,res) => {
+    const msg = req.query.msg;
+    res.render('admin-tool', { msg, user: req.session.user });
+}
+
+exports.changepfpGet = async (req,res) =>{
+  const currentpfp = req.session.user.profilepic;
+  res.render('change-pfp',{user: req.session.user, currentpfp});
+}
+
+exports.changepfpPost = async (req,res) =>{
+  const user = req.session.user;
+  const selected_pfp =req.body.pfp;
+  
+  try{
+    await Account.updateUser( selected_pfp);
+    user.profilepic = selected_pfp
+    res.redirect('/account/profile?msg=success');
+  } catch (err) {
+    console.log(err);
+    res.render('change-pfp', {user: user, currentpfp: user.profilepic, msg: 'Error updating avatar'
+    });
+  }
+};
+
+exports.userList = async (req,res) => {
+    const userList = await Account.retrieveAll();
+    res.render("user-manage",{userList : userList, user : req.session.user});
+};
+
+exports.adminActionGet = async (req,res) => {
+    const { id, type } = req.query;
+    let displayName = "";
+
+    if (type.includes('user')) {
+        const user = await Account.findByID(id);
+        displayName = user.username;
+    } else if (type.includes('movie')) {
+        const movie = await Movie.findByID(id);
+        displayName = movie.title;
+    }
+
+    res.render('admin-confirm', { 
+        targetId: id, 
+        actionType: type, 
+        displayName: displayName,
+        user : req.session.user
+    })
+};
+
+exports.adminActionPost = async (req,res) => {
+    const { targetId, actionType, adminPassword } = req.body;
+    const adminUser = await Account.findByID(req.session.user.id);
+    const isMatch = await bcrypt.compare(adminPassword, adminUser.password);
+    if (!isMatch) {
+        return res.status(403).send("Incorrect admin password. Action denied.");
+    }
+
+    try {
+        switch (actionType) {
+            case 'delete-user':
+                // remove all bookings by user
+                await Booking.deleteByUser(targetId);
+                // remove all reviews by user
+                await Review.removedeletedusers(targetId);
+                await Account.deleteAccountByID(targetId);
+                return res.redirect("/account/user-manage");
+
+            case 'promote-user':
+                await Account.changeRole(targetId,"admin");
+                return res.redirect("/account/user-manage");
+            case 'demote-user':
+                await Account.changeRole(targetId,"user");
+                if (adminUser.id === targetId) { //checks if user demoted themselves
+                    req.session.user.role = "user"; //updat user role
+                    return req.session.save(()=> {
+                        return res.redirect("/"); //redirect back to homepage
+                    })
+                } else {
+                    return res.redirect("/account/user-manage");
+                }
+            case 'delete-movie':
+                // remove all bookings of movie
+                await Booking.deleteByMovie(targetId);
+                // remove all reviews of movie
+                await Review.deleteByMovie(targetId);
+                await Movie.deleteOne(targetId);
+                return res.redirect("/movie/movie-manage");
+
+            default:
+                return res.status(400).send("Unknown action type.");
+        }
+    } catch (err) {
+        res.status(500).send("An error occurred while processing the request.");
+    }
+}
