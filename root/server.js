@@ -32,6 +32,7 @@ server.use(session({
 server.use('/account', require('./routes/accounts-routes'));
 server.use('/movie', require('./routes/movies-routes'));
 server.use('/review', require('./routes/reviews-routes'));
+server.use('/report', require('./routes/reports-routes'));
 server.use('/booking', require('./routes/bookings-routes'));
 
 // async function to connect to DB

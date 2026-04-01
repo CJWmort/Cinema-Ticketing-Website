@@ -26,6 +26,12 @@ const ReviewSchema = new mongoose.Schema({
     review: {
         type: String,
         required: false
+    },
+    favourite:{
+        type: Boolean,
+        required: false,
+        default: false
+
     }
 }, {
     timestamps: true // auto timestamp management (createdAt, updatedAt) will update automatically based on methods used
@@ -72,6 +78,10 @@ exports.deleteMyReview = function(movieid, userid) {
     return Review.deleteOne({movieid: movieid, userid: userid});
 };
 
+exports.deletereportedreview = function(movieid, username) {
+    return Review.deleteOne({movieid: movieid, username:username});
+};
+
 // automatically remove review if user deactivate their acct
 exports.removedeletedusers = function(userid){
     return Review.deleteMany({userid: userid})
@@ -87,6 +97,7 @@ exports.findallreviewbyusers = function(userid){
 exports.findReviewsWithRating = function() {
     return Review.find({rating: { $ne: null }});
 };
+
 // Deletes all reviews of movie
 exports.deleteByMovie = function(movieid) {
     return Review.deleteMany({movieid:movieid});
