@@ -3,8 +3,6 @@ const moviesController = require('../controllers/movies-controller');
 const router = express.Router(); 
 const authMiddleware = require('../middleware/auth-middleware');
 
-
-// GET route to display the list of movies
 router.get("/", moviesController.moviesGet);
 router.get("/search-movie", moviesController.searchMovies);
 
@@ -15,5 +13,5 @@ router.get("/movie-create",authMiddleware.isAdmin,moviesController.createMoviesG
 router.post("/movie-create",authMiddleware.isAdmin,moviesController.createMoviesPost);
 
 router.get("/movie-manage",authMiddleware.isAdmin,moviesController.manageMovieGet); //admin movie-manage page
-// EXPORT
+
 module.exports = router;
