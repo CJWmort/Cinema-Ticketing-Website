@@ -41,7 +41,7 @@ const Booking = mongoose.model('Booking', BookingSchema, 'bookings');
 // Create a new booking / update existing booking
 // update/insert by userid, movieid, date, time
 exports.newBooking = function(userid, movieid, date, time, booking) {
-    return Booking.findOneAndUpdate({userid: userid, movieid: movieid, date: date, time: time}, {$set: booking}, {upsert: true})
+    return Booking.findOneAndUpdate({userid: userid, movieid: movieid, date: date, time: time}, {$set: booking}, {upsert: true});
 };
 
 // Update all booking username for user when they change username
