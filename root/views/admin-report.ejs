@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Reports</title>
+</head>
+<body>
+    <h1>Admin - Reports</h1>
+
+    <!-- Filter -->
+    <form method="GET" action="/report/admin-report">
+        <label><input type="checkbox" name="status" value="pending" checked > Pending</label><br>
+        <label><input type="checkbox" name="status" value="deleted"checked > Deleted</label><br>
+        <label><input type="checkbox" name="status" value="dismissed" checked> Dismissed</label><br>
+        <button type="submit">Filter</button>
+    </form>
+
+    <hr>
+
+    <% if (reports && reports.length > 0) { %>
+        <table border="1">
+            <tr>
+                <th>Report ID</th>
+                <th>Reported</th>
+                <th>Reported By</th>
+                <th>Movie Title</th>
+                <th>Review</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Action Taken</th>
+            </tr>
+
+            <% reports.forEach(report => { %>
+                <tr>
+                    <td><%= report._id %></td>
+                    <td><%= report.reportedby_username %></td>
+                    <td><%= report.reported_username %></td>
+                    <td><%= report.movieid %></td>
+                    <td><%= report.review %></td>
+                    <td><%= report.description %></td>
+                    <td><%= report.status %></td>
+                    <td>
+                        <% if (report.status === "pending") { %>
+                        <!-- Each row has its own form -->
+                        <form method="POST" action="/report/action">
+                            <input type="hidden" name="id" value="<%= report._id %>">
+                            <label>
+                                <input type="radio" name="action" value="ignore" checked> Ignore
+                            </label>
+                            <label>
+                                <input type="radio" name="action" value="delete"> Delete
+                            </label>
+                            <button type="submit">Submit</button>
+                        </form>
+                         <% }; %>
+                    </td>
+                </tr>
+            <% }); %>
+        </table>
+    <% } else { %>
+        <p>No reports found for selected statuses.</p>
+    <% } %>
+</body>
+</html>
