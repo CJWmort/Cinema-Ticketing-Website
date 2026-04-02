@@ -47,3 +47,7 @@ exports.deleteFavourite = function(movieid, userid) {
 exports.removeDeletedUsers = function(userid) {
     return Favourite.deleteMany({userid: userid});
 };
+
+exports.deleteByMovie = function(movieid) {
+    return Favourite.deleteMany({movieid: movieid});
+};
