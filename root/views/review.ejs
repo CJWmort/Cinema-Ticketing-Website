@@ -153,18 +153,26 @@
          <%if (user){%>
           <form action="/review/vote" method="POST">
             <input type="hidden" name="movieid" value="<%= result._id.toString() %>">
-            <input type="hidden" name="vote" value="1">
-            <button type="submit"
-            <%= myVote && myVote.vote === 1 ? 'style="background-color: lightgreen;"' : '' %>>
-            👍 Upvote</button>
-          </form>
-          <form action="/review/vote" method="POST">
-            <input type="hidden" name="movieid" value="<%= result._id.toString() %>">
-            <input type="hidden" name="vote" value="-1">
-            <button type="submit"
-            <%=  myVote && myVote.vote === -1 ? 'style="background-color: rgb(238, 167, 144);"' : '' %>>
-            👎 Downvote</button>
-          </form>
+            <!-- Upvote -->
+            <label>
+              <input type="radio" name="vote" value="1"
+                <%= myVote && myVote.vote === 1 ? 'checked' : '' %>>
+          👍 Upvote
+          </label>
+          <!-- Downvote -->
+          <label>
+            <input type="radio" name="vote" value="-1"
+              <%= myVote && myVote.vote === -1 ? 'checked' : '' %>>
+          👎 Downvote
+          </label>
+          <!-- Unvote -->
+          <label>
+            <input type="radio" name="vote" value=""
+              <%= !myVote ? 'checked' : '' %>>
+          🚫 No Vote
+          </label>
+          <button type="submit">Submit Vote</button>
+        </form>
         <% } else {%>
           <p>You must be logged in to vote.</p>
         <% } %>

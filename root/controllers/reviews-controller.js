@@ -110,12 +110,15 @@ exports.voteMovie = async (req, res) => {
     if(!userid) {
       return res.redirect(`/review?movieid=${movieid}&msg=Please log in to vote`);
     }
-
+    if (vote === "") {
+      await Vote.deleteOne({ movieid, userid });
+    } else {
     await Vote.findOneAndUpdate(
       { movieid, userid },
       { vote: parseInt(vote, 10) },
       {upsert: true, returnDocument: 'after'}
     );
+  }
     res.redirect(`/review?movieid=${movieid}`);
   } catch (error) {
     console.error(error);
