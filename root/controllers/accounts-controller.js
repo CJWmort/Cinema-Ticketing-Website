@@ -3,6 +3,7 @@ const Account = require('../models/account-model');
 const Review = require('../models/review-model') 
 const Movie = require('../models/movie-model') 
 const Booking = require('../models/booking-model') 
+const Favourite = require('../models/favourite-model');
 // Bcrypt used to Hash and protect passwords
 const bcrypt = require('bcrypt');
 
@@ -344,6 +345,7 @@ exports.adminActionPost = async (req,res) => {
                 await Booking.deleteByMovie(targetId);
                 // remove all reviews of movie
                 await Review.deleteByMovie(targetId);
+                await Favourite.deleteByMovie(targetId);
                 await Movie.deleteOne(targetId);
                 return res.redirect("/movie/movie-manage");
 
