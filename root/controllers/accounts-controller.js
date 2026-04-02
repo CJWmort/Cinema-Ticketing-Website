@@ -285,7 +285,7 @@ exports.changepfpPost = async (req,res) =>{
   const selected_pfp =req.body.pfp;
   
   try{
-    await Account.updateUser( selected_pfp);
+    await Account.updateUser(user.email, user.username, user.email, user.bio, selected_pfp);
     user.profilepic = selected_pfp
     res.redirect('/account/profile?msg=profile pic updated successfully');
   } catch (err) {
