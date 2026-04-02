@@ -1,0 +1,193 @@
+<html>
+  <head>
+    <title>My Favourites</title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+      body {
+        background-color: black;
+        color: #f5f5f5;
+      }
+      h2, h3 {
+        color: gold;
+      }
+      p {
+        color: gold;
+        font-size: 20px;
+      }
+      b {
+        color: gold;
+      }
+      #details {
+        padding: 0px 0px;
+        margin: 0px 50px;
+      }
+      button {
+        font-size: 14px;
+        background-color: cornflowerblue;
+        color: whitesmoke;
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: none;
+      }
+      button:hover {
+        transition: 0.3s;
+        cursor: pointer;
+        background-color: rgba(100, 148, 237, 0.689);
+      }
+      #delete {
+        font-size: 14px;
+        background-color: rgb(255, 77, 77);
+        color: whitesmoke;
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: none;
+      }
+      #delete:hover {
+        transition: 0.3s;
+        cursor: pointer;
+        background-color: rgb(147, 0, 0);
+      }
+      #error {
+        color: rgb(255, 84, 84);
+      }
+      #success {
+        color: rgb(89, 225, 89);
+      }
+      a {
+        color: whitesmoke;
+      }
+      select {
+        background-color: #333;
+        color: white;
+        border: 1px solid #555;
+        border-radius: 5px;
+        padding: 3px 6px;
+      }
+      .fav-card {
+        background-color: #1a1a1a;
+        border: 1px solid #444;
+        border-radius: 8px;
+        padding: 15px 20px;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      .fav-card img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 5px;
+      }
+      .fav-info {
+        flex: 1;
+      }
+      .fav-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-end;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-left">
+        <ul>
+          <li><a href="/index.html">Home</a></li>
+          <li><a class="active" href="/movie">Movies</a></li>
+          <li>
+            <form id="search" action="/movie/search-movie" method="GET">
+              <label for="search">Search Movie:</label>
+              <input type="text" name="search" placeholder="search by title">
+              <button type="submit">Search</button>
+            </form>
+          </li>
+        </ul>
+      </div>
+      <div class="nav-right">
+        <%if (user){%>
+          <ul>
+            <%if (user.role==="admin") {%>
+              <li><a href="/account/admin-tool">Admin Tools</a></li>
+            <%}%>
+            <li><a href="/booking/history">Booking History</a></li>
+            <li><a href="/review/watchlist">My WatchList</a></li>
+            <li><a href="/favourite">My Favourites</a></li>
+            <li><a href="/account/profile">Edit Profile</a></li>
+            <li><a href="/account/register">New Account</a></li>
+            <li><a id="logout" href="/account/logout">Logout</a></li>
+          </ul>
+          <span>Welcome, <%= user.username %></span>
+        <%} else {%>
+          <ul>
+            <li><a href="/account/login">Login</a></li>
+            <li><a href="/account/register">Register</a></li>
+          </ul>
+        <%}%>
+      </div>
+    </nav>
+
+    <div id="details">
+      <h2>My Favourite Movies</h2>
+
+      <%if (msg === 'success') {%>
+        <span id="success">Movie added to favourites!</span>
+      <%} else if (msg) {%>
+        <span id="error"><%= msg %></span>
+      <%}%>
+
+      <br><br>
+
+      <%if (favouriteList.length === 0) {%>
+        <p>You have no favourite movies yet. Go to a movie page and add one!</p>
+      <%} else {%>
+        <%myFavourites.forEach(fav => {%>
+          <%let movie = favouriteList.find(m => m._id.toString() === fav.movieid)%>
+          <div class="fav-card">
+            <%if (movie) {%>
+              <img src="/images/<%= movie.img %>" alt="<%= movie.title %>"
+                onerror="this.onerror=null; this.src='/images/temp.png';">
+              <div class="fav-info">
+                <b><a href="/review?movieid=<%= fav.movieid %>"><%= movie.title %></a></b><br>
+                <small>Genre: <%= movie.genre %></small><br>
+                <small>Rank: <%= fav.rank ? '#' + fav.rank : 'No rank assigned' %></small>
+              </div>
+            <%}%>
+
+            <div class="fav-actions">
+
+              <!-- UPDATE: Change rank form -->
+              <form action="/favourite/update-rank" method="POST">
+                <input type="hidden" name="movieid" value="<%= fav.movieid %>">
+                <label><b>Set Rank:</b></label>
+                <select name="rank">
+                  <option value="" <%=!fav.rank ? 'selected' : ''%>>No rank</option>
+                  <option value="1" <%=fav.rank == 1 ? 'selected' : ''%>>#1</option>
+                  <option value="2" <%=fav.rank == 2 ? 'selected' : ''%>>#2</option>
+                  <option value="3" <%=fav.rank == 3 ? 'selected' : ''%>>#3</option>
+                  <option value="4" <%=fav.rank == 4 ? 'selected' : ''%>>#4</option>
+                  <option value="5" <%=fav.rank == 5 ? 'selected' : ''%>>#5</option>
+                  <option value="6" <%=fav.rank == 6 ? 'selected' : ''%>>#6</option>
+                  <option value="7" <%=fav.rank == 7 ? 'selected' : ''%>>#7</option>
+                  <option value="8" <%=fav.rank == 8 ? 'selected' : ''%>>#8</option>
+                  <option value="9" <%=fav.rank == 9 ? 'selected' : ''%>>#9</option>
+                  <option value="10" <%=fav.rank == 10 ? 'selected' : ''%>>#10</option>
+                </select>
+                <button type="submit">Update Rank</button>
+              </form>
+
+              <!-- DELETE: Remove from favourites -->
+              <form action="/favourite/delete" method="POST">
+                <input type="hidden" name="movieid" value="<%= fav.movieid %>">
+                <input onclick="return confirm('Remove this movie from your favourites?')"
+                  id="delete" type="submit" value="Remove">
+              </form>
+
+            </div>
+          </div>
+        <%})%>
+      <%}%>
+    </div>
+  </body>
+</html>
