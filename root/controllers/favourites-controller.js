@@ -1,22 +1,18 @@
 const Movie = require('../models/movie-model');
 const Favourite = require('../models/favourite-model');
 
-// Display all favourites for the logged-in user
 exports.favouriteGet = async (req, res) => {
     try {
         const msg = req.query.msg;
         const userid = req.session.user.id;
 
-        // Fetch all favourited entries for this user
         const myFavourites = await Favourite.findMyFavourites(userid);
 
-        // Extract all the movieids from the favourites
         const favouriteMovieIDs = [];
         myFavourites.forEach(fav => {
             favouriteMovieIDs.push(fav.movieid);
         });
 
-        // Fetch the actual movie details for each favourited movie
         const favouriteList = await Movie.getMyWatched(favouriteMovieIDs);
 
         res.render('favourite', {msg, myFavourites, favouriteList, user: req.session.user});
@@ -26,7 +22,6 @@ exports.favouriteGet = async (req, res) => {
     }
 };
 
-// Handle adding a movie to favourites
 exports.favouritePost = async (req, res) => {
     const movieid = req.body.movieid;
     const userid = req.session.user.id;
@@ -48,7 +43,6 @@ exports.favouritePost = async (req, res) => {
     }
 };
 
-// Handle updating the rank of a favourited movie
 exports.favouriteUpdateRank = async (req, res) => {
     const movieid = req.body.movieid;
     const userid = req.session.user.id;
@@ -63,7 +57,6 @@ exports.favouriteUpdateRank = async (req, res) => {
     }
 };
 
-// Handle removing a movie from favourites
 exports.favouriteDelete = async (req, res) => {
     const movieid = req.body.movieid;
     const userid = req.session.user.id;
