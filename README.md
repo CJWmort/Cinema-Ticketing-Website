@@ -1,4 +1,4 @@
-# Movie Ticketing Website \
+# Movie Ticketing Website 
 Created using EJS, CSS for frontend and Node.js, Javascript for Backend (CRUD features)
 
 Setting up the application:
